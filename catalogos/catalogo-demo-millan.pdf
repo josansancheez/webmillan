@@ -1,0 +1,94 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 6 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /MediaBox [0 0 595 842] /Contents 7 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /MediaBox [0 0 595 842] /Contents 8 0 R >>
+endobj
+7 0 obj
+<< /Length 512 >>
+stream
+0.98 0.97 0.96 rg
+0 0 595 842 re f
+0.12 0.27 0.13 rg
+0 720 595 122 re f
+0.69 0.49 0.31 rg
+0 712 595 8 re f
+BT
+1 1 1 rg
+/F1 24 Tf
+45 780 Td
+(MILLAN CHICLANA - CATALOGO OFICIAL) Tj
+/F2 13 Tf
+0 -26 Td
+(Millan Servicios e Interiorismo S.L. | Pol. Ind. Pelagatos, Chiclana) Tj
+0.12 0.16 0.22 rg
+/F1 18 Tf
+0 -95 Td
+(PORTADA DE CATALOGO INTERACTIVO - PAGINA 1) Tj
+/F2 12 Tf
+0 -30 Td
+(Sustituya este archivo en la carpeta /catalogos/ por el PDF oficial del proveedor) Tj
+0 -20 Td
+(o indique una URL externa en el archivo assets/js/data.js.) Tj
+0 -40 Td
+(Sede Exposicion: Azulejos, Pavimentos, Banos, Cocinas e Interiorismo.) Tj
+0 -20 Td
+(Sede Almacen: Obra Gruesa, Aridos, Morteros, Ladrillos y Ferreteria.) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Length 420 >>
+stream
+0.98 0.97 0.96 rg
+0 0 595 842 re f
+0.69 0.49 0.31 rg
+0 760 595 82 re f
+BT
+1 1 1 rg
+/F1 20 Tf
+45 795 Td
+(MILLAN CHICLANA - COLECCIONES Y FORMATOS (PAG. 2)) Tj
+0.12 0.16 0.22 rg
+/F1 15 Tf
+0 -85 Td
+(Disponibilidad y Asesoramiento Tecnico en Poligono Pelagatos) Tj
+/F2 12 Tf
+0 -28 Td
+(- Atencion a Particulares (Reformas y Vivienda) y Profesionales B2B.) Tj
+0 -22 Td
+(- Solicite presupuesto sin compromiso por telefono o formulario web.) Tj
+0 -22 Td
+(- Dos sedes en la misma calle separadas por pocos metros.) Tj
+ET
+endstream
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000249 00000 n 
+0000000319 00000 n 
+0000000384 00000 n 
+0000000512 00000 n 
+0000001076 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+1548
+%%EOF

@@ -1,0 +1,262 @@
+/* ==========================================================================
+   MILLÁN CHICLANA - Millán Servicios e Interiorismo S.L.
+   Hoja de Estilos Principal (Light Mode Exclusivo, Mobile-First & Alto Contraste)
+   ========================================================================== */
+
+:root {
+  --color-bg-main: #FAF8F5;
+  --color-bg-stone: #F2EFE9;
+  --color-bg-card: #FFFFFF;
+  --color-green-primary: #1E4620;
+  --color-green-secondary: #2D6A4F;
+  --color-green-light: #E8F2EC;
+  --color-wood-primary: #B07D4F;
+  --color-wood-secondary: #8C5A32;
+  --color-wood-light: #F7EFE6;
+  --color-text-dark: #1F2937;
+  --color-text-muted: #4B5563;
+  --color-border: #E5E0D8;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-dark);
+  color-scheme: light only;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg-main);
+  color: var(--color-text-dark);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   PRELOADER CORPORATIVO
+   ========================================================================== */
+#site-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #FAF8F5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#site-preloader.preloader-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-spinner-ring {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-spinner-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 3px solid #E5E0D8;
+  border-top-color: #1E4620;
+  border-right-color: #B07D4F;
+  animation: millanSpin 1.15s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+}
+
+.preloader-logo-mark {
+  animation: millanPulseRotate 2.4s ease-in-out infinite;
+}
+
+@keyframes millanSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes millanPulseRotate {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.06) rotate(8deg);
+  }
+}
+
+/* ==========================================================================
+   MICRO-INTERACCIONES, TARJETAS Y BOTONES
+   ========================================================================== */
+.card-hover {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px -10px rgba(30, 70, 32, 0.12), 0 8px 16px -6px rgba(140, 90, 50, 0.08);
+  border-color: #B07D4F;
+}
+
+.btn-primary-green {
+  background-color: #1E4620;
+  color: #FFFFFF;
+  transition: all 0.25s ease;
+}
+
+.btn-primary-green:hover {
+  background-color: #2D6A4F;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -5px rgba(30, 70, 32, 0.35);
+}
+
+.btn-primary-wood {
+  background-color: #B07D4F;
+  color: #FFFFFF;
+  transition: all 0.25s ease;
+}
+
+.btn-primary-wood:hover {
+  background-color: #8C5A32;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -5px rgba(140, 90, 50, 0.35);
+}
+
+/* ==========================================================================
+   HERO SLIDER & CARRUSELES
+   ========================================================================== */
+.hero-slide {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+.hero-slide-bg {
+  transform: scale(1.03);
+  transition: transform 6s ease-out;
+}
+
+.hero-slide.active .hero-slide-bg {
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   VISOR INTERACTIVO DE CATÁLOGOS PDF (MODAL / FLIPBOOK)
+   ========================================================================== */
+#catalog-modal {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#catalog-modal.modal-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#catalog-modal.modal-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.flipbook-frame-wrapper {
+  background: radial-gradient(circle at center, #2b3036 0%, #181b1f 100%);
+  position: relative;
+}
+
+/* Efecto sutil de pliegue de catálogo abierto en escritorio */
+@media (min-width: 1024px) {
+  .flipbook-frame-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 24px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 48%, rgba(255,255,255,0.08) 52%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+    z-index: 5;
+  }
+}
+
+/* ==========================================================================
+   ACORDEÓN FAQ
+   ========================================================================== */
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-item.open .faq-content {
+  max-height: 500px;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(180deg);
+  background-color: #1E4620;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   BOTÓN FLOTANTE WHATSAPP (SECUNDARIO Y DISCRETO)
+   ========================================================================== */
+.whatsapp-float {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 40;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  opacity: 0.9;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px) scale(1.03);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   SCROLLBAR PERSONALIZADO Y UTILIDADES DE ACCESIBILIDAD
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F2EFE9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C5B9A8;
+  border-radius: 5px;
+  border: 2px solid #F2EFE9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8C5A32;
+}
+
+:focus-visible {
+  outline: 3px solid #B07D4F;
+  outline-offset: 2px;
+}
