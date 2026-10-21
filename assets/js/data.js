@@ -47,8 +47,8 @@ window.MILLAN_DATA = {
         address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Almacén (en la misma calle a pocos metros), 11130 Chiclana de la Frontera, Cádiz",
         scheduleWeekdays: "Lunes a Viernes: 07:30 – 14:00 y 16:00 – 19:00",
         scheduleSaturday: "Sábados: 08:00 – 13:00",
-        googleMapsDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=Avenida+Bahia+de+Algeciras+23+Chiclana+Millan+Almacen",
-        googleReviewUrl: "https://www.google.com/maps/search/?api=1&query=Millan+Chiclana+Almacen+Pelagatos",
+        googleMapsDirectionsUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
+        googleReviewUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
         rating: "4.8",
         totalReviews: 215
       }
