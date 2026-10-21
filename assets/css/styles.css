@@ -150,12 +150,20 @@ body {
 }
 
 .hero-slide-bg {
-  transform: scale(1.03);
-  transition: transform 6s ease-out;
+  transform: scale(1.06);
 }
 
 .hero-slide.active .hero-slide-bg {
-  transform: scale(1);
+  animation: heroKenBurns 5s ease-out forwards;
+}
+
+@keyframes heroKenBurns {
+  0% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* ==========================================================================

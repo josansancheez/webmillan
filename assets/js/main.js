@@ -131,13 +131,16 @@ function initHeroCarousel() {
 
   const startAutoPlay = () => {
     stopAutoPlay();
-    intervalId = setInterval(() => {
+    intervalId = window.setInterval(() => {
       showSlide(currentIndex + 1);
-    }, 6500);
+    }, 4500);
   };
 
   const stopAutoPlay = () => {
-    if (intervalId) clearInterval(intervalId);
+    if (intervalId !== null) {
+      window.clearInterval(intervalId);
+      intervalId = null;
+    }
   };
 
   if (prevBtn) {
@@ -187,9 +190,9 @@ function initHeroCarousel() {
     { passive: true }
   );
 
-  sliderContainer.addEventListener("mouseenter", stopAutoPlay);
-  sliderContainer.addEventListener("mouseleave", startAutoPlay);
-
+  // Inicializar estado de la primera diapositiva y arrancar rotación automática
+  // sin pausar cuando el ratón está encima del Hero (evita que quede congelado en escritorio)
+  showSlide(0);
   startAutoPlay();
 }
 
