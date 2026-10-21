@@ -35,8 +35,8 @@ window.MILLAN_DATA = {
         address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Exposición, 11130 Chiclana de la Frontera, Cádiz",
         scheduleWeekdays: "Lunes a Viernes: 09:00 – 13:30 y 16:30 – 20:00",
         scheduleSaturday: "Sábados: 09:30 – 13:30",
-        googleMapsDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=Avenida+Bahia+de+Algeciras+23+Chiclana+Millan+Exposicion",
-        googleReviewUrl: "https://www.google.com/maps/search/?api=1&query=Millan+Chiclana+Exposicion+Pelagatos",
+        googleMapsDirectionsUrl: "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
+        googleReviewUrl: "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
         rating: "4.9",
         totalReviews: 148
       },
