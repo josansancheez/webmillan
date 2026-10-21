@@ -1015,8 +1015,8 @@ function initContactFormAntiDuplicates() {
     } catch (error) {
       showFeedback(
         "warning",
-        "Conexión inestable o entorno de previsualización",
-        "Si estás navegando con poca cobertura móvil o fuera del servidor PHP, puedes llamarnos directamente al 956 40 00 00 o escribirnos a info@millanchiclana.es."
+        "No se pudo completar el envío automático",
+        "Puedes llamarnos directamente al 956 40 00 00 o escribirnos a millan@millanchiclana.com."
       );
       lockButtonState(false);
     }

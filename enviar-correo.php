@@ -27,8 +27,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Configuraciones principales del destinatario y tiempos de bloqueo
-const RECIPIENT_EMAIL      = 'info@millanchiclana.es'; // Cambiar por el correo real de recepción
-const COMPANY_LEGAL_NAME   = 'Millán Servicios e Interiorismo S.L.';
+const RECIPIENT_EMAIL      = 'millan@millanchiclana.com';
+const COMPANY_LEGAL_NAME   = 'Millán Servicios Montajes e Interiorismos S.L.';
 const COMPANY_BRAND_NAME   = 'Millán Chiclana';
 const COOLDOWN_SECONDS     = 60; // Mínimo 60 segundos entre envíos por sesión/IP
 
@@ -319,7 +319,7 @@ $htmlBody = '
 $headers = [
     'MIME-Version: 1.0',
     'Content-type: text/html; charset=UTF-8',
-    'From: Web Millan Chiclana <no-responder@millanchiclana.es>',
+    'From: Web Millan Chiclana <no-responder@millanchiclana.com>',
     'Reply-To: ' . $nombre . ' <' . $email . '>',
     'X-Mailer: MillanChiclana-AntiDupMailer/1.0',
 ];

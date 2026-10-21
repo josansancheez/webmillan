@@ -14,24 +14,25 @@ window.MILLAN_DATA = {
   // 1. CONFIGURACIÓN CORPORATIVA Y SEDES
   company: {
     commercialName: "Millán Chiclana",
-    legalName: "Millán Servicios e Interiorismo S.L.",
-    cif: "B-11000000", // Sustituir por CIF definitivo
+    legalName: "Millán Servicios Montajes e Interiorismos S.L.",
+    cif: "B72232101",
+    fiscalAddress: "Avenida Bahía de Algeciras N23, Pol. Ind. Pelagatos, 11130 Chiclana de la Frontera (Cádiz)",
     phoneDisplay: "956 40 00 00",
     phoneHref: "tel:+34956400000",
     phoneSecondaryDisplay: "600 00 00 00",
     whatsappHref: "https://wa.me/34600000000?text=Hola%20Mill%C3%A1n%20Chiclana%2C%20me%20gustar%C3%ADa%20hacer%20una%20consulta.",
-    email: "info@millanchiclana.es",
-    emailHref: "mailto:info@millanchiclana.es",
-    poligono: "Polígono Industrial Pelagatos, Chiclana de la Frontera (Cádiz)",
+    email: "millan@millanchiclana.com",
+    emailHref: "mailto:millan@millanchiclana.com",
+    poligono: "Avenida Bahía de Algeciras N23 · Polígono Industrial Pelagatos, Chiclana de la Frontera (Cádiz)",
     sedes: {
       exposicion: {
         id: "Sede Exposición",
         shortName: "Sede Exposición",
         fullName: "Millán Chiclana · Sede Exposición e Interiorismo",
-        address: "Calle de la Construcción (Pol. Ind. Pelagatos), Nave Exposición, 11130 Chiclana de la Frontera, Cádiz",
+        address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Exposición, 11130 Chiclana de la Frontera, Cádiz",
         scheduleWeekdays: "Lunes a Viernes: 09:00 – 13:30 y 16:30 – 20:00",
         scheduleSaturday: "Sábados: 09:30 – 13:30",
-        googleMapsDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=Poligono+Industrial+Pelagatos+Chiclana+Exposicion+Millan",
+        googleMapsDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=Avenida+Bahia+de+Algeciras+23+Chiclana+Millan+Exposicion",
         googleReviewUrl: "https://www.google.com/maps/search/?api=1&query=Millan+Chiclana+Exposicion+Pelagatos",
         rating: "4.9",
         totalReviews: 148
@@ -40,10 +41,10 @@ window.MILLAN_DATA = {
         id: "Sede Almacén",
         shortName: "Sede Almacén",
         fullName: "Millán Chiclana · Sede Almacén de Construcción",
-        address: "Calle de la Construcción (Pol. Ind. Pelagatos), Nave Almacén (a 50 metros de la Exposición), 11130 Chiclana de la Frontera, Cádiz",
+        address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Almacén (en la misma calle a pocos metros), 11130 Chiclana de la Frontera, Cádiz",
         scheduleWeekdays: "Lunes a Viernes: 07:30 – 14:00 y 16:00 – 19:00",
         scheduleSaturday: "Sábados: 08:00 – 13:00",
-        googleMapsDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=Poligono+Industrial+Pelagatos+Chiclana+Almacen+Millan",
+        googleMapsDirectionsUrl: "https://www.google.com/maps/search/?api=1&query=Avenida+Bahia+de+Algeciras+23+Chiclana+Millan+Almacen",
         googleReviewUrl: "https://www.google.com/maps/search/?api=1&query=Millan+Chiclana+Almacen+Pelagatos",
         rating: "4.8",
         totalReviews: 215
