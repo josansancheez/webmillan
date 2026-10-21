@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245 68" fill="none">
+  <rect x="6" y="12" width="46" height="44" rx="8" fill="#C84B31"/>
+  <line x1="6" y1="27" x2="52" y2="27" stroke="#FAF8F5" stroke-width="2.5"/>
+  <line x1="6" y1="41" x2="52" y2="41" stroke="#FAF8F5" stroke-width="2.5"/>
+  <line x1="29" y1="12" x2="29" y2="27" stroke="#FAF8F5" stroke-width="2.5"/>
+  <line x1="20" y1="27" x2="20" y2="41" stroke="#FAF8F5" stroke-width="2.5"/>
+  <line x1="38" y1="27" x2="38" y2="41" stroke="#FAF8F5" stroke-width="2.5"/>
+  <text x="62" y="39" fill="#9A3412" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="25" letter-spacing="0.8">CERAMIEJO</text>
+  <text x="63" y="53" fill="#4B5563" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="700" font-size="9.5" letter-spacing="1.5">CERÁMICA ESTRUCTURAL</text>
+</svg>

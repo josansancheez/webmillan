@@ -222,11 +222,11 @@ function initCatalogsSystem() {
       : "bg-[#E8F2EC] text-[#1E4620] border-[#C5DEC9]";
 
     const logoBlock = item.logoUrl
-      ? `<img src="${escapeHTML(item.logoUrl)}" alt="Logo ${escapeHTML(item.name)}" class="h-8 w-auto object-contain" loading="lazy">`
+      ? `<img src="${escapeHTML(item.logoUrl)}" alt="Logo ${escapeHTML(item.name)}" class="h-9 sm:h-10 w-auto max-w-[155px] object-contain" loading="lazy">`
       : `<span class="font-extrabold tracking-wider text-xs uppercase px-2.5 py-1 rounded bg-[#FAF8F5] text-[#1E4620] border border-[#E5E0D8]">${escapeHTML(item.logoMonogram || item.name)}</span>`;
 
     return `
-      <article class="bg-white rounded-2xl border border-[#E5E0D8] overflow-hidden flex flex-col card-hover shadow-sm" data-brand-id="${escapeHTML(item.id)}">
+      <article id="brand-card-${escapeHTML(item.id)}" class="bg-white rounded-2xl border border-[#E5E0D8] overflow-hidden flex flex-col card-hover shadow-sm scroll-mt-28" data-brand-id="${escapeHTML(item.id)}">
         <!-- Portada del Catálogo -->
         <div class="relative h-56 overflow-hidden bg-[#F2EFE9] group">
           <img
@@ -239,7 +239,7 @@ function initCatalogsSystem() {
 
           <!-- Cabecera flotante: Logo y Año -->
           <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-            <div class="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-sm">
+            <div class="bg-white px-3 py-1.5 rounded-xl shadow-md border border-[#E5E0D8]">
               ${logoBlock}
             </div>
             <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-[#1E4620] text-white shadow-sm">
@@ -320,6 +320,65 @@ function initCatalogsSystem() {
     featuredContainer.innerHTML = featuredItems.map(createCatalogCardHTML).join("");
   }
 
+  // Renderizar mosaico de logotipos de marcas del Almacén (#warehouse-brands-logos-wall)
+  const warehouseLogosWall = document.getElementById("warehouse-brands-logos-wall");
+  if (warehouseLogosWall) {
+    const warehouseBrands = data.brandsCatalogs.filter((b) => b.sede === "Sede Almacén");
+    const isMarcasPage = Boolean(fullCatalogContainer);
+    warehouseLogosWall.innerHTML = warehouseBrands
+      .map(
+        (item) => `
+        <button
+          type="button"
+          data-brand-logo-jump="${escapeHTML(item.name)}"
+          data-brand-card-target="brand-card-${escapeHTML(item.id)}"
+          class="group bg-white hover:bg-[#FAF8F5] rounded-2xl p-3.5 border border-[#E5E0D8] hover:border-[#1E4620] shadow-xs hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 cursor-pointer text-center"
+          title="Ver catálogo de ${escapeHTML(item.name)}"
+        >
+          <div class="h-11 w-full flex items-center justify-center px-1">
+            <img
+              src="${escapeHTML(item.logoUrl)}"
+              alt="Logo ${escapeHTML(item.name)}"
+              class="max-h-10 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+          <span class="text-[11px] font-bold text-[#4B5563] group-hover:text-[#1E4620] line-clamp-1">
+            ${escapeHTML(item.name)}
+          </span>
+        </button>
+      `
+      )
+      .join("");
+
+    warehouseLogosWall.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-brand-logo-jump]");
+      if (!btn) return;
+      const brandName = btn.getAttribute("data-brand-logo-jump") || "";
+      const targetCardId = btn.getAttribute("data-brand-card-target") || "";
+
+      if (isMarcasPage) {
+        currentSearchQuery = "";
+        activeCategory = "all";
+        if (searchInput) searchInput.value = "";
+        categoryButtons.forEach((b, idx) => {
+          b.className = idx === 0
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+        });
+        renderFullCatalog();
+        const cardEl = document.getElementById(targetCardId);
+        if (cardEl) {
+          cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          cardEl.classList.add("ring-2", "ring-[#1E4620]");
+          setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#1E4620]"), 2200);
+        }
+      } else {
+        window.location.href = `marcas.html?q=${encodeURIComponent(brandName)}`;
+      }
+    });
+  }
+
   // Renderizar y filtrar en Marcas (marcas.html)
   const renderFullCatalog = () => {
     if (!fullCatalogContainer) return;
@@ -357,6 +416,13 @@ function initCatalogsSystem() {
   };
 
   if (fullCatalogContainer) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialQuery = urlParams.get("q");
+    if (initialQuery) {
+      currentSearchQuery = initialQuery;
+      if (searchInput) searchInput.value = initialQuery;
+    }
+
     renderFullCatalog();
 
     if (searchInput) {

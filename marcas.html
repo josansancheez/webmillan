@@ -261,7 +261,7 @@
               <input
                 id="catalog-search-input"
                 type="search"
-                placeholder="Buscar por marca (ej. Pamesa, Roca, Weber, Sika...) o producto (azulejos, ducha, mortero...)"
+                placeholder="Buscar por marca (ej. Holcim, Sika, Grupo Puma, Bellota, Pamesa, Roca...) o producto..."
                 class="w-full pl-12 pr-10 py-3.5 rounded-xl bg-[#FAF8F5] border border-[#D5CEC2] text-sm sm:text-base text-[#1F2937] placeholder-[#6B7280] focus:outline-none focus:border-[#1E4620] focus:bg-white transition-colors"
               />
               <button
@@ -276,7 +276,7 @@
 
             <div class="flex items-center justify-between md:justify-end gap-3 shrink-0">
               <span id="catalog-results-count" class="text-xs sm:text-sm font-bold text-[#1E4620] bg-[#E8F2EC] px-3.5 py-2 rounded-xl">
-                12 catálogos disponibles
+                26 catálogos disponibles
               </span>
             </div>
           </div>
@@ -286,26 +286,29 @@
             <button type="button" data-catalog-category="all" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer">
               Todas las Marcas
             </button>
+            <button type="button" data-catalog-category="Sede Almacén" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+              Sede Almacén (20)
+            </button>
             <button type="button" data-catalog-category="Sede Exposición" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
               Sede Exposición
             </button>
-            <button type="button" data-catalog-category="Sede Almacén" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Sede Almacén
+            <button type="button" data-catalog-category="Material de Obra Gruesa" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+              Obra Gruesa y Cementos
+            </button>
+            <button type="button" data-catalog-category="Morteros y Químicos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+              Morteros y Químicos
+            </button>
+            <button type="button" data-catalog-category="Ferretería y Herramientas" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+              Ferretería y Herramientas
+            </button>
+            <button type="button" data-catalog-category="Aislamientos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+              Aislamientos y Plásticos
             </button>
             <button type="button" data-catalog-category="Cerámica y Pavimentos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
               Cerámica y Pavimentos
             </button>
             <button type="button" data-catalog-category="Baños y Grifería" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
               Baños y Grifería
-            </button>
-            <button type="button" data-catalog-category="Morteros y Químicos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Morteros y Químicos
-            </button>
-            <button type="button" data-catalog-category="Material de Obra Gruesa" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Obra Gruesa
-            </button>
-            <button type="button" data-catalog-category="Aislamientos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Aislamientos
             </button>
           </div>
         </div>
@@ -315,7 +318,23 @@
     <!-- ======================================================================
          GRID DE TARJETAS DE CATÁLOGOS (Renderizado desde assets/js/data.js)
          ====================================================================== -->
-    <section class="py-14 lg:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-12 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Mosaico de Logos Oficiales del Almacén (Acceso directo clicable) -->
+      <div class="mb-12 bg-[#F2EFE9] rounded-3xl p-6 sm:p-8 border border-[#E5E0D8]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#1E4620]">Proveedores Oficiales · Sede Almacén</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-[#1F2937]">
+              Marcas de Almacén, Obra Gruesa, Morteros y Ferretería
+            </h2>
+          </div>
+          <span class="text-xs font-semibold text-[#4B5563]">Pulsa en cualquier logo para ir a su ficha</span>
+        </div>
+        <div id="warehouse-brands-logos-wall" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3">
+          <!-- Se genera dinámicamente desde assets/js/data.js -->
+        </div>
+      </div>
+
       <div id="all-catalogs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Se genera dinámicamente desde assets/js/data.js -->
       </div>

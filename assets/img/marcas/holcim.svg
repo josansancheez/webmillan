@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 68" fill="none">
+  <defs>
+    <linearGradient id="holcimGrad" x1="0" y1="0" x2="60" y2="68" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#96D700"/>
+      <stop offset="50%" stop-color="#00B140"/>
+      <stop offset="100%" stop-color="#009CDE"/>
+    </linearGradient>
+  </defs>
+  <path d="M18 14C10 14 6 20 6 28V48C6 53 10 56 15 56C20 56 24 52 27 46L37 26C40 20 44 14 52 14C59 14 64 20 64 28V48C64 53 60 56 55 56C50 56 46 52 43 46L39 38" stroke="url(#holcimGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="78" y="44" fill="#041E42" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="31" letter-spacing="1">HOLCIM</text>
+</svg>

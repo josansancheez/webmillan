@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 255 68" fill="none">
+  <rect x="6" y="10" width="48" height="48" rx="10" fill="#F37021"/>
+  <path d="M14 42C19 33 26 27 36 24L44 22L39 30C35 35 28 39 20 44Z" fill="#111827"/>
+  <circle cx="38" cy="22" r="3.5" fill="#111827"/>
+  <text x="64" y="36" fill="#111827" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="23" letter-spacing="0.5">GRUPO PUMA</text>
+  <text x="64" y="52" fill="#F37021" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="10.5" letter-spacing="1.6">MORTEROS Y ADHESIVOS</text>
+</svg>
