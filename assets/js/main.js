@@ -488,7 +488,7 @@ function initCatalogModalViewer(catalogs) {
             </div>
             <div class="mt-5 pt-4 border-t border-[#E5E0D8] flex flex-wrap items-center justify-between gap-3">
               <span class="text-xs text-[#4B5563]">Usa las flechas para hojear o cambia a «Documento PDF Completo»</span>
-              <a href="tel:+34956400000" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E4620] hover:underline">
+              <a href="tel:+34956536104" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E4620] hover:underline">
                 Consultar stock por teléfono &rarr;
               </a>
             </div>
@@ -528,8 +528,8 @@ function initCatalogModalViewer(catalogs) {
               <h5 class="text-xl font-bold text-[#1F2937] mt-1 mb-3">¿Te interesa alguna referencia de ${escapeHTML(activeCatalog.name)}?</h5>
               <p class="text-sm text-[#4B5563] mb-5">Llámanos indicando el nombre de la serie o envíanos tu consulta para recibir precio y plazo de entrega tanto para reforma particular como para obra profesional.</p>
               <div class="space-y-3">
-                <a href="tel:+34956400000" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
-                  Llamar Ahora: 956 40 00 00
+                <a href="tel:+34956536104" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
+                  Llamar Ahora: 956 53 61 04
                 </a>
                 <a href="contacto.html#formulario-contacto" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood">
                   Solicitar Presupuesto por Escrito
@@ -1008,7 +1008,7 @@ function initContactFormAntiDuplicates() {
           "warning",
           "Atención en el envío",
           (result && result.message) ||
-            "Por favor, revisa los campos del formulario o llámanos directamente al 956 40 00 00."
+            "Por favor, revisa los campos del formulario o llámanos directamente al 956 53 61 04."
         );
         lockButtonState(false);
       }
@@ -1016,7 +1016,7 @@ function initContactFormAntiDuplicates() {
       showFeedback(
         "warning",
         "No se pudo completar el envío automático",
-        "Puedes llamarnos directamente al 956 40 00 00 o escribirnos a millan@millanchiclana.com."
+        "Puedes llamarnos directamente al 956 53 61 04 o escribirnos a millan@millanchiclana.com."
       );
       lockButtonState(false);
     }
