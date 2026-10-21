@@ -185,8 +185,8 @@ if (
     echo json_encode([
         'success'             => true,
         'duplicate_prevented' => true,
-        'title'               => '¡Tu consulta ya está registrada!',
-        'message'             => 'Hemos recibido tu mensaje correctamente (evitamos el envío duplicado por tu conexión móvil). Te responderemos muy pronto.',
+        'title'               => '¡Tu consulta ya ha sido enviada!',
+        'message'             => 'Hemos recibido tu mensaje correctamente. Nuestro equipo te responderá muy pronto.',
         'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
     ]);
     exit;
@@ -198,8 +198,8 @@ if (($now - $lastSessionSubmit) < COOLDOWN_SECONDS) {
     echo json_encode([
         'success'             => true,
         'duplicate_prevented' => true,
-        'title'               => 'Mensaje ya enviado hace unos instantes',
-        'message'             => 'Tu solicitud ya fue procesada hace menos de un minuto. No es necesario pulsar de nuevo; nuestro equipo ya tiene tu correo.',
+        'title'               => 'Mensaje enviado correctamente',
+        'message'             => 'Tu solicitud ya ha sido recibida por nuestro equipo. Te responderemos lo antes posible.',
         'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
     ]);
     exit;
@@ -221,8 +221,8 @@ if ($fp !== false) {
                 echo json_encode([
                     'success'             => true,
                     'duplicate_prevented' => true,
-                    'title'               => '¡Solicitud recibida sin duplicados!',
-                    'message'             => 'Tu consulta ya ha sido registrada en Millán Chiclana. Hemos bloqueado reintentos automáticos para no duplicar tu correo.',
+                    'title'               => '¡Solicitud recibida!',
+                    'message'             => 'Tu consulta ya ha sido registrada en Millán Chiclana. Te responderemos a la mayor brevedad.',
                     'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
                 ]);
                 exit;

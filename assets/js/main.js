@@ -951,8 +951,8 @@ function initContactFormAntiDuplicates() {
       const remaining = Math.ceil((60000 - (now - lastSentTime)) / 1000);
       showFeedback(
         "success",
-        "Tu mensaje ya ha sido registrado correctamente",
-        `Hemos recibido tu solicitud hace unos segundos. Por seguridad anti-duplicados, espera ${remaining} segundos si deseas enviar una consulta diferente.`
+        "Tu mensaje ya ha sido enviado",
+        `Hemos recibido tu solicitud correctamente. Si deseas realizar otra consulta distinta, por favor espera ${remaining} segundos.`
       );
       return;
     }
