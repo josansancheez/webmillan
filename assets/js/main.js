@@ -854,13 +854,56 @@ function initCatalogModalViewer(catalogs) {
 }
 
 /* ==========================================================================
-   5. CARRUSEL INTERACTIVO DE RESEÑAS DE GOOGLE (POR SEDE)
+   5. CARRUSEL INTERACTIVO Y SINCRONIZACIÓN AUTOMÁTICA DE RESEÑAS DE GOOGLE
    ========================================================================== */
+function formatRelativeDateEs(timestampMs, fallbackText) {
+  if (!timestampMs || Number.isNaN(Number(timestampMs))) return fallbackText || "Reciente";
+  const diffSec = Math.max(60, Math.floor((Date.now() - Number(timestampMs)) / 1000));
+  const days = Math.floor(diffSec / 86400);
+  if (days < 1) return "Hoy";
+  if (days === 1) return "Hace 1 día";
+  if (days < 7) return `Hace ${days} días`;
+  const weeks = Math.floor(days / 7);
+  if (weeks === 1) return "Hace 1 semana";
+  if (weeks < 5) return `Hace ${weeks} semanas`;
+  const months = Math.floor(days / 30.44);
+  if (months <= 1) return "Hace 1 mes";
+  if (months < 12) return `Hace ${months} meses`;
+  const years = Math.floor(days / 365.25);
+  if (years <= 1) return "Hace 1 año";
+  return `Hace ${years} años`;
+}
+
+function updateLiveRatingBadges(sedesData) {
+  if (!sedesData) return;
+  ["exposicion", "almacen"].forEach((key) => {
+    const info = sedesData[key];
+    if (!info) return;
+    document.querySelectorAll(`[data-live-rating="${key}"]`).forEach((el) => {
+      el.textContent = Number(info.rating).toFixed(1);
+    });
+    document.querySelectorAll(`[data-live-count="${key}"]`).forEach((el) => {
+      const count = Number(info.totalReviews);
+      el.textContent = `${count} ${count === 1 ? "reseña" : "reseñas"} en Google`;
+    });
+    const starsEl = document.getElementById(`rating-stars-${key}`);
+    if (starsEl) {
+      const rounded = Math.round(Number(info.rating) || 5);
+      starsEl.textContent = "★".repeat(Math.min(5, Math.max(1, rounded))) + "☆".repeat(Math.max(0, 5 - rounded));
+    }
+  });
+}
+
 function initReviewsCarousel() {
   const track = document.getElementById("reviews-carousel-track");
-  if (!track || !window.MILLAN_DATA || !Array.isArray(window.MILLAN_DATA.googleReviews)) return;
+  if (!window.MILLAN_DATA || !Array.isArray(window.MILLAN_DATA.googleReviews)) return;
 
-  const allReviews = window.MILLAN_DATA.googleReviews;
+  // Actualizar contadores en cualquier página aunque no esté el carrusel
+  if (window.MILLAN_DATA.company && window.MILLAN_DATA.company.sedes) {
+    updateLiveRatingBadges(window.MILLAN_DATA.company.sedes);
+  }
+
+  let allReviews = window.MILLAN_DATA.googleReviews;
   const filterBtns = document.querySelectorAll("[data-review-filter]");
   const prevBtn = document.getElementById("reviews-prev-btn");
   const nextBtn = document.getElementById("reviews-next-btn");
@@ -874,39 +917,53 @@ function initReviewsCarousel() {
   };
 
   const renderReviews = () => {
+    if (!track) return;
     const list = getFilteredReviews();
     if (currentOffset >= list.length) currentOffset = 0;
 
     track.innerHTML = list
+      .slice(0, 6)
       .map((rev) => {
         const isExposicion = rev.sede === "Sede Exposición";
         const badgeStyle = isExposicion
           ? "bg-[#F7EFE6] text-[#8C5A32] border-[#E5D3C0]"
           : "bg-[#E8F2EC] text-[#1E4620] border-[#C5DEC9]";
 
-        const stars = "★".repeat(rev.rating || 5);
+        const ratingNum = Math.min(5, Math.max(1, Number(rev.rating) || 5));
+        const stars = "★".repeat(ratingNum) + "☆".repeat(5 - ratingNum);
+        const relativeDate = formatRelativeDateEs(rev.timestampMs, rev.date);
+        const reviewLink =
+          rev.authorUrl ||
+          (isExposicion
+            ? "https://maps.app.goo.gl/hja5eodfEP7cb46U8"
+            : "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8");
+
+        const avatarHtml = rev.avatar
+          ? `<img src="${escapeHTML(rev.avatar)}" alt="${escapeHTML(rev.author)}" referrerpolicy="no-referrer" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-[#E5E0D8] shrink-0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+             <div style="display:none" class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"} text-white font-bold text-sm items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`
+          : `<div class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"} text-white font-bold text-sm flex items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`;
 
         return `
           <article class="bg-white rounded-2xl p-6 border border-[#E5E0D8] shadow-sm flex flex-col justify-between card-hover h-full">
             <div>
-              <!-- Cabecera de la reseña: Etiqueta de Sede + Google Icon -->
+              <!-- Cabecera de la reseña: Etiqueta de Sede + Enlace Google Maps -->
               <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#F2EFE9]">
                 <span class="inline-flex items-center gap-1.5 text-xs font-extrabold px-3 py-1 rounded-full border ${badgeStyle}">
                   <span class="w-2 h-2 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"}"></span>
                   ${escapeHTML(rev.sede)}
                 </span>
-                <span class="text-xs font-semibold text-[#4B5563] flex items-center gap-1">
+                <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-[#4B5563] hover:text-[#1E4620] flex items-center gap-1 transition-colors">
                   <svg class="w-4 h-4 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 15.65 5 12c0-3.65 3.36-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z"/></svg>
-                  Reseña verificada
-                </span>
+                  <span>Reseña de Google</span>
+                </a>
               </div>
 
-              <!-- Estrellas -->
+              <!-- Estrellas y fecha relativa dinámica -->
               <div class="flex items-center justify-between mb-3">
-                <div class="text-amber-500 tracking-widest text-base font-bold" aria-label="5 de 5 estrellas">
+                <div class="text-amber-500 tracking-widest text-base font-bold" aria-label="${ratingNum} de 5 estrellas">
                   ${stars}
                 </div>
-                <span class="text-xs text-[#4B5563]">${escapeHTML(rev.date)}</span>
+                <span class="text-xs text-[#4B5563]">${escapeHTML(relativeDate)}</span>
               </div>
 
               <!-- Texto de la reseña -->
@@ -915,14 +972,14 @@ function initReviewsCarousel() {
               </p>
             </div>
 
-            <!-- Autor -->
+            <!-- Autor real de Google Maps -->
             <div class="flex items-center gap-3 pt-3 border-t border-[#F2EFE9]">
-              <div class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"} text-white font-bold text-sm flex items-center justify-center shrink-0">
-                ${escapeHTML(rev.initials)}
-              </div>
-              <div>
-                <h4 class="text-sm font-bold text-[#1F2937] leading-tight">${escapeHTML(rev.author)}</h4>
-                <p class="text-xs text-[#4B5563]">${escapeHTML(rev.role)}</p>
+              ${avatarHtml}
+              <div class="min-w-0">
+                <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[#1F2937] hover:text-[#1E4620] leading-tight block truncate">
+                  ${escapeHTML(rev.author)}
+                </a>
+                <p class="text-xs text-[#4B5563] truncate">${escapeHTML(rev.role)}</p>
               </div>
             </div>
           </article>
@@ -949,19 +1006,170 @@ function initReviewsCarousel() {
 
   // Rotación visual de las tarjetas con los botones Anterior / Siguiente
   const rotateReviewCards = (direction) => {
-    if (!window.MILLAN_DATA || !Array.isArray(window.MILLAN_DATA.googleReviews)) return;
+    if (!Array.isArray(allReviews) || allReviews.length < 2) return;
     if (direction === "next") {
-      const first = window.MILLAN_DATA.googleReviews.shift();
-      if (first) window.MILLAN_DATA.googleReviews.push(first);
+      const first = allReviews.shift();
+      if (first) allReviews.push(first);
     } else {
-      const last = window.MILLAN_DATA.googleReviews.pop();
-      if (last) window.MILLAN_DATA.googleReviews.unshift(last);
+      const last = allReviews.pop();
+      if (last) allReviews.unshift(last);
     }
     renderReviews();
   };
 
   if (prevBtn) prevBtn.addEventListener("click", () => rotateReviewCards("prev"));
   if (nextBtn) nextBtn.addEventListener("click", () => rotateReviewCards("next"));
+
+  // Sincronización automática en segundo plano con assets/js/google-reviews.json y Google Maps en vivo
+  const applySyncedPayload = (payload) => {
+    if (!payload) return;
+    if (payload.sedes) {
+      updateLiveRatingBadges(payload.sedes);
+    }
+    if (Array.isArray(payload.reviews) && payload.reviews.length > 0) {
+      allReviews = payload.reviews;
+      window.MILLAN_DATA.googleReviews = payload.reviews;
+      renderReviews();
+    }
+  };
+
+  const buildGooglePreviewUrl = (fid, queryName, sortCode = 3) => {
+    const encodedFid = encodeURIComponent(fid);
+    const encodedQuery = encodeURIComponent(queryName);
+    return (
+      `https://www.google.com/maps/preview/place?authuser=0&hl=es&gl=es&q=${encodedQuery}` +
+      `&pb=%211m17%211s${encodedFid}%212s${encodedQuery}` +
+      `%213m8%211m3%211d3211.316330450485%212d-6.1312967%213d36.4015412%213m2%211i1024%212i768%214f13.1` +
+      `%214m2%213d36.4015369%214d-6.1287218%2115m2%211m1%214s%2Fg%2F11p1k7z_gj%2112m4%212m3%211i360%212i120%214i8` +
+      `%2113m57%212m2%211i203%212i100%213m2%212i4%215b1%216m6%211m2%211i86%212i86%211m2%211i408%212i240` +
+      `%217m33%211m3%211e1%212b0%213e3%211m3%211e2%212b1%213e2%211m3%211e2%212b0%213e3%211m3%211e8%212b0%213e3` +
+      `%211m3%211e10%212b0%213e3%211m3%211e10%212b1%213e2%211m3%211e10%212b0%213e4%211m3%211e9%212b1%213e2%212b1%219b0` +
+      `%2115m8%211m7%211m2%211m1%211e2%212m2%211i195%212i195%213i20` +
+      `%2114m3%211sSHLaapi4N4Xh7_UP7uXRuAg%217e81%2115i10112` +
+      `%2115m108%211m26%2113m9%212b1%213b1%214b1%216i1%218b1%219b1%2114b1%2120b1%2125b1` +
+      `%2118m15%213b1%214b1%215b1%216b1%2113b1%2114b1%2117b1%2121b1%2122b1%2130b1%2132b1%2133m1%211b1%2134b1%2136e2` +
+      `%2110m1%218e3%2111m1%213e1%2117b1%2120m2%211e3%211e6%2124b1%2125b1%2126b1%2127b1%2129b1%2130m1%212b1` +
+      `%2136b1%2137b1%2139m3%212m2%212i1%213i1%2143b1%2152b1%2154m1%211b1%2155b1%2156m1%211b1%2161m2%211m1%211e1` +
+      `%2165m5%213m4%211m3%211m2%211i224%212i298` +
+      `%2172m22%211m8%212b1%215b1%217b1%2112m4%211b1%212b1%214m1%211e1%214b1` +
+      `%218m10%211m6%214m1%211e1%214m1%211e3%214m1%211e4%213sother_user_google_review_posts__and__hotel_and_vr_partner_review_posts` +
+      `%216m1%211e${sortCode}%219b1%2189b1%2190m2%211m1%211e2%2198m3%211b1%212b1%213b1%21103b1%21113b1` +
+      `%21114m3%211b1%212m1%211b1%21117b1%21122m1%211b1%21126b1%21127b1%21128m1%211b1` +
+      `%2121m0%2122m1%211e81%2130m8%213b1%216m2%211b1%212b1%217m2%211e3%212b1%219b1` +
+      `%2134m5%217b1%2110b1%2114b1%2115m1%211b0%2137i800`
+    );
+  };
+
+  const syncLiveFromGoogleMaps = async () => {
+    const CACHE_KEY = "millan_live_google_reviews_v1";
+    const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutos
+
+    try {
+      const cachedRaw = localStorage.getItem(CACHE_KEY);
+      if (cachedRaw) {
+        const cached = JSON.parse(cachedRaw);
+        if (cached && cached.fetchedAt && Date.now() - cached.fetchedAt < CACHE_TTL_MS) {
+          applySyncedPayload(cached.data);
+          return;
+        }
+      }
+    } catch (_) {
+      // Continuar si localStorage no está disponible
+    }
+
+    // 1. Cargar primero el JSON generado automáticamente en el proyecto
+    try {
+      const resJson = await fetch(`assets/js/google-reviews.json?t=${Math.floor(Date.now() / 600000)}`);
+      if (resJson.ok) {
+        const jsonData = await resJson.json();
+        applySyncedPayload(jsonData);
+      }
+    } catch (_) {
+      // Ignorar si se abre vía file:// sin servidor local
+    }
+
+    // 2. Intentar actualización en vivo desde Google Maps para ambas sedes
+    try {
+      const targets = [
+        { key: "exposicion", sedeLabel: "Sede Exposición", fid: "0xd0c345cf1217835:0x12e0440890f2c5d1", query: "Millan" },
+        { key: "almacen", sedeLabel: "Sede Almacén", fid: "0xd0c35b851710269:0xdd46cf4ed31bdd1f", query: "Millán - Almacén" }
+      ];
+      const liveSedes = {};
+      const liveReviews = [];
+      const seen = new Set();
+
+      for (const t of targets) {
+        const gUrl = buildGooglePreviewUrl(t.fid, t.query, 3);
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(gUrl)}`;
+        const resp = await fetch(proxyUrl);
+        if (!resp.ok) continue;
+        const rawTxt = await resp.text();
+        const cleanJson = rawTxt.replace(/^\)\]\}'\n/, "");
+        const parsed = JSON.parse(cleanJson);
+        const place = parsed?.[6];
+        if (!place) continue;
+
+        liveSedes[t.key] = {
+          rating: Number(place?.[4]?.[7] ?? 5).toFixed(1),
+          totalReviews: Number(place?.[4]?.[8] ?? 1)
+        };
+
+        const rBlock = place?.[175]?.[9]?.[0]?.[0] || [];
+        for (const entry of rBlock) {
+          const r = entry?.[0];
+          if (!r || !r[0] || seen.has(r[0])) continue;
+          const rating = r?.[2]?.[0]?.[0] || 5;
+          if (rating < 4) continue;
+          seen.add(r[0]);
+
+          const author = r?.[1]?.[4]?.[5]?.[0] || "Cliente de Google";
+          const parts = author.trim().split(/\s+/).filter(Boolean);
+          const initials = parts.length > 1 ? (parts[0][0] + parts[1][0]).toUpperCase() : author.slice(0, 2).toUpperCase();
+          const rawText = r?.[2]?.[15]?.[0]?.[0];
+
+          liveReviews.push({
+            id: r[0],
+            author,
+            initials,
+            avatar: r?.[1]?.[4]?.[5]?.[1] || "",
+            authorUrl: r?.[1]?.[4]?.[2]?.[0] || "",
+            sede: t.sedeLabel,
+            rating,
+            date: (r?.[1]?.[6] || "Reciente").replace(/^Fecha de edición:\s*/i, ""),
+            timestampMs: Math.round(Number(r?.[1]?.[2] || Date.now() * 1000) / 1000),
+            role: `${(r?.[1]?.[4]?.[5]?.[10]?.[0] || "Cliente verificado").replace(/\u00a0/g, " ")} · Google Maps`,
+            text: rawText
+              ? rawText.replace(/\s+/g, " ").trim()
+              : `Valoración verificada de ${rating} estrellas en Google Maps (${t.sedeLabel}).`,
+            hasText: Boolean(rawText)
+          });
+        }
+      }
+
+      if (liveReviews.length > 0) {
+        liveReviews.sort((a, b) => {
+          if (b.rating !== a.rating) return b.rating - a.rating;
+          if (a.hasText !== b.hasText) return a.hasText ? -1 : 1;
+          return b.timestampMs - a.timestampMs;
+        });
+        const firstAlm = liveReviews.findIndex((r) => r.sede === "Sede Almacén");
+        if (firstAlm > 1) {
+          const [almItem] = liveReviews.splice(firstAlm, 1);
+          liveReviews.splice(1, 0, almItem);
+        }
+
+        const livePayload = { sedes: liveSedes, reviews: liveReviews };
+        applySyncedPayload(livePayload);
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ fetchedAt: Date.now(), data: livePayload }));
+        } catch (_) {}
+      }
+    } catch (_) {
+      // Mantiene las reseñas reales ya cargadas de google-reviews.json / data.js
+    }
+  };
+
+  syncLiveFromGoogleMaps();
 }
 
 /* ==========================================================================

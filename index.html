@@ -134,24 +134,24 @@
         ],
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "4.9",
+          "ratingValue": "4.2",
           "bestRating": "5",
           "worstRating": "1",
-          "reviewCount": "148"
+          "reviewCount": "72"
         },
         "review": [
           {
             "@type": "Review",
-            "author": { "@type": "Person", "name": "Carlos Rodríguez Gómez" },
-            "datePublished": "2026-09-25",
-            "reviewBody": "Fuimos a la Sede de Exposición en Pelagatos para elegir los suelos porcelánicos imitación madera y los dos cuartos de baño completos. El trato y el asesoramiento fueron de 10.",
+            "author": { "@type": "Person", "name": "jose lopez" },
+            "datePublished": "2026-03-20",
+            "reviewBody": "Las veces que he comprado en Millan ha sido una experiencia grata tanto el trato como la asesoría como el precio. Gracias por todo y por como sois. TOTALMENTE RECOMENDABLE.",
             "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
           },
           {
             "@type": "Review",
-            "author": { "@type": "Person", "name": "María del Carmen Sánchez" },
-            "datePublished": "2026-09-10",
-            "reviewBody": "Una exposición preciosa, muy bien iluminada y con las mejores marcas de azulejos y muebles de baño en el Polígono Pelagatos.",
+            "author": { "@type": "Person", "name": "Maribel H." },
+            "datePublished": "2026-02-15",
+            "reviewBody": "Muy buena atención y tiene muy buenos productos y a buen precio.",
             "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
           }
         ]
@@ -202,24 +202,17 @@
         ],
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "4.8",
+          "ratingValue": "5.0",
           "bestRating": "5",
           "worstRating": "1",
-          "reviewCount": "215"
+          "reviewCount": "1"
         },
         "review": [
           {
             "@type": "Review",
-            "author": { "@type": "Organization", "name": "Construcciones y Reformas Bahía S.L." },
-            "datePublished": "2026-09-18",
-            "reviewBody": "Trabajamos a diario con el Almacén de Millán en Pelagatos. Tienen muchísimo stock de sacos, morteros, ladrillos, aislamientos y ferretería con carga rápida.",
-            "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
-          },
-          {
-            "@type": "Review",
-            "author": { "@type": "Person", "name": "Antonio Jesús Morales" },
-            "datePublished": "2026-08-30",
-            "reviewBody": "Excelente atención tanto para particulares como para empresas en el almacén de materiales de construcción.",
+            "author": { "@type": "Person", "name": "José Antonio Sánchez" },
+            "datePublished": "2026-10-08",
+            "reviewBody": "Valoración verificada de 5 estrellas en Google Maps para Millán - Almacén.",
             "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
           }
         ]
@@ -1034,9 +1027,15 @@
       <div class="bg-white rounded-3xl p-6 sm:p-10 border border-[#E5E0D8] shadow-sm mb-10">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7">
-            <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-[#8C5A32] bg-[#F7EFE6] px-3 py-1 rounded-full mb-3">
-              Valoraciones Reales en Google Maps
-            </span>
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-[#8C5A32] bg-[#F7EFE6] px-3 py-1 rounded-full">
+                Valoraciones Reales en Google Maps
+              </span>
+              <span id="google-reviews-sync-badge" class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E4620] bg-[#E8F2EC] px-3 py-1 rounded-full border border-[#C5DEC9]">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Sincronizado con Google Maps</span>
+              </span>
+            </div>
             <h2 class="text-2xl sm:text-4xl font-extrabold text-[#1F2937] tracking-tight mb-3">
               La confianza de particulares y profesionales en nuestras 2 sedes
             </h2>
@@ -1052,10 +1051,10 @@
               <div>
                 <span class="text-xs font-bold text-[#8C5A32] uppercase">Ficha Sede Exposición</span>
                 <div class="flex items-baseline gap-2 mt-1">
-                  <span class="text-3xl font-extrabold text-[#1F2937]">4.9</span>
-                  <span class="text-amber-500 font-bold tracking-wider">★★★★★</span>
+                  <span id="rating-value-exposicion" data-live-rating="exposicion" class="text-3xl font-extrabold text-[#1F2937]">4.2</span>
+                  <span id="rating-stars-exposicion" class="text-amber-500 font-bold tracking-wider">★★★★☆</span>
                 </div>
-                <p class="text-xs text-[#4B5563] mt-1">+148 reseñas en Google</p>
+                <p id="rating-count-exposicion" data-live-count="exposicion" class="text-xs text-[#4B5563] mt-1">72 reseñas en Google</p>
               </div>
               <a
                 href="https://maps.app.goo.gl/hja5eodfEP7cb46U8"
@@ -1063,7 +1062,7 @@
                 rel="noopener noreferrer"
                 class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-xl text-xs font-extrabold btn-primary-wood"
               >
-                <span>Dejar reseña en Exposición</span>
+                <span>Ver / Dejar reseña</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
             </div>
@@ -1073,10 +1072,10 @@
               <div>
                 <span class="text-xs font-bold text-[#1E4620] uppercase">Ficha Sede Almacén</span>
                 <div class="flex items-baseline gap-2 mt-1">
-                  <span class="text-3xl font-extrabold text-[#1F2937]">4.8</span>
-                  <span class="text-amber-500 font-bold tracking-wider">★★★★★</span>
+                  <span id="rating-value-almacen" data-live-rating="almacen" class="text-3xl font-extrabold text-[#1F2937]">5.0</span>
+                  <span id="rating-stars-almacen" class="text-amber-500 font-bold tracking-wider">★★★★★</span>
                 </div>
-                <p class="text-xs text-[#4B5563] mt-1">+215 reseñas en Google</p>
+                <p id="rating-count-almacen" data-live-count="almacen" class="text-xs text-[#4B5563] mt-1">1 reseña en Google</p>
               </div>
               <a
                 href="https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8"
@@ -1084,7 +1083,7 @@
                 rel="noopener noreferrer"
                 class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-xl text-xs font-extrabold btn-primary-green"
               >
-                <span>Dejar reseña en Almacén</span>
+                <span>Ver / Dejar reseña</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
               </a>
             </div>

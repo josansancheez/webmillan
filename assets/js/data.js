@@ -37,8 +37,11 @@ window.MILLAN_DATA = {
         scheduleSaturday: "Sábados: 10:00 – 13:00",
         googleMapsDirectionsUrl: "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
         googleReviewUrl: "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
-        rating: "4.9",
-        totalReviews: 148
+        writeReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJNXgh8Vw0DA0R0cXykAhE4BI",
+        placeId: "ChIJNXgh8Vw0DA0R0cXykAhE4BI",
+        fid: "0xd0c345cf1217835:0x12e0440890f2c5d1",
+        rating: "4.2",
+        totalReviews: 72
       },
       almacen: {
         id: "Sede Almacén",
@@ -49,8 +52,11 @@ window.MILLAN_DATA = {
         scheduleSaturday: "Sábados: 08:30 – 13:00",
         googleMapsDirectionsUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
         googleReviewUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
-        rating: "4.8",
-        totalReviews: 215
+        writeReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJaQJxUbg1DA0RH90b007PRt0",
+        placeId: "ChIJaQJxUbg1DA0RH90b007PRt0",
+        fid: "0xd0c35b851710269:0xdd46cf4ed31bdd1f",
+        rating: "5.0",
+        totalReviews: 1
       }
     }
   },
@@ -883,67 +889,105 @@ window.MILLAN_DATA = {
     }
   ],
 
-  // 3. RESEÑAS DE GOOGLE (Diferenciadas por Sede Almacén y Sede Exposición)
+  // 3. RESEÑAS REALES DE GOOGLE MAPS (Sincronizadas automáticamente de ambas fichas)
   googleReviews: [
     {
-      id: "rev-1",
-      author: "Carlos Rodríguez Gómez",
-      initials: "CR",
+      id: "Ci9DQUlRQUNvZENodHljRjlvT2pCMmJVbExjMmQ1VVROdU9ITldkelpsY1c0NWJXYxAB",
+      author: "jose lopez",
+      initials: "JL",
+      avatar: "https://lh3.googleusercontent.com/a/ACg8ocIpMavjdxCjtOTJ7kX8h_1i5F-6-BeQPY3V-e-ljZI6CkJogg=s120-c-rp-mo-ba12-br100",
+      authorUrl: "https://www.google.com/maps/contrib/107677644107599135127/reviews?hl=es",
       sede: "Sede Exposición",
+      rating: 5,
+      date: "Hace 7 meses",
+      timestampMs: 1771659387307,
+      role: "Local Guide · 156 reseñas · Google Maps",
+      text: "Quiero pedir perdón por que por equivocación puse una reseña aquí. Ya la he borrado y tengo que decir que las veces que he comprado en Millan ha sido una experiencia grata tanto el trato como la asesoría como el precio. Gracias por todo y por como sois. TOTALMENTE RECOMENDABLE",
+      hasText: true
+    },
+    {
+      id: "Ci9DQUlRQUNvZENodHljRjlvT21wc1luRXhSQzFhYVdSQ1dtWmxWa2QyZDBVNGVtYxAB",
+      author: "José Antonio Sánchez",
+      initials: "JA",
+      avatar: "https://lh3.googleusercontent.com/a-/ALV-UjXwFrmKsmAUzNqfZLWZUmS4ACfTIZ7ySPZDxdfWtnyqqZaqR7bCgQ=s120-c-rp-mo-ba12-br100",
+      authorUrl: "https://www.google.com/maps/contrib/102312248817353497069/reviews?hl=es",
+      sede: "Sede Almacén",
       rating: 5,
       date: "Hace 2 semanas",
-      role: "Particular · Reforma integral de vivienda en Chiclana",
-      text: "Fuimos a la Sede de Exposición en Pelagatos para elegir los suelos porcelánicos imitación madera y los dos cuartos de baño completos. El trato y el asesoramiento fueron de 10, nos dedicaron todo el tiempo del mundo combinando texturas y nos prepararon el presupuesto rapidísimo."
+      timestampMs: 1791209865963,
+      role: "Local Guide · 52 reseñas · Google Maps",
+      text: "Valoración verificada de 5 estrellas en Google Maps (Sede Almacén).",
+      hasText: false
     },
     {
-      id: "rev-2",
-      author: "Construcciones y Reformas Bahía S.L.",
-      initials: "CB",
-      sede: "Sede Almacén",
-      rating: 5,
-      date: "Hace 3 semanas",
-      role: "Empresa Constructora · Cliente Profesional",
-      text: "Trabajamos a diario con el Almacén de Millán en Pelagatos. Tienen muchísimo stock de sacos, morteros, ladrillos, aislamientos y ferretería. Lo mejor es la rapidez de carga por las mañanas temprano: entras, cargas y sigues hacia la obra sin perder tiempo."
-    },
-    {
-      id: "rev-3",
-      author: "María del Carmen Sánchez",
-      initials: "MC",
+      id: "Ci9DQUlRQUNvZENodHljRjlvT2tjNWJGaEZWbEZxY3pCZmVHRlpaRGRGVEdGWk1IYxAB",
+      author: "Maribel H.",
+      initials: "MH",
+      avatar: "https://lh3.googleusercontent.com/a/ACg8ocI_5r1M-zsSTizNyPu6BfpuUehDVPeBYO-OmGd7Gpk9Ym7LzQ=s120-c-rp-mo-ba12-br100",
+      authorUrl: "https://www.google.com/maps/contrib/110643088361668623731/reviews?hl=es",
       sede: "Sede Exposición",
       rating: 5,
-      date: "Hace 1 mes",
-      role: "Particular · Reforma de baño y terraza en Novo Sancti Petri",
-      text: "Una exposición preciosa, muy bien iluminada y con las mejores marcas de azulejos y muebles de baño. Además, como tienen el almacén justo en la misma calle a pocos metros, compramos allí mismo el mortero cola y los materiales de agarre que nos pidió el albañil."
+      date: "Hace 8 meses",
+      timestampMs: 1771143020275,
+      role: "Local Guide · 75 reseñas · Google Maps",
+      text: "Muy buena atención y tiene muy buenos productos y a buen precio",
+      hasText: true
     },
     {
-      id: "rev-4",
-      author: "Antonio Jesús Morales",
-      initials: "AJ",
-      sede: "Sede Almacén",
-      rating: 5,
-      date: "Hace 1 mes",
-      role: "Particular · Obra exterior y jardín en El Marquesado",
-      text: "Aunque no soy profesional de la construcción me atendieron en el almacén con una amabilidad increíble. Me explicaron exactamente qué impermeabilizante y qué áridos necesitaba para arreglar mi azotea y el porche. Buenos precios y gente de confianza."
-    },
-    {
-      id: "rev-5",
-      author: "Laura Domínguez & Estudio Interiorismo",
-      initials: "LD",
+      id: "Ci9DQUlRQUNvZENodHljRjlvT25GVExXTkhkRmxUZVZaS2VHcEhPVXRRZDJGNWRYYxAB",
+      author: "Adrian Ariza Serrano",
+      initials: "AA",
+      avatar: "https://lh3.googleusercontent.com/a/ACg8ocJTRsQTQj_mUku96AnwLC6BM5zRu-lI0PQLXbcuLv645IuuZA=s120-c-rp-mo-ba12-br100",
+      authorUrl: "https://www.google.com/maps/contrib/105322559778761403545/reviews?hl=es",
       sede: "Sede Exposición",
       rating: 5,
-      date: "Hace 2 meses",
-      role: "Interiorista · Proyectos en Cádiz, San Fernando y Conil",
-      text: "Llevo años trayendo a mis clientes de toda la provincia de Cádiz a la exposición de Millán Chiclana. La variedad de catálogos actualizados, griferías en acabados especiales y pavimentos para interior y piscina es espectacular."
+      date: "Hace 8 meses",
+      timestampMs: 1770985817377,
+      role: "Local Guide · 43 reseñas · Google Maps",
+      text: "100 × 100 recomendable muchas gracias",
+      hasText: true
     },
     {
-      id: "rev-6",
-      author: "Francisco Javier Benítez",
-      initials: "FJ",
-      sede: "Sede Almacén",
+      id: "ChZDSUhNMG9nS0VJQ0FnSUNybVBiMmFREAE",
+      author: "Carolina Morales Muñoz",
+      initials: "CM",
+      avatar: "https://lh3.googleusercontent.com/a/ACg8ocLj3AjTr95uuU4X1kG3Zr_P95dWWhdd9GzHOyQ-IwlAthbKqw=s120-c-rp-mo-br100",
+      authorUrl: "https://www.google.com/maps/contrib/100155446453982290696/reviews?hl=es",
+      sede: "Sede Exposición",
       rating: 5,
-      date: "Hace 2 meses",
-      role: "Profesional Autónomo · Solador y Alicatador",
-      text: "Tanto el almacén de materiales como la exposición están en la misma calle del Polígono Pelagatos, lo que es comodísimo. Siempre tienen morteros Grupo Puma y Tector, Sika, cementos Holcim, crucetas Mustang y herramientas Bellota en stock. Totalmente recomendables."
+      date: "Hace 2 años",
+      timestampMs: 1720039373270,
+      role: "6 reseñas · Google Maps",
+      text: "Trato espectacular. Buenos precios y tienen mucha variedad. Trato postventa espectacular. Muy agradecida por su atención y especial agradecimiento a Montse que fue quien nos atendió. Mil gracias!!!!",
+      hasText: true
+    },
+    {
+      id: "ChdDSUhNMG9nS0VJQ0FnSUQ2MTd1ODZBRRAB",
+      author: "Farmacia Carbajal",
+      initials: "FC",
+      avatar: "https://lh3.googleusercontent.com/a/ACg8ocJ5hEYFVXH_X5o1hUuE_3x9I6rVCv7sYf1x-aw5yBEzyacS1Q=s120-c-rp-mo-br100",
+      authorUrl: "https://www.google.com/maps/contrib/102122372846884304607/reviews?hl=es",
+      sede: "Sede Exposición",
+      rating: 5,
+      date: "Hace 5 años",
+      timestampMs: 1634197108530,
+      role: "4 reseñas · Google Maps",
+      text: "¨Trato excelente y profesionalidad¨ Instalamos dos chimeneas la semana pasada y todo salió a la perfección.",
+      hasText: true
+    },
+    {
+      id: "Ci9DQUlRQUNvZENodHljRjlvT2xjeU5sSmxNVXhoT1ZKd01WRjJSMHMwZFVwT2NHYxAB",
+      author: "Adrian Eusebio",
+      initials: "AE",
+      avatar: "https://lh3.googleusercontent.com/a-/ALV-UjV-4WsLkBmp6TcgU8Xh4s920wTrjyhb-NRpvGv2cdveGlbgRWMP=s120-c-rp-mo-ba12-br100",
+      authorUrl: "https://www.google.com/maps/contrib/101270509121498819905/reviews?hl=es",
+      sede: "Sede Exposición",
+      rating: 4,
+      date: "Hace 6 meses",
+      timestampMs: 1776776132862,
+      role: "Local Guide · 303 reseñas · Google Maps",
+      text: "Valoración verificada de 4 estrellas en Google Maps (Sede Exposición).",
+      hasText: false
     }
   ],
 

@@ -1,0 +1,125 @@
+{
+  "updatedAt": "2026-10-22T20:44:37.791Z",
+  "sedes": {
+    "exposicion": {
+      "id": "Sede Exposición",
+      "placeId": "ChIJNXgh8Vw0DA0R0cXykAhE4BI",
+      "fid": "0xd0c345cf1217835:0x12e0440890f2c5d1",
+      "rating": "4.2",
+      "totalReviews": 72,
+      "googleMapsDirectionsUrl": "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
+      "googleReviewUrl": "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
+      "writeReviewUrl": "https://search.google.com/local/writereview?placeid=ChIJNXgh8Vw0DA0R0cXykAhE4BI"
+    },
+    "almacen": {
+      "id": "Sede Almacén",
+      "placeId": "ChIJaQJxUbg1DA0RH90b007PRt0",
+      "fid": "0xd0c35b851710269:0xdd46cf4ed31bdd1f",
+      "rating": "5.0",
+      "totalReviews": 1,
+      "googleMapsDirectionsUrl": "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
+      "googleReviewUrl": "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
+      "writeReviewUrl": "https://search.google.com/local/writereview?placeid=ChIJaQJxUbg1DA0RH90b007PRt0"
+    }
+  },
+  "reviews": [
+    {
+      "id": "Ci9DQUlRQUNvZENodHljRjlvT2pCMmJVbExjMmQ1VVROdU9ITldkelpsY1c0NWJXYxAB",
+      "author": "jose lopez",
+      "initials": "JL",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocIpMavjdxCjtOTJ7kX8h_1i5F-6-BeQPY3V-e-ljZI6CkJogg=s120-c-rp-mo-ba12-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/107677644107599135127/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 5,
+      "date": "Hace 7 meses",
+      "timestampMs": 1771659387307,
+      "role": "Local Guide · 156 reseñas · Google Maps",
+      "text": "Quiero pedir perdón por que por equivocación puse una reseña aquí. Ya la he borrado y tengo que decir que las veces que he comprado en Millan ha sido una experiencia grata tanto el trato como la asesoría como el precio. Gracias por todo y por como sois. TOTALMENTE RECOMENDABLE",
+      "hasText": true
+    },
+    {
+      "id": "Ci9DQUlRQUNvZENodHljRjlvT21wc1luRXhSQzFhYVdSQ1dtWmxWa2QyZDBVNGVtYxAB",
+      "author": "José Antonio Sánchez",
+      "initials": "JA",
+      "avatar": "https://lh3.googleusercontent.com/a-/ALV-UjXwFrmKsmAUzNqfZLWZUmS4ACfTIZ7ySPZDxdfWtnyqqZaqR7bCgQ=s120-c-rp-mo-ba12-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/102312248817353497069/reviews?hl=es",
+      "sede": "Sede Almacén",
+      "rating": 5,
+      "date": "Hace 2 semanas",
+      "timestampMs": 1791209865963,
+      "role": "Local Guide · 52 reseñas · Google Maps",
+      "text": "Valoración verificada de 5 estrellas en Google Maps (Sede Almacén).",
+      "hasText": false
+    },
+    {
+      "id": "Ci9DQUlRQUNvZENodHljRjlvT2tjNWJGaEZWbEZxY3pCZmVHRlpaRGRGVEdGWk1IYxAB",
+      "author": "Maribel H.",
+      "initials": "MH",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocI_5r1M-zsSTizNyPu6BfpuUehDVPeBYO-OmGd7Gpk9Ym7LzQ=s120-c-rp-mo-ba12-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/110643088361668623731/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 5,
+      "date": "Hace 8 meses",
+      "timestampMs": 1771143020275,
+      "role": "Local Guide · 75 reseñas · Google Maps",
+      "text": "Muy buena atención y tiene muy buenos productos y a buen precio",
+      "hasText": true
+    },
+    {
+      "id": "Ci9DQUlRQUNvZENodHljRjlvT25GVExXTkhkRmxUZVZaS2VHcEhPVXRRZDJGNWRYYxAB",
+      "author": "Adrian Ariza Serrano",
+      "initials": "AA",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJTRsQTQj_mUku96AnwLC6BM5zRu-lI0PQLXbcuLv645IuuZA=s120-c-rp-mo-ba12-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/105322559778761403545/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 5,
+      "date": "Hace 8 meses",
+      "timestampMs": 1770985817377,
+      "role": "Local Guide · 43 reseñas · Google Maps",
+      "text": "100 × 100 recomendable muchas gracias",
+      "hasText": true
+    },
+    {
+      "id": "ChZDSUhNMG9nS0VJQ0FnSUNybVBiMmFREAE",
+      "author": "Carolina Morales Muñoz",
+      "initials": "CM",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLj3AjTr95uuU4X1kG3Zr_P95dWWhdd9GzHOyQ-IwlAthbKqw=s120-c-rp-mo-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/100155446453982290696/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 5,
+      "date": "Hace 2 años",
+      "timestampMs": 1720039373270,
+      "role": "6 reseñas · Google Maps",
+      "text": "Trato espectacular. Buenos precios y tienen mucha variedad. Trato postventa espectacular. Muy agradecida por su atención y especial agradecimiento a Montse que fue quien nos atendió. Mil gracias!!!!",
+      "hasText": true
+    },
+    {
+      "id": "ChdDSUhNMG9nS0VJQ0FnSUQ2MTd1ODZBRRAB",
+      "author": "Farmacia Carbajal",
+      "initials": "FC",
+      "avatar": "https://lh3.googleusercontent.com/a/ACg8ocJ5hEYFVXH_X5o1hUuE_3x9I6rVCv7sYf1x-aw5yBEzyacS1Q=s120-c-rp-mo-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/102122372846884304607/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 5,
+      "date": "Hace 5 años",
+      "timestampMs": 1634197108530,
+      "role": "4 reseñas · Google Maps",
+      "text": "¨Trato excelente y profesionalidad¨ Instalamos dos chimeneas la semana pasada y todo salió a la perfección.",
+      "hasText": true
+    },
+    {
+      "id": "Ci9DQUlRQUNvZENodHljRjlvT2xjeU5sSmxNVXhoT1ZKd01WRjJSMHMwZFVwT2NHYxAB",
+      "author": "Adrian Eusebio",
+      "initials": "AE",
+      "avatar": "https://lh3.googleusercontent.com/a-/ALV-UjV-4WsLkBmp6TcgU8Xh4s920wTrjyhb-NRpvGv2cdveGlbgRWMP=s120-c-rp-mo-ba12-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/101270509121498819905/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 4,
+      "date": "Hace 6 meses",
+      "timestampMs": 1776776132862,
+      "role": "Local Guide · 303 reseñas · Google Maps",
+      "text": "Valoración verificada de 4 estrellas en Google Maps (Sede Exposición).",
+      "hasText": false
+    }
+  ]
+}

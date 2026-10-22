@@ -1,0 +1,33 @@
+name: Sincronizar Reseñas de Google Maps
+
+on:
+  schedule:
+    # Se ejecuta automáticamente cada 12 horas
+    - cron: "0 */12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Ejecutar sincronización de reseñas desde Google Maps
+        run: node scripts/sync-google-reviews.js
+
+      - name: Guardar cambios si hay nuevas reseñas o puntuaciones
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/js/google-reviews.json
+          git diff --staged --quiet || git commit -m "chore: actualizar resenas reales de Google Maps automaticamente"
+          git push
