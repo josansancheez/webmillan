@@ -984,6 +984,12 @@ window.MILLAN_DATA = {
       category: "Asesoramiento",
       question: "¿Necesito pedir cita previa para visitar la Exposición o el Almacén?",
       answer: "Para el Almacén no necesitas cita previa: puedes venir directamente en horario de apertura y retirar tu material al momento. Para la Exposición tampoco es obligatorio pedir cita, aunque si deseas un estudio detenido de varios baños o el pavimento completo de tu vivienda, puedes llamarnos antes por teléfono para asegurarte atención inmediata sin esperas."
+    },
+    {
+      id: "faq-7",
+      category: "Financiación",
+      question: "¿Puedo financiar mis compras y qué documentación necesito?",
+      answer: "Sí, ofrecemos financiación de tus compras con CaixaBank y puedes tramitarla directamente en cualquiera de nuestras instalaciones (tanto en la Sede Exposición como en la Sede Almacén). Si eres cliente de CaixaBank, solo necesitas tu DNI / NIE y tu tarjeta de CaixaBank. Si no eres cliente de La Caixa, no es necesario cambiar de banco y lo tramitamos con documentación mínima."
     }
   ]
 };
