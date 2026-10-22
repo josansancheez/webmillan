@@ -33,8 +33,8 @@ window.MILLAN_DATA = {
         shortName: "Sede Exposición",
         fullName: "Millán Chiclana · Sede Exposición e Interiorismo",
         address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Exposición, 11130 Chiclana de la Frontera, Cádiz",
-        scheduleWeekdays: "Lunes a Viernes: 09:00 – 13:30 y 16:30 – 20:00",
-        scheduleSaturday: "Sábados: 09:30 – 13:30",
+        scheduleWeekdays: "Lunes a Viernes: 09:00 – 14:00 y 17:00 – 20:00",
+        scheduleSaturday: "Sábados: 10:00 – 13:00",
         googleMapsDirectionsUrl: "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
         googleReviewUrl: "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
         rating: "4.9",
@@ -45,8 +45,8 @@ window.MILLAN_DATA = {
         shortName: "Sede Almacén",
         fullName: "Millán Chiclana · Sede Almacén de Construcción",
         address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Almacén (en la misma calle a pocos metros), 11130 Chiclana de la Frontera, Cádiz",
-        scheduleWeekdays: "Lunes a Viernes: 07:30 – 14:00 y 16:00 – 19:00",
-        scheduleSaturday: "Sábados: 08:00 – 13:00",
+        scheduleWeekdays: "Lunes a Viernes: 07:30 – 14:00 y 15:30 – 18:30",
+        scheduleSaturday: "Sábados: 08:30 – 13:00",
         googleMapsDirectionsUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
         googleReviewUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
         rating: "4.8",
@@ -60,7 +60,7 @@ window.MILLAN_DATA = {
   // como URLs externas (CDN, Google Drive, servidor propio).
   brandsCatalogs: [
     // =========================================================================
-    // MARCAS SEDE ALMACÉN (20 Marcas Oficiales)
+    // MARCAS SEDE ALMACÉN (38 Marcas Oficiales)
     // =========================================================================
     {
       id: "holcim",
