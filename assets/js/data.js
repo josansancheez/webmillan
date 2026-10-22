@@ -989,7 +989,7 @@ window.MILLAN_DATA = {
       id: "faq-7",
       category: "Financiación",
       question: "¿Puedo financiar mis compras y qué documentación necesito?",
-      answer: "Sí, ofrecemos financiación de tus compras con CaixaBank y puedes tramitarla directamente en cualquiera de nuestras instalaciones (tanto en la Sede Exposición como en la Sede Almacén). Si eres cliente de CaixaBank, solo necesitas tu DNI / NIE y tu tarjeta de CaixaBank. Si no eres cliente de La Caixa, no es necesario cambiar de banco y lo tramitamos con documentación mínima."
+      answer: "Sí, ofrecemos financiación de tus compras con CaixaBank y puedes tramitarla directamente en cualquiera de nuestras instalaciones. Si eres cliente de CaixaBank, solo necesitas tu DNI / NIE y tu tarjeta de CaixaBank. Si no eres cliente de La Caixa, no es necesario cambiar de banco y lo tramitamos con documentación mínima."
     }
   ]
 };
