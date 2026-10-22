@@ -1498,7 +1498,7 @@ function initCookieConsentBanner() {
    10. UTILIDADES GENERALES
    ========================================================================== */
 function initCurrentYear() {
-  const yearEls = document.querySelectorAll(".js-current-year");
+  const yearEls = document.querySelectorAll(".js-current-year, #current-year");
   const year = new Date().getFullYear();
   yearEls.forEach((el) => {
     el.textContent = String(year);
