@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 68" fill="none">
+  <rect x="6" y="10" width="48" height="48" rx="11" fill="#D9381E"/>
+  <path d="M30 16C30 16 41 25 39 36C38 43 32 48 26 48C20 48 17 42 19 36C21 31 26 29 26 24C26 24 23 30 26 35C28 38 32 36 32 31C32 26 30 16 30 16Z" fill="#FFFFFF"/>
+  <text x="64" y="40" fill="#1F2937" font-family="Plus Jakarta Sans, Arial Black, sans-serif" font-weight="900" font-size="29" letter-spacing="1">BRONPI</text>
+  <text x="65" y="54" fill="#D9381E" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="9.5" letter-spacing="2">CALEFACCIÓN</text>
+</svg>

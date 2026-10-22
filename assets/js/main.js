@@ -267,9 +267,24 @@ function initCatalogsSystem() {
             <p class="text-sm font-semibold text-[#8C5A32] mb-2.5">
               ${escapeHTML(item.edition)}
             </p>
-            <p class="text-sm text-[#4B5563] line-clamp-3 mb-4">
+            <p class="text-sm text-[#4B5563] line-clamp-3 mb-3">
               ${escapeHTML(item.description)}
             </p>
+            ${
+              Array.isArray(item.subBrands) && item.subBrands.length > 0
+                ? `<div class="mb-4 p-2.5 rounded-xl bg-[#F7EFE6] border border-[#E5D3C0]">
+                     <span class="block text-[10px] font-extrabold uppercase tracking-wider text-[#8C5A32] mb-1.5">Firmas de Lujo Distribuidas:</span>
+                     <div class="flex flex-wrap gap-1.5">
+                       ${item.subBrands
+                         .map(
+                           (sb) =>
+                             `<span class="px-2 py-0.5 rounded-md bg-white text-[#1F2937] border border-[#E5D3C0] text-[11px] font-bold">${escapeHTML(sb)}</span>`
+                         )
+                         .join("")}
+                     </div>
+                   </div>`
+                : ""
+            }
           </div>
 
           <div class="pt-3 border-t border-[#E5E0D8]">
@@ -470,8 +485,125 @@ function initCatalogsSystem() {
     }
   }
 
-  // Inicializar Visor Modal / Flipbook de Catálogos
-  initCatalogModalViewer(data.brandsCatalogs);
+  // Renderizar y filtrar en Chimeneas (chimeneas.html)
+  const fireplacesGrid = document.getElementById("fireplaces-catalogs-grid");
+  const fireplacesSearchInput = document.getElementById("fireplace-search-input");
+  const fireplacesClearBtn = document.getElementById("fireplace-search-clear");
+  const fireplacesCountBadge = document.getElementById("fireplace-results-count");
+  const fireplacesEmptyState = document.getElementById("fireplace-empty-state");
+  const fireplacesCategoryBtns = document.querySelectorAll("[data-fireplace-category]");
+  const fireplacesLogosWall = document.getElementById("fireplaces-brands-logos-wall");
+
+  if (fireplacesGrid && Array.isArray(data.fireplacesCatalogs)) {
+    let activeFpCategory = "all";
+    let currentFpQuery = "";
+
+    const renderFireplacesCatalog = () => {
+      const normalizedQuery = normalizeText(currentFpQuery);
+      const filtered = data.fireplacesCatalogs.filter((item) => {
+        const matchesCat =
+          activeFpCategory === "all" ||
+          (activeFpCategory === "main" && item.isMainBrand) ||
+          normalizeText(item.category) === normalizeText(activeFpCategory);
+
+        if (!matchesCat) return false;
+        if (!normalizedQuery) return true;
+
+        const haystack = normalizeText(
+          `${item.name} ${item.edition} ${item.category} ${item.description} ${(item.keywords || []).join(" ")} ${(item.subBrands || []).join(" ")}`
+        );
+        return haystack.includes(normalizedQuery);
+      });
+
+      fireplacesGrid.innerHTML = filtered.map(createCatalogCardHTML).join("");
+
+      if (fireplacesCountBadge) {
+        fireplacesCountBadge.textContent = `${filtered.length} ${filtered.length === 1 ? "catálogo disponible" : "catálogos disponibles"}`;
+      }
+      if (fireplacesEmptyState) {
+        fireplacesEmptyState.classList.toggle("hidden", filtered.length > 0);
+      }
+      if (fireplacesClearBtn) {
+        fireplacesClearBtn.classList.toggle("hidden", currentFpQuery.trim().length === 0);
+      }
+    };
+
+    renderFireplacesCatalog();
+
+    if (fireplacesSearchInput) {
+      fireplacesSearchInput.addEventListener("input", (e) => {
+        currentFpQuery = e.target.value;
+        renderFireplacesCatalog();
+      });
+    }
+
+    if (fireplacesClearBtn && fireplacesSearchInput) {
+      fireplacesClearBtn.addEventListener("click", () => {
+        fireplacesSearchInput.value = "";
+        currentFpQuery = "";
+        renderFireplacesCatalog();
+        fireplacesSearchInput.focus();
+      });
+    }
+
+    fireplacesCategoryBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeFpCategory = btn.getAttribute("data-fireplace-category") || "all";
+        fireplacesCategoryBtns.forEach((b) => {
+          const isCurrent = b === btn;
+          b.className = isCurrent
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+        });
+        renderFireplacesCatalog();
+      });
+    });
+
+    const fpResetBtn = document.getElementById("fireplace-reset-filters");
+    if (fpResetBtn) {
+      fpResetBtn.addEventListener("click", () => {
+        currentFpQuery = "";
+        activeFpCategory = "all";
+        if (fireplacesSearchInput) fireplacesSearchInput.value = "";
+        fireplacesCategoryBtns.forEach((b, idx) => {
+          b.className = idx === 0
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+        });
+        renderFireplacesCatalog();
+      });
+    }
+
+    if (fireplacesLogosWall) {
+      fireplacesLogosWall.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-fireplace-logo-jump]");
+        if (!btn) return;
+        const targetId = btn.getAttribute("data-fireplace-logo-jump") || "";
+        currentFpQuery = "";
+        activeFpCategory = "all";
+        if (fireplacesSearchInput) fireplacesSearchInput.value = "";
+        fireplacesCategoryBtns.forEach((b, idx) => {
+          b.className = idx === 0
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+        });
+        renderFireplacesCatalog();
+        const cardEl = document.getElementById(`brand-card-${targetId}`);
+        if (cardEl) {
+          cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          cardEl.classList.add("ring-2", "ring-[#8C5A32]");
+          setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#8C5A32]"), 2200);
+        }
+      });
+    }
+  }
+
+  // Inicializar Visor Modal / Flipbook de Catálogos (incluyendo marcas generales y chimeneas)
+  const allCatalogsCombined = [
+    ...data.brandsCatalogs,
+    ...(Array.isArray(data.fireplacesCatalogs) ? data.fireplacesCatalogs : [])
+  ];
+  initCatalogModalViewer(allCatalogsCombined);
 }
 
 function initCatalogModalViewer(catalogs) {
