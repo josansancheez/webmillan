@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 68" fill="none">
+  <rect x="6" y="11" width="46" height="46" rx="10" fill="#0369A1"/>
+  <path d="M33 21V39C33 44 29 47 24 47C20 47 18 44 18 41" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round"/>
+  <text x="62" y="39" fill="#1F2937" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="25" letter-spacing="0.8">JUANCODE</text>
+  <text x="63" y="53" fill="#0369A1" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="700" font-size="9.5" letter-spacing="1.4">FONTANERÍA Y PISCINAS</text>
+</svg>

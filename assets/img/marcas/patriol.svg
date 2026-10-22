@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245 68" fill="none">
+  <rect x="6" y="11" width="46" height="46" rx="10" fill="#7C2D12"/>
+  <path d="M21 45V23H31C36 23 39 26 39 30C39 34 36 37 31 37H21" stroke="#FDE68A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="62" y="39" fill="#7C2D12" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="26" letter-spacing="0.8">PATRIOL</text>
+  <text x="63" y="53" fill="#4B5563" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="700" font-size="9.5" letter-spacing="1.5">QUÍMICOS Y TRATAMIENTOS</text>
+</svg>

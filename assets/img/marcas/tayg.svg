@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 68" fill="none">
+  <rect x="6" y="11" width="46" height="46" rx="10" fill="#004B87"/>
+  <rect x="16" y="24" width="26" height="20" rx="3" stroke="#FFFFFF" stroke-width="3.5"/>
+  <path d="M24 24V20H34V24" stroke="#E30613" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="62" y="41" fill="#004B87" font-family="Plus Jakarta Sans, Arial Black, sans-serif" font-weight="900" font-size="30" letter-spacing="1.5">TAYG</text>
+  <text x="63" y="54" fill="#E30613" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="9.5" letter-spacing="1.6">ORDENACIÓN Y CAJAS</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245 68" fill="none">
+  <rect x="6" y="11" width="46" height="46" rx="11" fill="#FFCC00"/>
+  <path d="M15 24L22 45L29 30L36 45L43 24" stroke="#1F2937" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="62" y="39" fill="#1F2937" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="30" letter-spacing="0.5">weber</text>
+  <text x="63" y="53" fill="#005596" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="9.5" letter-spacing="1.8">SAINT-GOBAIN</text>
+</svg>

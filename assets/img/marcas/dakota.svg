@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 68" fill="none">
+  <rect x="6" y="11" width="46" height="46" rx="10" fill="#D90429"/>
+  <path d="M19 21H29C36 21 41 26 41 34C41 42 36 47 29 47H19V21Z" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/>
+  <text x="62" y="40" fill="#111827" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="27" letter-spacing="1">DAKOTA</text>
+  <text x="63" y="53" fill="#D90429" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="9.5" letter-spacing="1.5">EVACUACIÓN Y DRENAJE</text>
+</svg>
