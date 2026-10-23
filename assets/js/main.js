@@ -373,11 +373,102 @@ function initCatalogsSystem() {
     featuredContainer.innerHTML = featuredItems.map(createCatalogCardHTML).join("");
   }
 
+  const isMarcasPage = Boolean(fullCatalogContainer);
+
+  // Función auxiliar para saltar a una tarjeta de marca o redirigir a marcas.html
+  const handleBrandLogoJump = (brandName, targetCardId) => {
+    if (isMarcasPage) {
+      currentSearchQuery = "";
+      activeCategory = "all";
+      if (searchInput) searchInput.value = "";
+      categoryButtons.forEach((b, idx) => {
+        b.className =
+          idx === 0
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            : b.hasAttribute("data-catalog-category") &&
+                ["Sede Exposición", "Sede Almacén"].includes(
+                  b.getAttribute("data-catalog-category")
+                )
+              ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer"
+              : "px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+      });
+      renderFullCatalog();
+      const cardEl = document.getElementById(targetCardId);
+      if (cardEl) {
+        cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        cardEl.classList.add("ring-2", "ring-[#8C5A32]");
+        setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#8C5A32]"), 2200);
+      }
+    } else {
+      window.location.href = `marcas.html?q=${encodeURIComponent(brandName)}`;
+    }
+  };
+
+  // Renderizar mosaico de logotipos de marcas de la Exposición por familias (#exposicion-brands-logos-wall)
+  const exposicionLogosWall = document.getElementById("exposicion-brands-logos-wall");
+  if (exposicionLogosWall && Array.isArray(data.exposicionSections)) {
+    const brandMap = new Map(data.brandsCatalogs.map((b) => [b.id, b]));
+    exposicionLogosWall.innerHTML = data.exposicionSections
+      .map((sec) => {
+        const items = (sec.brandIds || [])
+          .map((id) => brandMap.get(id))
+          .filter(Boolean);
+        return `
+          <div class="bg-white/90 rounded-2xl p-4 sm:p-5 border border-[#E5D3C0]">
+            <div class="flex items-center justify-between gap-2 mb-3.5 pb-2 border-b border-[#F2EFE9]">
+              <h4 class="text-sm sm:text-base font-extrabold uppercase tracking-wider text-[#8C5A32]">
+                ${escapeHTML(sec.title)}
+              </h4>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#F7EFE6] text-[#8C5A32]">
+                ${items.length} ${items.length === 1 ? "marca" : "marcas"}
+              </span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+              ${items
+                .map(
+                  (item) => `
+                  <button
+                    type="button"
+                    data-brand-logo-jump="${escapeHTML(item.name)}"
+                    data-brand-card-target="brand-card-${escapeHTML(item.id)}"
+                    class="group bg-[#FAF8F5] hover:bg-white rounded-xl p-3 border border-[#E5E0D8] hover:border-[#8C5A32] shadow-2xs hover:shadow-md transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer text-center"
+                    title="Ver catálogo de ${escapeHTML(item.name)} (${escapeHTML(sec.title)})"
+                  >
+                    <div class="h-10 w-full flex items-center justify-center px-1">
+                      <img
+                        src="${escapeHTML(item.logoUrl)}"
+                        alt="Logo ${escapeHTML(item.name)}"
+                        class="max-h-9 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <span class="text-[11px] font-bold text-[#1F2937] group-hover:text-[#8C5A32] line-clamp-1">
+                      ${escapeHTML(item.name)}
+                    </span>
+                  </button>
+                `
+                )
+                .join("")}
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+
+    exposicionLogosWall.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-brand-logo-jump]");
+      if (!btn) return;
+      handleBrandLogoJump(
+        btn.getAttribute("data-brand-logo-jump") || "",
+        btn.getAttribute("data-brand-card-target") || ""
+      );
+    });
+  }
+
   // Renderizar mosaico de logotipos de marcas del Almacén (#warehouse-brands-logos-wall)
   const warehouseLogosWall = document.getElementById("warehouse-brands-logos-wall");
   if (warehouseLogosWall) {
     const warehouseBrands = data.brandsCatalogs.filter((b) => b.sede === "Sede Almacén");
-    const isMarcasPage = Boolean(fullCatalogContainer);
     warehouseLogosWall.innerHTML = warehouseBrands
       .map(
         (item) => `
@@ -407,53 +498,97 @@ function initCatalogsSystem() {
     warehouseLogosWall.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-brand-logo-jump]");
       if (!btn) return;
-      const brandName = btn.getAttribute("data-brand-logo-jump") || "";
-      const targetCardId = btn.getAttribute("data-brand-card-target") || "";
-
-      if (isMarcasPage) {
-        currentSearchQuery = "";
-        activeCategory = "all";
-        if (searchInput) searchInput.value = "";
-        categoryButtons.forEach((b, idx) => {
-          b.className = idx === 0
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
-        });
-        renderFullCatalog();
-        const cardEl = document.getElementById(targetCardId);
-        if (cardEl) {
-          cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          cardEl.classList.add("ring-2", "ring-[#1E4620]");
-          setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#1E4620]"), 2200);
-        }
-      } else {
-        window.location.href = `marcas.html?q=${encodeURIComponent(brandName)}`;
-      }
+      handleBrandLogoJump(
+        btn.getAttribute("data-brand-logo-jump") || "",
+        btn.getAttribute("data-brand-card-target") || ""
+      );
     });
   }
 
-  // Renderizar y filtrar en Marcas (marcas.html)
+  // Renderizar y filtrar en Marcas (marcas.html) separando Exposición y Almacén en sus respectivos sitios
   const renderFullCatalog = () => {
     if (!fullCatalogContainer) return;
 
     const normalizedQuery = normalizeText(currentSearchQuery);
+    const normActiveCat = normalizeText(activeCategory);
 
     const filtered = data.brandsCatalogs.filter((item) => {
+      const matchesFamily =
+        Array.isArray(item.exposicionFamilies) &&
+        item.exposicionFamilies.some((f) => normalizeText(f) === normActiveCat);
+
       const matchesCategory =
         activeCategory === "all" ||
-        normalizeText(item.category) === normalizeText(activeCategory) ||
-        normalizeText(item.sede) === normalizeText(activeCategory);
+        normalizeText(item.category) === normActiveCat ||
+        normalizeText(item.sede) === normActiveCat ||
+        matchesFamily;
 
       if (!matchesCategory) return false;
       if (!normalizedQuery) return true;
 
       const haystack = normalizeText(
-        `${item.name} ${item.edition} ${item.category} ${item.sede} ${item.description} ${(item.keywords || []).join(" ")}`
+        `${item.name} ${item.edition} ${item.category} ${(item.exposicionFamilies || []).join(" ")} ${item.sede} ${item.description} ${(item.keywords || []).join(" ")}`
       );
       return haystack.includes(normalizedQuery);
     });
 
-    fullCatalogContainer.innerHTML = filtered.map(createCatalogCardHTML).join("");
+    const expoFiltered = filtered.filter((item) => item.sede === "Sede Exposición");
+    const almacenFiltered = filtered.filter((item) => item.sede === "Sede Almacén");
+
+    // Mostrar u ocultar los mosaicos superiores según el filtro activo
+    const expoWallBox = document.getElementById("seccion-marcas-exposicion");
+    const almacenWallBox = document.getElementById("seccion-marcas-almacen");
+    if (expoWallBox && almacenWallBox) {
+      const isOnlyAlmacen =
+        activeCategory === "Sede Almacén" ||
+        (expoFiltered.length === 0 && almacenFiltered.length > 0 && activeCategory !== "all");
+      const isOnlyExpo =
+        activeCategory === "Sede Exposición" ||
+        (almacenFiltered.length === 0 && expoFiltered.length > 0 && activeCategory !== "all");
+      expoWallBox.classList.toggle("hidden", isOnlyAlmacen);
+      almacenWallBox.classList.toggle("hidden", isOnlyExpo);
+    }
+
+    const sectionsHtml = [];
+    if (expoFiltered.length > 0) {
+      sectionsHtml.push(`
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#E5D3C0]">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#8C5A32]">Sede Exposición · Polígono Pelagatos</span>
+              <h3 class="text-2xl font-extrabold text-[#1F2937]">Catálogos de Marcas de la Exposición (${expoFiltered.length})</h3>
+            </div>
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#F7EFE6] text-[#8C5A32] border border-[#E5D3C0]">
+              Cerámica · Piedras · Sanitario · Grifería · Accesorios · Mamparas · Mobiliario
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${expoFiltered.map(createCatalogCardHTML).join("")}
+          </div>
+        </div>
+      `);
+    }
+
+    if (almacenFiltered.length > 0) {
+      sectionsHtml.push(`
+        <div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#C5DEC9]">
+            <div>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#1E4620]">Sede Almacén · Polígono Pelagatos</span>
+              <h3 class="text-2xl font-extrabold text-[#1F2937]">Catálogos de Marcas del Almacén (${almacenFiltered.length})</h3>
+            </div>
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#E8F2EC] text-[#1E4620] border border-[#C5DEC9]">
+              Obra Gruesa · Cementos · Morteros · Ferretería · Fontanería
+            </span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${almacenFiltered.map(createCatalogCardHTML).join("")}
+          </div>
+        </div>
+      `);
+    }
+
+    fullCatalogContainer.innerHTML = sectionsHtml.join("");
 
     if (countBadge) {
       countBadge.textContent = `${filtered.length} ${filtered.length === 1 ? "catálogo disponible" : "catálogos disponibles"}`;

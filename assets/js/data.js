@@ -61,10 +61,1199 @@ window.MILLAN_DATA = {
     }
   },
 
-  // 2. MARCAS Y CATÁLOGOS PDF (Añade o quita objetos libremente)
-  // Nota: `pdfUrl` admite tanto rutas locales (ej. "catalogos/pamesa-2026.pdf")
-  // como URLs externas (CDN, Google Drive, servidor propio).
+  // 2A. ESTRUCTURA DE FAMILIAS DE MARCAS DE LA EXPOSICIÓN
+  exposicionSections: [
+      {
+          "id": "Cerámica",
+          "title": "Cerámica",
+          "brandIds": [
+              "realonda",
+              "saloni",
+              "vives",
+              "fanal",
+              "ascot",
+              "vallelunga",
+              "cerdomus",
+              "azulev",
+              "cristacer",
+              "navarti",
+              "equipe",
+              "tribeca-keros",
+              "exagres",
+              "alcalagres",
+              "estilker",
+              "ezarri",
+              "ribesalbes",
+              "provenza",
+              "stn"
+          ]
+      },
+      {
+          "id": "Piedras",
+          "title": "Piedras",
+          "brandIds": [
+              "verni-prens",
+              "ceramat"
+          ]
+      },
+      {
+          "id": "Sanitario",
+          "title": "Sanitario",
+          "brandIds": [
+              "sanindusa",
+              "duravit",
+              "grohe",
+              "bathco",
+              "cifial",
+              "olympia"
+          ]
+      },
+      {
+          "id": "Grifería",
+          "title": "Grifería",
+          "brandIds": [
+              "tres",
+              "grohe",
+              "hansgrohe",
+              "claus-bath",
+              "tiempo",
+              "gedy"
+          ]
+      },
+      {
+          "id": "Accesorios",
+          "title": "Accesorios",
+          "brandIds": [
+              "gedy",
+              "cosmic",
+              "pedro-beltran",
+              "inda"
+          ]
+      },
+      {
+          "id": "Mamparas",
+          "title": "Mamparas",
+          "brandIds": [
+              "doccia",
+              "glassinox",
+              "mampasystem",
+              "split"
+          ]
+      },
+      {
+          "id": "Mobiliario",
+          "title": "Mobiliario",
+          "brandIds": [
+              "sanchis",
+              "valman",
+              "doccia"
+          ]
+      }
+  ],
+
+  // 2. MARCAS Y CATÁLOGOS PDF (Sede Exposición + Sede Almacén)
   brandsCatalogs: [
+    // =========================================================================
+    // MARCAS SEDE EXPOSICIÓN (41 Marcas Oficiales en 7 Familias)
+    // =========================================================================
+    {
+          "id": "realonda",
+          "name": "Realonda",
+          "edition": "Catálogo General de Gres Porcelánico, Revestimientos y Piezas Especiales 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": true,
+          "logoUrl": "assets/img/marcas/realonda.svg",
+          "logoMonogram": "REALONDA",
+          "coverImage": "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80",
+          "description": "Colecciones cerámicas de vanguardia, gres porcelánico con relieve, texturas pétreas, hidráulicos e imitación barro y madera.",
+          "pagesCount": 196,
+          "fileSize": "21.4 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "realonda",
+                "ceramica",
+                "azulejos",
+                "porcelanico",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "saloni",
+          "name": "Saloni",
+          "edition": "Colecciones de Pavimentos y Revestimientos Cerámicos de Diseño 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": true,
+          "logoUrl": "assets/img/marcas/saloni.svg",
+          "logoMonogram": "SALONI",
+          "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "description": "Referente nacional en cerámica arquitectónica: porcelánicos rectificados gran formato, revestimientos pasta blanca para baños y suelos continuos In&Out.",
+          "pagesCount": 240,
+          "fileSize": "24.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "saloni",
+                "ceramica",
+                "pavimentos",
+                "azulejos",
+                "porcelanico",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "vives",
+          "name": "Vives",
+          "edition": "Catálogo de Suelos Hidráulicos, Terrazos y Porcelánico Contemporáneo 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/vives.svg",
+          "logoMonogram": "VIVES",
+          "coverImage": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+          "description": "Diseños cerámicos con personalidad propia: baldosas hidráulicas, pequeño formato decorativo, terrazos cerámicos y maderas porcelánicas.",
+          "pagesCount": 180,
+          "fileSize": "19.2 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "vives",
+                "vives azulejos",
+                "ceramica",
+                "hidraulico",
+                "pavimentos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "fanal",
+          "name": "Fanal",
+          "edition": "Colección de Porcelánicos Imitación Mármol, Piedra y Madera 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/fanal.svg",
+          "logoMonogram": "FANAL",
+          "coverImage": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+          "description": "Superficies porcelánicas pulidas, satinadas y mates en grandes formatos para salones, cocinas, fachadas y cuartos de baño.",
+          "pagesCount": 148,
+          "fileSize": "16.5 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "fanal",
+                "ceramica",
+                "marmol porcelanico",
+                "suelos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "ascot",
+          "name": "Ascot",
+          "edition": "Diseño Cerámico Italiano en Revestimientos y Suelos Porcelánicos 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/ascot.svg",
+          "logoMonogram": "ASCOT",
+          "coverImage": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+          "description": "Cerámica italiana de alta gama con acabados tridimensionales, texturas minerales y tonalidades cálidas para proyectos de interiorismo.",
+          "pagesCount": 156,
+          "fileSize": "17.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "ascot",
+                "ceramica italiana",
+                "porcelanico",
+                "revestimientos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "vallelunga",
+          "name": "Vallelunga",
+          "edition": "Colección Vallelunga & Co. de Mármoles, Piedras y Cerámica Decorativa 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/vallelunga.svg",
+          "logoMonogram": "VALLELUNGA",
+          "coverImage": "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80",
+          "description": "Elegancia italiana en gres porcelánico y revestimiento cerámico con colecciones inspiradas en mármoles clásicos, travertinos y maderas nobles.",
+          "pagesCount": 172,
+          "fileSize": "18.9 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "vallelunga",
+                "ceramica",
+                "marmol",
+                "revestimiento",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "cerdomus",
+          "name": "Cerdomus",
+          "edition": "Porcelánico Técnico y Colecciones Arquitectónicas Cerdomus 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/cerdomus.svg",
+          "logoMonogram": "CERDOMUS",
+          "coverImage": "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=800&q=80",
+          "description": "Gres porcelánico de altísima resistencia y realismo superficial para pavimentos interiores, terrazas exteriores y espacios comerciales.",
+          "pagesCount": 164,
+          "fileSize": "18.2 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "cerdomus",
+                "ceramica",
+                "porcelanico",
+                "pavimentos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "azulev",
+          "name": "Azulev",
+          "edition": "Catálogo de Pavimentos Porcelánicos, Pasta Blanca y Serie Slim 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/azulev.svg",
+          "logoMonogram": "AZULEV",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Soluciones cerámicas sostenibles para baños, cocinas y salones: revestimientos rectificados, suelos antideslizantes C3 y láminas de fino espesor.",
+          "pagesCount": 188,
+          "fileSize": "20.1 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "azulev",
+                "ceramica",
+                "azulejos",
+                "pasta blanca",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "cristacer",
+          "name": "Cristacer",
+          "edition": "Catálogo General de Gres Porcelánico, Pasta Roja y Revestimiento 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/cristacer.svg",
+          "logoMonogram": "CRISTACER",
+          "coverImage": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+          "description": "Amplio abanico de formatos en pavimentos y azulejos cerámicos con acabados madera, cemento, piedra y marmoleados de gran durabilidad.",
+          "pagesCount": 160,
+          "fileSize": "17.4 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "cristacer",
+                "ceramica",
+                "azulejos",
+                "gres",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "navarti",
+          "name": "Navarti",
+          "edition": "Colección de Porcelánicos de Gran Formato y Revestimientos 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/navarti.svg",
+          "logoMonogram": "NAVARTI",
+          "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "description": "Superficies cerámicas versátiles para reformas integrales y obra nueva con diseños actuales en tonos neutros, tierras y grises.",
+          "pagesCount": 152,
+          "fileSize": "16.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "navarti",
+                "ceramica",
+                "porcelanico",
+                "pavimentos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "equipe",
+          "name": "Equipe",
+          "edition": "Especialistas en Azulejo Pequeño Formato, Zelliges, Metro y Hexágonos 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/equipe.svg",
+          "logoMonogram": "EQUIPE",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Líder internacional en cerámica decorativa de pequeño formato: azulejos artesanales efecto Zellige, biselados, escamas y mosaicos geométricos.",
+          "pagesCount": 204,
+          "fileSize": "22.3 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "equipe",
+                "equipe ceramicas",
+                "pequeño formato",
+                "zellige",
+                "azulejos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "tribeca-keros",
+          "name": "Tribeca (Keros)",
+          "edition": "Serie Tribeca y Colecciones Cerámicas Keros de Diseño Urbano 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/tribeca-keros.svg",
+          "logoMonogram": "TRIBECA (KEROS)",
+          "coverImage": "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80",
+          "description": "Colección Tribeca de Keros Cerámica y gamas de revestimiento brillante, destonificado y pavimentos porcelánicos para baños y cocinas.",
+          "pagesCount": 128,
+          "fileSize": "14.5 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "tribeca",
+                "keros",
+                "tribeca keros",
+                "ceramica",
+                "azulejos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "exagres",
+          "name": "Exagres",
+          "edition": "Gres Porcelánico Extruido, Peldaños, Terrazas y Coronación de Piscinas 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/exagres.svg",
+          "logoMonogram": "EXAGRES",
+          "coverImage": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80",
+          "description": "Especialistas en soluciones técnicas en gres extruido: peldaños de escalera de una pieza, bordes skimmer e infinity para piscinas y suelos exteriores C3.",
+          "pagesCount": 168,
+          "fileSize": "18.6 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "exagres",
+                "peldaños",
+                "piscinas",
+                "gres extruido",
+                "terrazas",
+                "ceramica",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "alcalagres",
+          "name": "Alcalagres",
+          "edition": "Gres Porcelánico Todo Masa de Altas Prestaciones 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/alcalagres.svg",
+          "logoMonogram": "ALCALAGRES",
+          "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+          "description": "Porcelánico técnico integral de gran resistencia al desgaste, ideal para viviendas modernas, garajes, terrazas, fachadas ventiladas y zonas de alto tránsito.",
+          "pagesCount": 136,
+          "fileSize": "15.2 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "alcalagres",
+                "porcelanico tecnico",
+                "todo masa",
+                "ceramica",
+                "suelos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "estilker",
+          "name": "Estilker",
+          "edition": "Colección de Porcelánicos Decorativos, Relieves y Maderas 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/estilker.svg",
+          "logoMonogram": "ESTILKER",
+          "coverImage": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+          "description": "Diseños vanguardistas en cerámica decorativa, listones porcelánicos efecto madera y revestimientos con textura para paredes de acento.",
+          "pagesCount": 140,
+          "fileSize": "15.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "estilker",
+                "ceramica",
+                "decoracion",
+                "porcelanico",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "ezarri",
+          "name": "Ezarri",
+          "edition": "Catálogo de Gresite y Mosaico Vítreo para Piscinas, Spas y Baños 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/ezarri.svg",
+          "logoMonogram": "EZARRI",
+          "coverImage": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80",
+          "description": "Referente mundial en mosaico de vidrio reciclado con sistema JointPoint para revestimiento de piscinas, duchas de obra, wellness e interiorismo.",
+          "pagesCount": 144,
+          "fileSize": "16.4 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "ezarri",
+                "gresite",
+                "mosaico",
+                "piscinas",
+                "duchas",
+                "ceramica",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "ribesalbes",
+          "name": "Ribesalbes",
+          "edition": "Revestimientos Cerámicos para Cocinas, Baños y Decoración 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/ribesalbes.svg",
+          "logoMonogram": "RIBESALBES",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Tradición e innovación en azulejos cerámicos de alta luminosidad, esmaltes brillantes y mates para el revestimiento de baños y cocinas.",
+          "pagesCount": 132,
+          "fileSize": "14.9 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "ribesalbes",
+                "ceramica",
+                "azulejos",
+                "revestimientos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "provenza",
+          "name": "Provenza",
+          "edition": "Colecciones Cerámicas de Alta Decoración Provenza 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/provenza.svg",
+          "logoMonogram": "PROVENZA",
+          "coverImage": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+          "description": "Superficies de autor inspiradas en piedras naturales, lavas volcánicas, terracotas y maderas recuperadas con un acabado táctil inigualable.",
+          "pagesCount": 162,
+          "fileSize": "18.3 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "provenza",
+                "ceramica",
+                "porcelanico",
+                "diseño italiano",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "stn",
+          "name": "STN",
+          "edition": "Catálogo General de Gres Porcelánico, Suelos Madera y Gran Formato 2026",
+          "year": "2026",
+          "category": "Cerámica",
+          "exposicionFamilies": [
+                "Cerámica"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/stn.svg",
+          "logoMonogram": "STN",
+          "coverImage": "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80",
+          "description": "Uno de los mayores fabricantes europeos de pavimento porcelánico, tarimas cerámicas imitación madera y revestimientos rectificados.",
+          "pagesCount": 210,
+          "fileSize": "22.7 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "stn",
+                "stn ceramica",
+                "porcelanico",
+                "imitacion madera",
+                "azulejos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "verni-prens",
+          "name": "Verni-prens",
+          "edition": "Revestimientos Pétreos, Piedra Decorativa, Celosías y Jardín 2026",
+          "year": "2026",
+          "category": "Piedras",
+          "exposicionFamilies": [
+                "Piedras"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/verni-prens.svg",
+          "logoMonogram": "VERNI-PRENS",
+          "coverImage": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+          "description": "Plaquetas decorativas de piedra reconstituida para fachadas e interiores, celosías, albardillas, cubremuros, baldosas y decoración de jardín.",
+          "pagesCount": 144,
+          "fileSize": "16.2 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "verni-prens",
+                "verniprens",
+                "piedras",
+                "celosias",
+                "fachadas",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "ceramat",
+          "name": "Ceramat",
+          "edition": "Piedra Natural, Cuarcitas, Pizarras, Paneles Premontados yMosaicos 2026",
+          "year": "2026",
+          "category": "Piedras",
+          "exposicionFamilies": [
+                "Piedras"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/ceramat.svg",
+          "logoMonogram": "CERAMAT",
+          "coverImage": "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=800&q=80",
+          "description": "Selección de piedras naturales, paneles de mampostería premontada, lajas, cuarcitas, pizarras y cantos rodados para revestimiento interior y exterior.",
+          "pagesCount": 116,
+          "fileSize": "13.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "ceramat",
+                "piedras",
+                "piedra natural",
+                "cuarcita",
+                "pizarra",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "sanindusa",
+          "name": "Sanindusa",
+          "edition": "Colección de Inodoros Suspendidos, Lavabos y Porcelana Sanitaria 2026",
+          "year": "2026",
+          "category": "Sanitario",
+          "exposicionFamilies": [
+                "Sanitario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/sanindusa.svg",
+          "logoMonogram": "SANINDUSA",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Sanitarios rimless de descarga limpia, inodoros compactos y suspendidos, lavabos sobre encimera, bidés y platos de ducha cerámicos.",
+          "pagesCount": 176,
+          "fileSize": "19.0 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "sanindusa",
+                "sanitario",
+                "inodoros",
+                "lavabos",
+                "baños",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "duravit",
+          "name": "Duravit",
+          "edition": "Sanitarios de Autor, Lavabos y Equipamiento de Baño Alemán 2026",
+          "year": "2026",
+          "category": "Sanitario",
+          "exposicionFamilies": [
+                "Sanitario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": true,
+          "logoUrl": "assets/img/marcas/duravit.svg",
+          "logoMonogram": "DURAVIT",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Porcelana sanitaria de precisión alemana firmada por diseñadores internacionales (Philippe Starck, Cecilie Manz): inodoros HygieneGlaze y lavabos DuraCeram.",
+          "pagesCount": 220,
+          "fileSize": "23.6 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "duravit",
+                "sanitario",
+                "inodoros",
+                "lavabos",
+                "baños",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "grohe",
+          "name": "Grohe",
+          "edition": "Sistemas de Ducha Termostáticos, Grifería Baño/Cocina y Sanitarios 2026",
+          "year": "2026",
+          "category": "Sanitario y Grifería",
+          "exposicionFamilies": [
+                "Sanitario",
+                "Grifería"
+          ],
+          "sede": "Sede Exposición",
+          "featured": true,
+          "logoUrl": "assets/img/marcas/grohe.svg",
+          "logoMonogram": "GROHE",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Ingeniería alemana para el agua: grifería monomando, columnas y sistemas empotrados SmartControl, cisternas ocultas Rapid SL y porcelana sanitaria Grohe.",
+          "pagesCount": 248,
+          "fileSize": "25.4 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "grohe",
+                "sanitario",
+                "griferia",
+                "termostatica",
+                "cisternas empotradas",
+                "duchas",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "bathco",
+          "name": "Bathco",
+          "edition": "Lavabos de Diseño en Porcelana, Piedra, Resina y Sanitarios 2026",
+          "year": "2026",
+          "category": "Sanitario",
+          "exposicionFamilies": [
+                "Sanitario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/bathco.svg",
+          "logoMonogram": "BATHCO",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Especialistas en lavabos sobre encimera y murales en porcelana, piedra natural, Solid Surface, bambú y acabados decorados a mano en su Atelier.",
+          "pagesCount": 192,
+          "fileSize": "20.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "bathco",
+                "sanitario",
+                "lavabos",
+                "inodoros",
+                "baños",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "cifial",
+          "name": "Cifial",
+          "edition": "Porcelana Sanitaria y Equipamiento Contemporáneo para el Baño 2026",
+          "year": "2026",
+          "category": "Sanitario",
+          "exposicionFamilies": [
+                "Sanitario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/cifial.svg",
+          "logoMonogram": "CIFIAL",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Líneas minimalistas y arquitectónicas en sanitarios suspendidos y a suelo, lavabos integrados y soluciones completas para cuartos de baño.",
+          "pagesCount": 140,
+          "fileSize": "15.5 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "cifial",
+                "sanitario",
+                "inodoros",
+                "lavabos",
+                "baños",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "olympia",
+          "name": "Olympia",
+          "edition": "Sanitarios y Lavabos de Diseño Italiano en Acabados Mate y Color 2026",
+          "year": "2026",
+          "category": "Sanitario",
+          "exposicionFamilies": [
+                "Sanitario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/olympia.svg",
+          "logoMonogram": "OLYMPIA",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Cerámica sanitaria italiana de vanguardia con colecciones de lavabos e inodoros en blanco brillo, blanco mate, negro mate y tonos tierra.",
+          "pagesCount": 154,
+          "fileSize": "17.1 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "olympia",
+                "olympia ceramica",
+                "sanitario",
+                "lavabos colores",
+                "inodoros",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "tres",
+          "name": "Tres",
+          "edition": "Catálogo de Grifería de Baño, Cocina y Duchas Empotradas Block-System 2026",
+          "year": "2026",
+          "category": "Grifería",
+          "exposicionFamilies": [
+                "Grifería"
+          ],
+          "sede": "Sede Exposición",
+          "featured": true,
+          "logoUrl": "assets/img/marcas/tres.svg",
+          "logoMonogram": "TRES",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Fabricante nacional líder en grifería monomando y termostática en acabados cromo, negro mate, oro cepillado, acero y bronce para baño y cocina.",
+          "pagesCount": 216,
+          "fileSize": "23.1 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "tres",
+                "tres griferia",
+                "griferia",
+                "grifos negro mate",
+                "duchas empotradas",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "hansgrohe",
+          "name": "Hansgrohe",
+          "edition": "Duchas Raindance, Grifería Talis/Metropol y Tecnología EcoSmart 2026",
+          "year": "2026",
+          "category": "Grifería",
+          "exposicionFamilies": [
+                "Grifería"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/hansgrohe.svg",
+          "logoMonogram": "HANSGROHE",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Innovación alemana desde 1901 en rociadores de ducha, grifería con ahorro de agua EcoSmart, sistemas empotrados iBox universal y acabados FinishPlus.",
+          "pagesCount": 208,
+          "fileSize": "22.4 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "hansgrohe",
+                "griferia",
+                "duchas",
+                "raindance",
+                "ibox",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "claus-bath",
+          "name": "Claus&Bath",
+          "edition": "Colección de Grifería Monomando, Columnas de Ducha y Empotrados 2026",
+          "year": "2026",
+          "category": "Grifería",
+          "exposicionFamilies": [
+                "Grifería"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/claus-bath.svg",
+          "logoMonogram": "CLAUS&BATH",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Conjuntos de ducha termostáticos, grifería empotrada de lavabo y ducha, caños altos y grifos de cocina extraíbles en múltiples acabados.",
+          "pagesCount": 124,
+          "fileSize": "14.2 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "claus&bath",
+                "claus and bath",
+                "claus bath",
+                "griferia",
+                "columnas ducha",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "tiempo",
+          "name": "Tiempo",
+          "edition": "Gama de Grifería Funcional y Contemporánea para Baño y Cocina 2026",
+          "year": "2026",
+          "category": "Grifería",
+          "exposicionFamilies": [
+                "Grifería"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/tiempo.svg",
+          "logoMonogram": "TIEMPO",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Soluciones fiables en grifería de lavabo, bidé, bañera-ducha y fregadero con cartuchos cerámicos de alta durabilidad.",
+          "pagesCount": 98,
+          "fileSize": "11.6 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "tiempo",
+                "griferia tiempo",
+                "griferia",
+                "grifos",
+                "baños",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "gedy",
+          "name": "Gedy",
+          "edition": "Colección Italiana de Accesorios de Baño, Complementos y Grifería 2026",
+          "year": "2026",
+          "category": "Grifería y Accesorios",
+          "exposicionFamilies": [
+                "Grifería",
+                "Accesorios"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/gedy.svg",
+          "logoMonogram": "GEDY",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Diseño italiano desde 1953 en accesorios murales (toalleros, portarrollos, dosificadores con fijación con o sin taladro) y series de grifería para baño.",
+          "pagesCount": 168,
+          "fileSize": "18.4 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "gedy",
+                "griferia",
+                "accesorios",
+                "toalleros",
+                "complementos baño",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "cosmic",
+          "name": "Cosmic",
+          "edition": "Accesorios de Baño Arquitectónicos, Espejos y Complementos Cosmic 2026",
+          "year": "2026",
+          "category": "Accesorios",
+          "exposicionFamilies": [
+                "Accesorios"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/cosmic.svg",
+          "logoMonogram": "COSMIC",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Referente en accesorios de baño minimalistas de alta resistencia anticorrosión, espejos de aumento, repisas de ducha y papeleras de diseño.",
+          "pagesCount": 152,
+          "fileSize": "16.9 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "cosmic",
+                "accesorios",
+                "accesorios baño",
+                "toalleros",
+                "espejos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "pedro-beltran",
+          "name": "Pedro Beltrán",
+          "edition": "Catálogo de Accesorios de Baño, Barras de Apoyo y Espejos LED 2026",
+          "year": "2026",
+          "category": "Accesorios",
+          "exposicionFamilies": [
+                "Accesorios"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/pedro-beltran.svg",
+          "logoMonogram": "PEDRO BELTRÁN",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Fabricación y distribución de accesorios de baño en acero inoxidable y latón, ayudas técnicas de movilidad reducida y espejos retroiluminados.",
+          "pagesCount": 136,
+          "fileSize": "15.1 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "pedro beltran",
+                "accesorios",
+                "espejos baño",
+                "toalleros",
+                "barras apoyo",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "inda",
+          "name": "Inda",
+          "edition": "Accesorios de Baño Italianos de Alta Gama y Soluciones Hotel/Hogar 2026",
+          "year": "2026",
+          "category": "Accesorios",
+          "exposicionFamilies": [
+                "Accesorios"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/inda.svg",
+          "logoMonogram": "INDA",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Más de 75 años de excelencia italiana en accesorios de baño en latón cromado, negro mate, níquel cepillado y acabados PVD.",
+          "pagesCount": 148,
+          "fileSize": "16.3 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "inda",
+                "accesorios",
+                "accesorios baño",
+                "toalleros",
+                "portarrollos",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "doccia",
+          "name": "Doccia",
+          "edition": "Catálogo de Mamparas de Ducha a Medida, Platos de Resina y Muebles 2026",
+          "year": "2026",
+          "category": "Mamparas y Mobiliario",
+          "exposicionFamilies": [
+                "Mamparas",
+                "Mobiliario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": true,
+          "logoUrl": "assets/img/marcas/doccia.svg",
+          "logoMonogram": "DOCCIA",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Soluciones integrales de baño fabricadas en Andalucía: mamparas con vidrio templado antical, platos de ducha de carga mineral y mobiliario de baño.",
+          "pagesCount": 184,
+          "fileSize": "20.2 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "doccia",
+                "mamparas",
+                "mobiliario",
+                "platos de ducha",
+                "muebles de baño",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "glassinox",
+          "name": "Glassinox",
+          "edition": "Mamparas de Ducha en Acero Inoxidable y Vidrio Templado a Medida 2026",
+          "year": "2026",
+          "category": "Mamparas",
+          "exposicionFamilies": [
+                "Mamparas"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/glassinox.svg",
+          "logoMonogram": "GLASSINOX",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Especialistas en mamparas de ducha correderas, abatibles y fijos walk-in con perfilería y rodamientos en acero inoxidable de máxima durabilidad.",
+          "pagesCount": 128,
+          "fileSize": "14.7 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "glassinox",
+                "mamparas",
+                "mamparas acero inoxidable",
+                "ducha",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "mampasystem",
+          "name": "Mampasystem",
+          "edition": "Colección de Mamparas de Ducha y Bañera Personalizadas 2026",
+          "year": "2026",
+          "category": "Mamparas",
+          "exposicionFamilies": [
+                "Mamparas"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/mampasystem.svg",
+          "logoMonogram": "MAMPASYSTEM",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Mamparas frontales, angulares, plegables y paneles fijos con tratamiento antical de serie y perfilería en plata brillo, negro mate, blanco y oro.",
+          "pagesCount": 118,
+          "fileSize": "13.6 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "mampasystem",
+                "mamparas",
+                "mamparas ducha",
+                "antical",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "split",
+          "name": "Split",
+          "edition": "Gama de Mamparas de Ducha Funcionales y Minimalistas Split 2026",
+          "year": "2026",
+          "category": "Mamparas",
+          "exposicionFamilies": [
+                "Mamparas"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/split.svg",
+          "logoMonogram": "SPLIT",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Mamparas de ducha de entrega rápida y fabricación a medida con vidrio de seguridad de 6 y 8 mm y cierres magnéticos herméticos.",
+          "pagesCount": 104,
+          "fileSize": "12.1 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "split",
+                "mamparas split",
+                "mamparas",
+                "ducha",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "sanchis",
+          "name": "Sanchis",
+          "edition": "Colección de Muebles de Baño Suspendidos, Auxiliares y Encimeras 2026",
+          "year": "2026",
+          "category": "Mobiliario",
+          "exposicionFamilies": [
+                "Mobiliario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/sanchis.svg",
+          "logoMonogram": "SANCHIS",
+          "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
+          "description": "Muebles de baño con cajones de extracción total y cierre amortiguado, acabados en maderas naturales, lacados mates y frentes alistonados.",
+          "pagesCount": 160,
+          "fileSize": "17.9 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "sanchis",
+                "mobiliario",
+                "muebles de baño",
+                "encimeras baño",
+                "exposicion"
+          ]
+    },
+    {
+          "id": "valman",
+          "name": "Valman",
+          "edition": "Mobiliario de Baño Contemporáneo, Camerinos y Columnas Auxiliares 2026",
+          "year": "2026",
+          "category": "Mobiliario",
+          "exposicionFamilies": [
+                "Mobiliario"
+          ],
+          "sede": "Sede Exposición",
+          "featured": false,
+          "logoUrl": "assets/img/marcas/valman.svg",
+          "logoMonogram": "VALMAN",
+          "coverImage": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+          "description": "Fabricación de mobiliario de baño funcional y de diseño con múltiples combinaciones de lavabos cerámicos, carga mineral y espejos LED.",
+          "pagesCount": 142,
+          "fileSize": "15.8 MB",
+          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "keywords": [
+                "valman",
+                "mobiliario",
+                "muebles de baño",
+                "baños",
+                "exposicion"
+          ]
+    },
+
     // =========================================================================
     // MARCAS SEDE ALMACÉN (38 Marcas Oficiales)
     // =========================================================================
@@ -126,7 +1315,7 @@ window.MILLAN_DATA = {
       year: "2026",
       category: "Ferretería y Herramientas",
       sede: "Sede Almacén",
-      featured: true,
+      featured: false,
       logoUrl: "assets/img/marcas/bellota.svg",
       logoMonogram: "BELLOTA",
       coverImage: "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=800&q=80",

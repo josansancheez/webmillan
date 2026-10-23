@@ -262,7 +262,7 @@
               <input
                 id="catalog-search-input"
                 type="search"
-                placeholder="Buscar por marca (ej. Holcim, Sika, Weber, Grupo Puma, Bellota, Bosch, AstralPool...) o producto..."
+                placeholder="Buscar por marca de Exposición (Saloni, Realonda, Duravit, Grohe, Tres, Doccia...) o Almacén (Holcim, Sika, Weber, Bellota...)..."
                 class="w-full pl-12 pr-10 py-3.5 rounded-xl bg-[#FAF8F5] border border-[#D5CEC2] text-sm sm:text-base text-[#1F2937] placeholder-[#6B7280] focus:outline-none focus:border-[#1E4620] focus:bg-white transition-colors"
               />
               <button
@@ -277,57 +277,114 @@
 
             <div class="flex items-center justify-between md:justify-end gap-3 shrink-0">
               <span id="catalog-results-count" class="text-xs sm:text-sm font-bold text-[#1E4620] bg-[#E8F2EC] px-3.5 py-2 rounded-xl">
-                38 catálogos disponibles
+                79 catálogos disponibles
               </span>
             </div>
           </div>
 
-          <!-- Botones de Filtro Rápido por Categoría o Sede -->
-          <div class="mt-4 pt-4 border-t border-[#F2EFE9] flex flex-wrap items-center gap-2">
-            <button type="button" data-catalog-category="all" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer">
-              Todas las Marcas del Almacén (38)
-            </button>
-            <button type="button" data-catalog-category="Material de Obra Gruesa" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Obra Gruesa y Cementos
-            </button>
-            <button type="button" data-catalog-category="Morteros y Químicos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Morteros, Selladores y Químicos
-            </button>
-            <button type="button" data-catalog-category="Ferretería y Herramientas" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Ferretería y Herramientas
-            </button>
-            <button type="button" data-catalog-category="Fontanería, Riego y Piscinas" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Fontanería, Evacuación y Piscinas
-            </button>
-            <button type="button" data-catalog-category="Aislamientos" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
-              Impermeabilización y Plásticos
-            </button>
+          <!-- Botones de Filtro Rápido Separados por Sede (Exposición y Almacén) -->
+          <div class="mt-4 pt-4 border-t border-[#F2EFE9] space-y-3">
+            <!-- Selector Principal de Sede -->
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" data-catalog-category="all" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer">
+                Todas las Marcas (79)
+              </button>
+              <button type="button" data-catalog-category="Sede Exposición" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                1. Sede Exposición (41)
+              </button>
+              <button type="button" data-catalog-category="Sede Almacén" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                2. Sede Almacén (38)
+              </button>
+            </div>
+
+            <!-- Filtros por Familias de Exposición -->
+            <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-[#F2EFE9]">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#8C5A32] mr-1.5">Exposición:</span>
+              <button type="button" data-catalog-category="Cerámica" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Cerámica (19)
+              </button>
+              <button type="button" data-catalog-category="Piedras" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Piedras (2)
+              </button>
+              <button type="button" data-catalog-category="Sanitario" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Sanitario (6)
+              </button>
+              <button type="button" data-catalog-category="Grifería" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Grifería (6)
+              </button>
+              <button type="button" data-catalog-category="Accesorios" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Accesorios (4)
+              </button>
+              <button type="button" data-catalog-category="Mamparas" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Mamparas (4)
+              </button>
+              <button type="button" data-catalog-category="Mobiliario" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Mobiliario (3)
+              </button>
+            </div>
+
+            <!-- Filtros por Familias de Almacén -->
+            <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-[#F2EFE9]">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-[#1E4620] mr-1.5">Almacén:</span>
+              <button type="button" data-catalog-category="Material de Obra Gruesa" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Obra Gruesa y Cementos
+              </button>
+              <button type="button" data-catalog-category="Morteros y Químicos" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Morteros y Químicos
+              </button>
+              <button type="button" data-catalog-category="Ferretería y Herramientas" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Ferretería y Herramientas
+              </button>
+              <button type="button" data-catalog-category="Fontanería, Riego y Piscinas" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Fontanería y Piscinas
+              </button>
+              <button type="button" data-catalog-category="Aislamientos" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer">
+                Impermeabilización y Plásticos
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ======================================================================
-         GRID DE TARJETAS DE CATÁLOGOS (Renderizado desde assets/js/data.js)
+         MOSAICOS DE MARCAS EN SUS RESPECTIVOS SITIOS + CATÁLOGOS PDF
          ====================================================================== -->
     <section class="py-12 lg:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Mosaico de Logos Oficiales del Almacén (Acceso directo clicable) -->
-      <div class="mb-12 bg-[#F2EFE9] rounded-3xl p-6 sm:p-8 border border-[#E5E0D8]">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+      <!-- 1. Mosaico de Logos Oficiales de la EXPOSICIÓN (Clasificados por Familia) -->
+      <div id="seccion-marcas-exposicion" class="mb-10 bg-[#F7EFE6]/70 rounded-3xl p-6 sm:p-8 border-2 border-[#E5D3C0] scroll-mt-24">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
           <div>
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[#1E4620]">Proveedores Oficiales · Sede Almacén</span>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#8C5A32]">1. Proveedores Oficiales · Sede Exposición</span>
             <h2 class="text-xl sm:text-2xl font-extrabold text-[#1F2937]">
-              Marcas de Almacén, Obra Gruesa, Morteros y Ferretería
+              Marcas de la Exposición: Cerámica, Piedras, Sanitario, Grifería, Accesorios, Mamparas y Mobiliario
             </h2>
           </div>
-          <span class="text-xs font-semibold text-[#4B5563]">Pulsa en cualquier logo para ir a su ficha</span>
+          <span class="text-xs font-semibold text-[#4B5563]">Pulsa en cualquier marca para ir a su catálogo</span>
+        </div>
+        <div id="exposicion-brands-logos-wall" class="space-y-6">
+          <!-- Se genera dinámicamente por familia desde assets/js/data.js -->
+        </div>
+      </div>
+
+      <!-- 2. Mosaico de Logos Oficiales del ALMACÉN -->
+      <div id="seccion-marcas-almacen" class="mb-12 bg-[#E8F2EC]/60 rounded-3xl p-6 sm:p-8 border-2 border-[#C5DEC9] scroll-mt-24">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider text-[#1E4620]">2. Proveedores Oficiales · Sede Almacén</span>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-[#1F2937]">
+              Marcas del Almacén: Obra Gruesa, Cementos, Morteros, Ferretería y Fontanería
+            </h2>
+          </div>
+          <span class="text-xs font-semibold text-[#4B5563]">Pulsa en cualquier marca para ir a su catálogo</span>
         </div>
         <div id="warehouse-brands-logos-wall" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3">
           <!-- Se genera dinámicamente desde assets/js/data.js -->
         </div>
       </div>
 
-      <div id="all-catalogs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Contenedor de Catálogos (Separados en sus respectivos sitios: Exposición y Almacén) -->
+      <div id="all-catalogs-grid" class="space-y-14">
         <!-- Se genera dinámicamente desde assets/js/data.js -->
       </div>
 
