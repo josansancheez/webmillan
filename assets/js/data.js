@@ -732,16 +732,16 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/bronpi.svg",
       logoMonogram: "BRONPI",
       coverImage: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80",
-      description: "Estufas y chimeneas de leña, hogares panorámicos, casetes insertables con turbinas, estufas de pellet canalizables y termoestufas de alta eficiencia energética.",
+      description: "Estufas y chimeneas de leña, hogares panorámicos, casetes insertables con turbinas, estufas de pellet canalizables, bioetanol y eléctricas de alta eficiencia energética.",
       pagesCount: 212,
       fileSize: "23.4 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["bronpi", "chimeneas", "leña", "pellet", "insertables", "estufas", "calefaccion"]
+      keywords: ["bronpi", "chimeneas", "leña", "pellet", "bioetanol", "electrica", "insertables", "estufas", "calefaccion"]
     },
     {
       id: "fm-calefaccion",
       name: "FM Calefacción",
-      edition: "Colección de Chimeneas Metálicas, Hogares con Horno y Biomasa 2026",
+      edition: "Colección de Chimeneas de Leña, Pellet, Bioetanol y Eléctricas 2026",
       year: "2026",
       category: "Leña, Pellet e Insertables",
       sede: "Exposición y Montaje",
@@ -750,16 +750,16 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/fm-calefaccion.svg",
       logoMonogram: "FM CALEFACCIÓN",
       coverImage: "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=900&q=80",
-      description: "Amplia gama de chimeneas de rincón y frontales, estufas de leña con horno superior, insertables ventilados y calderas/estufas de pellet de fabricación nacional.",
+      description: "Amplia gama de chimeneas de rincón y frontales, estufas de leña con horno superior, insertables ventilados, estufas de pellet, biochimeneas de bioetanol y eléctricas.",
       pagesCount: 164,
       fileSize: "18.1 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["fm", "fm calefaccion", "chimeneas", "horno leña", "insertables", "pellet", "estufas"]
+      keywords: ["fm", "fm calefaccion", "chimeneas", "leña", "horno leña", "insertables", "pellet", "bioetanol", "electrica", "estufas"]
     },
     {
       id: "hergom-chimeneas",
       name: "Hergóm",
-      edition: "Hogares, Insertables y Estufas en Hierro Fundido de Alta Eficiencia 2026",
+      edition: "Hogares, Insertables y Estufas de Leña y Pellet en Hierro Fundido 2026",
       year: "2026",
       category: "Hierro Fundido y Hogares",
       sede: "Exposición y Montaje",
@@ -768,11 +768,11 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/hergom.svg",
       logoMonogram: "HERGÓM",
       coverImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
-      description: "Referente en fundición propia: estufas de hierro fundido de gran durabilidad, hogares de combustión limpia Ecodesign, compactos insertables y cocinas de leña.",
+      description: "Referente en fundición propia: estufas de hierro fundido de gran durabilidad, hogares de combustión limpia Ecodesign en leña y pellet, compactos insertables y cocinas de leña.",
       pagesCount: 148,
       fileSize: "16.9 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["hergom", "hierro fundido", "chimeneas", "hogares", "compactos", "leña", "ecodesign"]
+      keywords: ["hergom", "hierro fundido", "chimeneas", "hogares", "compactos", "leña", "pellet", "ecodesign"]
     },
     {
       id: "bosch-marin",
@@ -787,11 +787,11 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/bosch-marin.svg",
       logoMonogram: "BOSCH MARÍN",
       coverImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-      description: "Alta gama en chimeneas arquitectónicas de diseño exclusivo distribuidas por Bosch Marín: Austroflamm, M-Design, Faber y Charlton & Jenrick (leña, gas, bioetanol y eléctricas 3D).",
+      description: "Alta gama en chimeneas arquitectónicas de diseño exclusivo distribuidas por Bosch Marín: Austroflamm, M-Design, Faber y Charlton & Jenrick (leña, pellet, bioetanol, gas y eléctricas).",
       pagesCount: 196,
       fileSize: "24.6 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["bosch marin", "lujo", "austroflamm", "m-design", "faber", "charlton", "jenrick", "gas", "electricas"]
+      keywords: ["bosch marin", "lujo", "austroflamm", "m-design", "faber", "charlton", "jenrick", "leña", "pellet", "bioetanol", "gas", "electrica"]
     },
     {
       id: "exojo-conductos",
@@ -805,16 +805,16 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/exojo.svg",
       logoMonogram: "EXOJO",
       coverImage: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=900&q=80",
-      description: "Sistemas certificados de evacuación de humos para instalaciones seguras: tubería acero inoxidable aislada doble pared, tubo vitrificado negro mate para leña y pellet, codos y sombreretes.",
+      description: "Sistemas certificados de evacuación de humos para instalaciones seguras: tubería acero inoxidable aislada doble pared, tubo vitrificado negro mate para leña, pellet y gas, codos y sombreretes.",
       pagesCount: 118,
       fileSize: "13.5 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["exojo", "tubos chimenea", "conductos humos", "doble pared", "inoxidable", "vitrificado", "sombreretes"]
+      keywords: ["exojo", "tubos chimenea", "conductos humos", "doble pared", "inoxidable", "vitrificado", "sombreretes", "leña", "pellet", "gas"]
     },
     {
       id: "austroflamm-bosch-marin",
       name: "Austroflamm (Bosch Marín)",
-      edition: "Estufas y Hogares de Diseño Austríaco con Acumulación Térmica Keramott",
+      edition: "Estufas y Hogares de Leña y Pellet con Acumulación Térmica Keramott",
       year: "2026",
       category: "Chimeneas de Lujo (Bosch Marín)",
       sede: "Distribuido por Bosch Marín",
@@ -824,11 +824,11 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/austroflamm.svg",
       logoMonogram: "AUSTROFLAMM",
       coverImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
-      description: "Marca de lujo distribuida por Bosch Marín. Estufas y hogares con interior blanco Keramott de autolimpieza pirolítica y acumuladores de calor Heat Memory System.",
+      description: "Marca de lujo distribuida por Bosch Marín. Estufas y hogares de leña y pellet con interior blanco Keramott de autolimpieza pirolítica y acumuladores de calor Heat Memory System.",
       pagesCount: 132,
       fileSize: "17.2 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["austroflamm", "bosch marin", "chimeneas de lujo", "keramott", "acumulacion termica", "diseño"]
+      keywords: ["austroflamm", "bosch marin", "chimeneas de lujo", "keramott", "acumulacion termica", "diseño", "leña", "pellet"]
     },
     {
       id: "m-design-bosch-marin",
@@ -843,16 +843,16 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/m-design.svg",
       logoMonogram: "M-DESIGN",
       coverImage: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80",
-      description: "Marca belga de alta gama distribuida por Bosch Marín. Chimeneas encastrables de visión total sin marco con puerta guillotina motorizada, de 1, 2 y 3 caras y doble cara.",
+      description: "Marca belga de alta gama distribuida por Bosch Marín. Chimeneas encastrables de leña y gas de visión total sin marco con puerta guillotina motorizada, de 1, 2 y 3 caras.",
       pagesCount: 144,
       fileSize: "19.0 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["m-design", "mdesign", "bosch marin", "luna", "diamond", "guillotina", "chimeneas de lujo", "panoramica"]
+      keywords: ["m-design", "mdesign", "bosch marin", "luna", "diamond", "guillotina", "chimeneas de lujo", "panoramica", "leña", "gas"]
     },
     {
       id: "faber-bosch-marin",
       name: "Faber (Bosch Marín)",
-      edition: "Chimeneas de Gas de Alta Gama y Fuego de Vapor de Agua e-MatriX / Opti-myst",
+      edition: "Chimeneas de Gas, Eléctricas y Fuego de Vapor de Agua e-MatriX / Opti-myst",
       year: "2026",
       category: "Chimeneas de Lujo (Bosch Marín)",
       sede: "Distribuido por Bosch Marín",
@@ -862,11 +862,11 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/faber.svg",
       logoMonogram: "FABER",
       coverImage: "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=900&q=80",
-      description: "Firma neerlandesa de lujo distribuida por Bosch Marín. Chimeneas sin salida de humos con llama tridimensional de vapor de agua e-MatriX y chimeneas de gas con control por App.",
+      description: "Firma neerlandesa de lujo distribuida por Bosch Marín. Chimeneas eléctricas y de vapor de agua e-MatriX sin salida de humos, bioetanol y chimeneas de gas con control por App.",
       pagesCount: 120,
       fileSize: "15.6 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["faber", "bosch marin", "e-matrix", "opti-myst", "chimeneas gas", "vapor de agua", "chimeneas de lujo"]
+      keywords: ["faber", "bosch marin", "e-matrix", "opti-myst", "gas", "electrica", "bioetanol", "vapor de agua", "chimeneas de lujo"]
     },
     {
       id: "charlton-jenrick-bosch-marin",
@@ -881,11 +881,11 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/charlton-jenrick.svg",
       logoMonogram: "CHARLTON & JENRICK",
       coverImage: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=900&q=80",
-      description: "Prestigiosa firma británica distribuida por Bosch Marín. Especialistas en chimeneas eléctricas encastrables de gran formato para paredes Media Wall con leños reales y llama LED.",
+      description: "Prestigiosa firma británica distribuida por Bosch Marín. Especialistas en chimeneas eléctricas encastrables de gran formato para paredes Media Wall, además de gamas de gas y leña.",
       pagesCount: 110,
       fileSize: "14.4 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["charlton", "jenrick", "charlton & jenrick", "bosch marin", "chimeneas electricas", "media wall", "lujo"]
+      keywords: ["charlton", "jenrick", "charlton & jenrick", "bosch marin", "electrica", "gas", "leña", "media wall", "lujo"]
     }
   ],
 

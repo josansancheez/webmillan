@@ -500,11 +500,14 @@ function initCatalogsSystem() {
 
     const renderFireplacesCatalog = () => {
       const normalizedQuery = normalizeText(currentFpQuery);
+      const normCat = normalizeText(activeFpCategory);
       const filtered = data.fireplacesCatalogs.filter((item) => {
         const matchesCat =
           activeFpCategory === "all" ||
           (activeFpCategory === "main" && item.isMainBrand) ||
-          normalizeText(item.category) === normalizeText(activeFpCategory);
+          normalizeText(item.category) === normCat ||
+          (Array.isArray(item.keywords) &&
+            item.keywords.some((kw) => normalizeText(kw).includes(normCat)));
 
         if (!matchesCat) return false;
         if (!normalizedQuery) return true;
@@ -596,6 +599,26 @@ function initCatalogsSystem() {
         }
       });
     }
+
+    const typeJumpBtns = document.querySelectorAll("[data-fireplace-type-jump]");
+    typeJumpBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const typeKey = btn.getAttribute("data-fireplace-type-jump") || "all";
+        currentFpQuery = "";
+        activeFpCategory = typeKey;
+        if (fireplacesSearchInput) fireplacesSearchInput.value = "";
+        fireplacesCategoryBtns.forEach((b) => {
+          const isCurrent =
+            normalizeText(b.getAttribute("data-fireplace-category") || "") ===
+            normalizeText(typeKey);
+          b.className = isCurrent
+            ? "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            : "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+        });
+        renderFireplacesCatalog();
+        fireplacesGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
   }
 
   // Inicializar Visor Modal / Flipbook de Catálogos (incluyendo marcas generales y chimeneas)
