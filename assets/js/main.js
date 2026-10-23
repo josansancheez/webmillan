@@ -311,7 +311,7 @@ function initCatalogsSystem() {
             ${
               Array.isArray(item.subBrands) && item.subBrands.length > 0
                 ? `<div class="mb-4 p-2.5 rounded-xl bg-[#F7EFE6] border border-[#E5D3C0]">
-                     <span class="block text-[10px] font-extrabold uppercase tracking-wider text-[#8C5A32] mb-1.5">Firmas de Lujo Distribuidas:</span>
+                     <span class="block text-[10px] font-extrabold uppercase tracking-wider text-[#8C5A32] mb-1.5">Firmas Distribuidas:</span>
                      <div class="flex flex-wrap gap-1.5">
                        ${item.subBrands
                          .map(

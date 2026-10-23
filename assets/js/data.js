@@ -777,9 +777,9 @@ window.MILLAN_DATA = {
     {
       id: "bosch-marin",
       name: "Bosch Marín",
-      edition: "Distribuidor Oficial de Chimeneas de Lujo: Austroflamm, M-Design, Faber y Charlton & Jenrick",
+      edition: "Distribuidor Oficial de Chimeneas: Austroflamm, M-Design, Faber y Charlton & Jenrick",
       year: "2026",
-      category: "Chimeneas de Lujo (Bosch Marín)",
+      category: "Chimeneas Bosch Marín",
       sede: "Exposición y Montaje",
       featured: true,
       isMainBrand: true,
@@ -787,11 +787,11 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/bosch-marin.svg",
       logoMonogram: "BOSCH MARÍN",
       coverImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
-      description: "Alta gama en chimeneas arquitectónicas de diseño exclusivo distribuidas por Bosch Marín: Austroflamm, M-Design, Faber y Charlton & Jenrick (leña, pellet, bioetanol, gas y eléctricas).",
+      description: "Chimeneas arquitectónicas de diseño exclusivo distribuidas por Bosch Marín: Austroflamm, M-Design, Faber y Charlton & Jenrick (leña, pellet, bioetanol, gas y eléctricas).",
       pagesCount: 196,
       fileSize: "24.6 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["bosch marin", "lujo", "austroflamm", "m-design", "faber", "charlton", "jenrick", "leña", "pellet", "bioetanol", "gas", "electrica"]
+      keywords: ["bosch marin", "austroflamm", "m-design", "faber", "charlton", "jenrick", "leña", "pellet", "bioetanol", "gas", "electrica"]
     },
     {
       id: "exojo-conductos",
@@ -816,7 +816,7 @@ window.MILLAN_DATA = {
       name: "Austroflamm (Bosch Marín)",
       edition: "Estufas y Hogares de Leña y Pellet con Acumulación Térmica Keramott",
       year: "2026",
-      category: "Chimeneas de Lujo (Bosch Marín)",
+      category: "Chimeneas Bosch Marín",
       sede: "Distribuido por Bosch Marín",
       featured: false,
       isMainBrand: false,
@@ -824,18 +824,18 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/austroflamm.svg",
       logoMonogram: "AUSTROFLAMM",
       coverImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
-      description: "Marca de lujo distribuida por Bosch Marín. Estufas y hogares de leña y pellet con interior blanco Keramott de autolimpieza pirolítica y acumuladores de calor Heat Memory System.",
+      description: "Marca distribuida por Bosch Marín. Estufas y hogares de leña y pellet con interior blanco Keramott de autolimpieza pirolítica y acumuladores de calor Heat Memory System.",
       pagesCount: 132,
       fileSize: "17.2 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["austroflamm", "bosch marin", "chimeneas de lujo", "keramott", "acumulacion termica", "diseño", "leña", "pellet"]
+      keywords: ["austroflamm", "bosch marin", "keramott", "acumulacion termica", "diseño", "leña", "pellet"]
     },
     {
       id: "m-design-bosch-marin",
       name: "M-Design (Bosch Marín)",
-      edition: "Hogares Panorámicos Minimalistas de Lujo en Leña y Gas (Series Luna & Diamond)",
+      edition: "Hogares Panorámicos Minimalistas en Leña y Gas (Series Luna & Diamond)",
       year: "2026",
-      category: "Chimeneas de Lujo (Bosch Marín)",
+      category: "Chimeneas Bosch Marín",
       sede: "Distribuido por Bosch Marín",
       featured: false,
       isMainBrand: false,
@@ -847,14 +847,14 @@ window.MILLAN_DATA = {
       pagesCount: 144,
       fileSize: "19.0 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["m-design", "mdesign", "bosch marin", "luna", "diamond", "guillotina", "chimeneas de lujo", "panoramica", "leña", "gas"]
+      keywords: ["m-design", "mdesign", "bosch marin", "luna", "diamond", "guillotina", "panoramica", "leña", "gas"]
     },
     {
       id: "faber-bosch-marin",
       name: "Faber (Bosch Marín)",
       edition: "Chimeneas de Gas, Eléctricas y Fuego de Vapor de Agua e-MatriX / Opti-myst",
       year: "2026",
-      category: "Chimeneas de Lujo (Bosch Marín)",
+      category: "Chimeneas Bosch Marín",
       sede: "Distribuido por Bosch Marín",
       featured: false,
       isMainBrand: false,
@@ -862,18 +862,18 @@ window.MILLAN_DATA = {
       logoUrl: "assets/img/marcas/faber.svg",
       logoMonogram: "FABER",
       coverImage: "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=900&q=80",
-      description: "Firma neerlandesa de lujo distribuida por Bosch Marín. Chimeneas eléctricas y de vapor de agua e-MatriX sin salida de humos, bioetanol y chimeneas de gas con control por App.",
+      description: "Firma neerlandesa distribuida por Bosch Marín. Chimeneas eléctricas y de vapor de agua e-MatriX sin salida de humos, bioetanol y chimeneas de gas con control por App.",
       pagesCount: 120,
       fileSize: "15.6 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["faber", "bosch marin", "e-matrix", "opti-myst", "gas", "electrica", "bioetanol", "vapor de agua", "chimeneas de lujo"]
+      keywords: ["faber", "bosch marin", "e-matrix", "opti-myst", "gas", "electrica", "bioetanol", "vapor de agua"]
     },
     {
       id: "charlton-jenrick-bosch-marin",
       name: "Charlton & Jenrick (Bosch Marín)",
       edition: "Chimeneas Eléctricas Panorámicas iRange, Gas y Leña de Diseño Británico",
       year: "2026",
-      category: "Chimeneas de Lujo (Bosch Marín)",
+      category: "Chimeneas Bosch Marín",
       sede: "Distribuido por Bosch Marín",
       featured: false,
       isMainBrand: false,
@@ -885,7 +885,7 @@ window.MILLAN_DATA = {
       pagesCount: 110,
       fileSize: "14.4 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["charlton", "jenrick", "charlton & jenrick", "bosch marin", "electrica", "gas", "leña", "media wall", "lujo"]
+      keywords: ["charlton", "jenrick", "charlton & jenrick", "bosch marin", "electrica", "gas", "leña", "media wall"]
     }
   ],
 
