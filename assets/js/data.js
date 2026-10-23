@@ -26,6 +26,10 @@ window.MILLAN_DATA = {
     whatsappHref: "https://wa.me/34628115585?text=Hola%20Mill%C3%A1n%20Chiclana%2C%20me%20gustar%C3%ADa%20hacer%20una%20consulta.",
     email: "millan@millanchiclana.com",
     emailHref: "mailto:millan@millanchiclana.com",
+    instagramUrl: "https://www.instagram.com/millanservicios/",
+    instagramHandle: "@millanservicios",
+    facebookUrl: "https://www.facebook.com/millan.chiclana.5",
+    facebookName: "Millán Chiclana",
     poligono: "Avenida Bahía de Algeciras N23 · Polígono Industrial Pelagatos, Chiclana de la Frontera (Cádiz)",
     sedes: {
       exposicion: {
