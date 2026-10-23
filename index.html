@@ -618,6 +618,22 @@
 
         <div class="flex items-center gap-2">
           <button
+            id="hero-pause-toggle"
+            type="button"
+            aria-pressed="false"
+            aria-label="Pausar rotación automática del carrusel"
+            title="Pausar o reanudar el carrusel"
+            class="h-10 px-3.5 rounded-xl bg-black/40 hover:bg-black/65 text-white border border-white/25 inline-flex items-center justify-center gap-1.5 backdrop-blur-sm transition-colors text-xs font-bold cursor-pointer"
+          >
+            <svg id="hero-icon-pause" class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 5h4v14H6V5zm8 0h4v14h-4V5z"/>
+            </svg>
+            <svg id="hero-icon-play" class="w-4 h-4 shrink-0 hidden" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span id="hero-pause-label">Pausar</span>
+          </button>
+          <button
             id="hero-prev"
             type="button"
             aria-label="Diapositiva anterior"

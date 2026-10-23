@@ -104,11 +104,16 @@ function initHeroCarousel() {
   const dots = Array.from(sliderContainer.querySelectorAll("[data-hero-dot]"));
   const prevBtn = document.getElementById("hero-prev");
   const nextBtn = document.getElementById("hero-next");
+  const pauseToggleBtn = document.getElementById("hero-pause-toggle");
+  const iconPause = document.getElementById("hero-icon-pause");
+  const iconPlay = document.getElementById("hero-icon-play");
+  const pauseLabel = document.getElementById("hero-pause-label");
 
   if (slides.length <= 1) return;
 
   let currentIndex = 0;
   let intervalId = null;
+  let isPaused = false;
   let touchStartX = 0;
   let touchEndX = 0;
 
@@ -129,11 +134,32 @@ function initHeroCarousel() {
     });
   };
 
+  const updatePauseUI = () => {
+    if (!pauseToggleBtn) return;
+    pauseToggleBtn.setAttribute("aria-pressed", String(isPaused));
+    pauseToggleBtn.setAttribute(
+      "aria-label",
+      isPaused ? "Reanudar rotación automática del carrusel" : "Pausar rotación automática del carrusel"
+    );
+    if (iconPause && iconPlay) {
+      iconPause.classList.toggle("hidden", isPaused);
+      iconPlay.classList.toggle("hidden", !isPaused);
+    }
+    if (pauseLabel) {
+      pauseLabel.textContent = isPaused ? "Reanudar" : "Pausar";
+    }
+    pauseToggleBtn.classList.toggle("bg-[#B07D4F]", isPaused);
+    pauseToggleBtn.classList.toggle("border-[#E8C39E]", isPaused);
+    pauseToggleBtn.classList.toggle("bg-black/40", !isPaused);
+    pauseToggleBtn.classList.toggle("border-white/25", !isPaused);
+  };
+
   const startAutoPlay = () => {
     stopAutoPlay();
+    if (isPaused) return;
     intervalId = window.setInterval(() => {
       showSlide(currentIndex + 1);
-    }, 4500);
+    }, 6000);
   };
 
   const stopAutoPlay = () => {
@@ -143,24 +169,36 @@ function initHeroCarousel() {
     }
   };
 
+  if (pauseToggleBtn) {
+    pauseToggleBtn.addEventListener("click", () => {
+      isPaused = !isPaused;
+      updatePauseUI();
+      if (isPaused) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    });
+  }
+
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
       showSlide(currentIndex - 1);
-      startAutoPlay();
+      if (!isPaused) startAutoPlay();
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
       showSlide(currentIndex + 1);
-      startAutoPlay();
+      if (!isPaused) startAutoPlay();
     });
   }
 
   dots.forEach((dot, idx) => {
     dot.addEventListener("click", () => {
       showSlide(idx);
-      startAutoPlay();
+      if (!isPaused) startAutoPlay();
     });
   });
 
@@ -184,15 +222,15 @@ function initHeroCarousel() {
         } else {
           showSlide(currentIndex - 1);
         }
-        startAutoPlay();
+        if (!isPaused) startAutoPlay();
       }
     },
     { passive: true }
   );
 
-  // Inicializar estado de la primera diapositiva y arrancar rotación automática
-  // sin pausar cuando el ratón está encima del Hero (evita que quede congelado en escritorio)
+  // Por defecto inicia pasando las imágenes automáticamente
   showSlide(0);
+  updatePauseUI();
   startAutoPlay();
 }
 
