@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-22T20:44:37.791Z",
+  "updatedAt": "2026-10-25T15:51:55.643Z",
   "sedes": {
     "exposicion": {
       "id": "Sede Exposición",
@@ -31,7 +31,7 @@
       "authorUrl": "https://www.google.com/maps/contrib/107677644107599135127/reviews?hl=es",
       "sede": "Sede Exposición",
       "rating": 5,
-      "date": "Hace 7 meses",
+      "date": "Hace 8 meses",
       "timestampMs": 1771659387307,
       "role": "Local Guide · 156 reseñas · Google Maps",
       "text": "Quiero pedir perdón por que por equivocación puse una reseña aquí. Ya la he borrado y tengo que decir que las veces que he comprado en Millan ha sido una experiencia grata tanto el trato como la asesoría como el precio. Gracias por todo y por como sois. TOTALMENTE RECOMENDABLE",
@@ -117,7 +117,7 @@
       "rating": 4,
       "date": "Hace 6 meses",
       "timestampMs": 1776776132862,
-      "role": "Local Guide · 303 reseñas · Google Maps",
+      "role": "Local Guide · 304 reseñas · Google Maps",
       "text": "Valoración verificada de 4 estrellas en Google Maps (Sede Exposición).",
       "hasText": false
     }
