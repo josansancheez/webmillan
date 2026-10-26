@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Evitar indexación de scripts internos de procesamiento
+Disallow: /enviar-correo.php
+Disallow: /scripts/
+
+# Mapa del sitio oficial para Google Search Console y Bing Webmaster Tools
+Sitemap: https://millanchiclana.com/sitemap.xml
