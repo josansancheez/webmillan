@@ -6,6 +6,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  initCacheFreshnessCheck();
   initPreloader();
   initMobileNavigation();
   initHeroCarousel();
@@ -17,6 +18,74 @@ document.addEventListener("DOMContentLoaded", () => {
   initCookieConsentBanner();
   initCurrentYear();
 });
+
+/* ==========================================================================
+   0. CONTROL DE CACHÉ Y ACTUALIZACIÓN AUTOMÁTICA AL ENTRAR EN LA WEB
+   ========================================================================== */
+function initCacheFreshnessCheck() {
+  // 1. Si el navegador restaura la página desde la caché de historial (bfcache),
+  // recargar silenciosamente para asegurar que se vean los últimos cambios.
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  });
+
+  // 2. Limpiar cualquier Cache Storage / Service Worker antiguo si existiera
+  if ("caches" in window) {
+    caches.keys().then((names) => {
+      names.forEach((name) => caches.delete(name));
+    }).catch(() => {});
+  }
+
+  // 3. Revalidación en vivo de datos (data.js) y HTML cuando se sirve por HTTP/HTTPS
+  if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+    const bust = Date.now();
+
+    // Comprobar si assets/js/data.js ha cambiado respecto a la copia en caché del navegador
+    fetch(`assets/js/data.js?_cb=${bust}`, { cache: "no-store" })
+      .then((res) => (res.ok ? res.text() : null))
+      .then((freshScriptText) => {
+        if (!freshScriptText) return;
+        const currentSerialized = JSON.stringify(window.MILLAN_DATA || {});
+        try {
+          const tempWin = {};
+          const fn = new Function("window", `${freshScriptText}\nreturn window.MILLAN_DATA;`);
+          const freshData = fn(tempWin);
+          if (freshData && JSON.stringify(freshData) !== currentSerialized) {
+            window.MILLAN_DATA = freshData;
+            initCatalogsSystem();
+            initReviewsCarousel();
+            initFaqAccordion();
+          }
+        } catch (_) {
+          // Ignorar errores de evaluación aislada
+        }
+      })
+      .catch(() => {});
+
+    // Comprobar si el propio documento HTML tiene una versión más reciente en el servidor
+    const pageUrl = window.location.pathname || "index.html";
+    fetch(`${pageUrl}?_cb=${bust}`, { method: "HEAD", cache: "no-store" })
+      .then((res) => {
+        if (!res.ok) return;
+        const serverSignature =
+          res.headers.get("etag") || res.headers.get("last-modified") || res.headers.get("content-length");
+        if (!serverSignature) return;
+
+        const storageKey = `millan_html_sig_${pageUrl}`;
+        const previousSignature = localStorage.getItem(storageKey);
+        localStorage.setItem(storageKey, serverSignature);
+
+        const reloadGuardKey = `millan_reloaded_${pageUrl}_${serverSignature}`;
+        if (previousSignature && previousSignature !== serverSignature && !sessionStorage.getItem(reloadGuardKey)) {
+          sessionStorage.setItem(reloadGuardKey, "1");
+          window.location.reload();
+        }
+      })
+      .catch(() => {});
+  }
+}
 
 /* ==========================================================================
    1. PRELOADER DE CARGA Y TRANSICIÓN ENTRE SECCIONES

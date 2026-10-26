@@ -1,0 +1,28 @@
+# ============================================================================
+# MILLÁN CHICLANA - Control de Caché y Revalidación Automática
+# Garantiza que cualquier cambio en HTML, CSS, JS, JSON o imágenes se vea
+# reflejado inmediatamente al entrar en la web, incluso en visitas recurrentes.
+# ============================================================================
+
+<IfModule mod_headers.c>
+  # HTML, datos JSON y XML: no almacenar nunca copia obsoleta, consultar siempre al servidor
+  <FilesMatch "\.(html|htm|php|json|xml)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # CSS, JavaScript e Imágenes: revalidar siempre con el servidor (ETag / Last-Modified)
+  # Si el archivo no ha cambiado devuelve 304 rápido; si ha cambiado descarga el nuevo al instante.
+  <FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|webp|ico|pdf)$">
+    Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 0 seconds"
+</IfModule>
+
+# Activar ETag basado en fecha de modificación y tamaño para detectar cambios al instante
+FileETag MTime Size
