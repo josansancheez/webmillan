@@ -26,3 +26,18 @@
 
 # Activar ETag basado en fecha de modificación y tamaño para detectar cambios al instante
 FileETag MTime Size
+
+# ============================================================================
+# SEO TÉCNICO: Redirección canónica HTTPS + sin www y Compresión GZIP
+# ============================================================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirigir www.millanchiclana.com -> millanchiclana.com (301 Permanente)
+  RewriteCond %{HTTP_HOST} ^www\.millanchiclana\.com$ [NC]
+  RewriteRule ^(.*)$ https://millanchiclana.com/$1 [L,R=301]
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
