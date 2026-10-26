@@ -23,6 +23,14 @@ for (const file of htmlFiles) {
     );
   }
 
+  // 1b. Asegurar etiqueta de verificación de Google Search Console en todas las páginas
+  if (!html.includes('name="google-site-verification"')) {
+    html = html.replace(
+      /(<meta\s+name="robots"[^>]*>\r?\n)/i,
+      '$1  <meta name="google-site-verification" content="up6_0oLfwvQNJWsLQT4vfPjAtW0gvHixhDYx3h9A61A" />\n'
+    );
+  }
+
   // 2. Actualizar ?v=... en assets/css/styles.css, assets/js/data.js y assets/js/main.js
   html = html.replace(
     /href="assets\/css\/styles\.css(?:\?v=[^"]*)?"/g,
