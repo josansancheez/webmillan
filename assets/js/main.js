@@ -6,6 +6,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  initCleanUrlBar();
   initCacheFreshnessCheck();
   initPreloader();
   initMobileNavigation();
@@ -18,6 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
   initCookieConsentBanner();
   initCurrentYear();
 });
+
+/* ==========================================================================
+   0A. LIMPIEZA AUTOMÁTICA DE URL EN NAVEGADOR (OCULTAR .HTML E /INDEX.HTML)
+   ========================================================================== */
+function initCleanUrlBar() {
+  if (window.location.protocol !== "http:" && window.location.protocol !== "https:") return;
+  const { pathname, search, hash } = window.location;
+  let cleanPath = pathname;
+  if (cleanPath.endsWith("/index.html") || cleanPath === "/index") {
+    cleanPath = cleanPath.replace(/\/index(?:\.html)?$/, "/");
+  } else if (cleanPath.endsWith(".html")) {
+    cleanPath = cleanPath.slice(0, -5);
+  }
+  if (cleanPath !== pathname && window.history && window.history.replaceState) {
+    window.history.replaceState(null, "", `${cleanPath}${search}${hash}`);
+  }
+}
+initCleanUrlBar();
 
 /* ==========================================================================
    0. CONTROL DE CACHÉ Y ACTUALIZACIÓN AUTOMÁTICA AL ENTRAR EN LA WEB
@@ -65,7 +84,7 @@ function initCacheFreshnessCheck() {
       .catch(() => {});
 
     // Comprobar si el propio documento HTML tiene una versión más reciente en el servidor
-    const pageUrl = window.location.pathname || "index.html";
+    const pageUrl = window.location.pathname || "/";
     fetch(`${pageUrl}?_cb=${bust}`, { method: "HEAD", cache: "no-store" })
       .then((res) => {
         if (!res.ok) return;
@@ -107,15 +126,19 @@ function initPreloader() {
   setTimeout(hidePreloader, 1500);
 
   // Mostrar preloader brevemente al navegar entre páginas internas
-  const internalLinks = document.querySelectorAll('a[href$=".html"], a[href*=".html#"]');
+  const internalLinks = document.querySelectorAll('a[href^="/"], a[href$=".html"], a[href*=".html#"]');
   internalLinks.forEach((link) => {
     link.addEventListener("click", (e) => {
       const href = link.getAttribute("href");
-      if (!href || link.target === "_blank" || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (!href || link.target === "_blank" || link.hasAttribute("download") || e.ctrlKey || e.metaKey || e.shiftKey) return;
 
       // Si es un ancla dentro de la misma página actual, no activar preloader de página completa
-      const currentFile = window.location.pathname.split("/").pop() || "index.html";
-      if (href.startsWith(currentFile + "#")) return;
+      try {
+        const targetUrl = new URL(href, window.location.href);
+        const normCurrent = window.location.pathname.replace(/\/index(?:\.html)?$/, "/").replace(/\.html$/, "") || "/";
+        const normTarget = targetUrl.pathname.replace(/\/index(?:\.html)?$/, "/").replace(/\.html$/, "") || "/";
+        if (normCurrent === normTarget && targetUrl.hash) return;
+      } catch (_) {}
 
       preloader.classList.remove("preloader-hidden");
     });
@@ -469,7 +492,7 @@ function initCatalogsSystem() {
         setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#3F3F46]"), 2200);
       }
     } else {
-      window.location.href = `marcas.html?q=${encodeURIComponent(brandName)}`;
+      window.location.href = `/marcas?q=${encodeURIComponent(brandName)}`;
     }
   };
 
@@ -994,7 +1017,7 @@ function initCatalogModalViewer(catalogs) {
                 <a href="tel:+34956536104" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
                   Llamar Ahora: 956 53 61 04
                 </a>
-                <a href="contacto.html#formulario-contacto" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood">
+                <a href="/contacto#formulario-contacto" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood">
                   Solicitar Presupuesto por Escrito
                 </a>
               </div>

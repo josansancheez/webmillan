@@ -1,8 +1,14 @@
 # ============================================================================
-# MILLÁN CHICLANA - Control de Caché y Revalidación Automática
+# MILLÁN CHICLANA - Control de Caché, URLs Limpias (Sin .html) y SEO Técnico
 # Garantiza que cualquier cambio en HTML, CSS, JS, JSON o imágenes se vea
-# reflejado inmediatamente al entrar en la web, incluso en visitas recurrentes.
+# reflejado inmediatamente y que todas las URLs sean limpias sin .html.
 # ============================================================================
+
+DirectoryIndex index.html
+
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
 
 <IfModule mod_headers.c>
   # HTML, datos JSON y XML: no almacenar nunca copia obsoleta, consultar siempre al servidor
@@ -28,14 +34,29 @@
 FileETag MTime Size
 
 # ============================================================================
-# SEO TÉCNICO: Redirección canónica HTTPS + sin www y Compresión GZIP
+# SEO TÉCNICO: Redirección canónica HTTPS + sin www y URLs Limpias (sin .html)
 # ============================================================================
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteBase /
 
-  # Redirigir www.millanchiclana.com -> millanchiclana.com (301 Permanente)
+  # 1. Redirigir www.millanchiclana.com -> millanchiclana.com (301 Permanente)
   RewriteCond %{HTTP_HOST} ^www\.millanchiclana\.com$ [NC]
   RewriteRule ^(.*)$ https://millanchiclana.com/$1 [L,R=301]
+
+  # 2. Redirigir /index.html o /index a la raíz limpia https://millanchiclana.com/ (301 Permanente)
+  RewriteCond %{THE_REQUEST} \s/+index(?:\.html)?[\s?] [NC]
+  RewriteRule ^index(?:\.html)?$ / [L,R=301]
+
+  # 3. Redirigir cualquier acceso directo a /pagina.html hacia /pagina sin .html (301 Permanente)
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteRule ^(.+?)\.html$ /$1 [L,R=301]
+
+  # 4. Reescritura interna transparente: servir el archivo .html correspondiente a la URL limpia
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
 </IfModule>
 
 <IfModule mod_deflate.c>
