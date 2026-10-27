@@ -30,7 +30,7 @@ window.MILLAN_DATA = {
     instagramHandle: "@millanservicios",
     facebookUrl: "https://www.facebook.com/millan.chiclana.5",
     facebookName: "Millán Chiclana",
-    poligono: "Avenida Bahía de Algeciras N23 · Polígono Industrial Pelagatos, Chiclana de la Frontera (Cádiz)",
+    poligono: "Avenida Bahía de Algeciras N23 (Exposición) y N16 (Almacén) · Polígono Industrial Pelagatos, Chiclana de la Frontera (Cádiz)",
     sedes: {
       exposicion: {
         id: "Sede Exposición",
@@ -51,7 +51,7 @@ window.MILLAN_DATA = {
         id: "Sede Almacén",
         shortName: "Sede Almacén",
         fullName: "Millán Chiclana · Sede Almacén de Construcción",
-        address: "Avenida Bahía de Algeciras N23 (Pol. Ind. Pelagatos), Nave Almacén (en la misma calle a pocos metros), 11130 Chiclana de la Frontera, Cádiz",
+        address: "Avenida Bahía de Algeciras N16 (Pol. Ind. Pelagatos), Nave Almacén (en la misma calle a pocos metros), 11130 Chiclana de la Frontera, Cádiz",
         scheduleWeekdays: "Lunes a Viernes: 07:30 – 14:00 y 15:30 – 18:30",
         scheduleSaturday: "Sábados: 08:30 – 13:00",
         googleMapsDirectionsUrl: "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
@@ -2190,7 +2190,7 @@ window.MILLAN_DATA = {
       id: "faq-1",
       category: "Ubicación y Sedes",
       question: "¿Cuál es la diferencia entre la Sede Exposición y la Sede Almacén de Millán Chiclana?",
-      answer: "Contamos con dos instalaciones especializadas en la misma calle del Polígono Industrial Pelagatos (separadas por apenas unos metros). En la Sede Exposición encontrarás ambientes de baños, azulejos, pavimentos porcelánicos, grifería, cocinas y asesoramiento de interiorismo. En la Sede Almacén disponemos de material de obra gruesa, áridos, sacos de cemento y mortero, ladrillos, bloques, aislamientos, químicos y ferretería con zona de carga rápida."
+      answer: "Contamos con dos instalaciones especializadas en la misma calle del Polígono Industrial Pelagatos (Avenida Bahía de Algeciras N23 para la Exposición y N16 para el Almacén, separadas por apenas unos metros). En la Sede Exposición encontrarás ambientes de baños, azulejos, pavimentos porcelánicos, grifería, cocinas y asesoramiento de interiorismo. En la Sede Almacén disponemos de material de obra gruesa, áridos, sacos de cemento y mortero, ladrillos, bloques, aislamientos, químicos y ferretería con zona de carga rápida."
     },
     {
       id: "faq-2",
@@ -2202,7 +2202,7 @@ window.MILLAN_DATA = {
       id: "faq-3",
       category: "Ubicación y Sedes",
       question: "¿Dónde estáis exactamente y es fácil aparcar o cargar mercancía?",
-      answer: "Estamos en el Polígono Industrial Pelagatos en Chiclana de la Frontera (Cádiz), con acceso directo desde la autovía A-48. Ambas sedes se encuentran en la misma vía a escasos metros una de otra, con amplias zonas de aparcamiento en la puerta para turismos en la Exposición y zona de carga directa para furgonetas, remolques y camiones en el Almacén."
+      answer: "Estamos en el Polígono Industrial Pelagatos en Chiclana de la Frontera (Cádiz), con acceso directo desde la autovía A-48. Ambas sedes se encuentran en la Avenida Bahía de Algeciras (N23 la Sede Exposición y N16 la Sede Almacén) a escasos metros una de otra, con amplias zonas de aparcamiento en la puerta para turismos en la Exposición y zona de carga directa para furgonetas, remolques y camiones en el Almacén."
     },
     {
       id: "faq-4",
