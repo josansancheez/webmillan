@@ -1,21 +1,22 @@
 /* ==========================================================================
    MILLÁN CHICLANA - Millán Servicios e Interiorismo S.L.
    Hoja de Estilos Principal (Light Mode Exclusivo, Mobile-First & Alto Contraste)
+   Paleta Corporativa: Negro, Gris y Blanco
    ========================================================================== */
 
 :root {
-  --color-bg-main: #FAF8F5;
-  --color-bg-stone: #F2EFE9;
+  --color-bg-main: #F9FAFB;
+  --color-bg-stone: #F3F4F6;
   --color-bg-card: #FFFFFF;
-  --color-green-primary: #1E4620;
-  --color-green-secondary: #2D6A4F;
-  --color-green-light: #E8F2EC;
-  --color-wood-primary: #B07D4F;
-  --color-wood-secondary: #8C5A32;
-  --color-wood-light: #F7EFE6;
-  --color-text-dark: #1F2937;
-  --color-text-muted: #4B5563;
-  --color-border: #E5E0D8;
+  --color-green-primary: #111111;
+  --color-green-secondary: #27272A;
+  --color-green-light: #F4F4F5;
+  --color-wood-primary: #52525B;
+  --color-wood-secondary: #3F3F46;
+  --color-wood-light: #EDEDEF;
+  --color-text-dark: #18181B;
+  --color-text-muted: #52525B;
+  --color-border: #E5E7EB;
 }
 
 html {
@@ -41,7 +42,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background-color: #FAF8F5;
+  background-color: #F9FAFB;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,9 +70,9 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  border: 3px solid #E5E0D8;
-  border-top-color: #1E4620;
-  border-right-color: #B07D4F;
+  border: 3px solid #E5E7EB;
+  border-top-color: #111111;
+  border-right-color: #71717A;
   animation: millanSpin 1.15s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
 }
 
@@ -106,32 +107,32 @@ body {
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 35px -10px rgba(30, 70, 32, 0.12), 0 8px 16px -6px rgba(140, 90, 50, 0.08);
-  border-color: #B07D4F;
+  box-shadow: 0 18px 35px -10px rgba(17, 17, 17, 0.14), 0 8px 16px -6px rgba(82, 82, 91, 0.10);
+  border-color: #52525B;
 }
 
 .btn-primary-green {
-  background-color: #1E4620;
+  background-color: #111111;
   color: #FFFFFF;
   transition: all 0.25s ease;
 }
 
 .btn-primary-green:hover {
-  background-color: #2D6A4F;
+  background-color: #27272A;
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px -5px rgba(30, 70, 32, 0.35);
+  box-shadow: 0 10px 20px -5px rgba(17, 17, 17, 0.35);
 }
 
 .btn-primary-wood {
-  background-color: #B07D4F;
+  background-color: #52525B;
   color: #FFFFFF;
   transition: all 0.25s ease;
 }
 
 .btn-primary-wood:hover {
-  background-color: #8C5A32;
+  background-color: #3F3F46;
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px -5px rgba(140, 90, 50, 0.35);
+  box-shadow: 0 10px 20px -5px rgba(63, 63, 70, 0.35);
 }
 
 /* ==========================================================================
@@ -186,7 +187,7 @@ body {
 }
 
 .flipbook-frame-wrapper {
-  background: radial-gradient(circle at center, #2b3036 0%, #181b1f 100%);
+  background: radial-gradient(circle at center, #27272A 0%, #09090B 100%);
   position: relative;
 }
 
@@ -221,7 +222,7 @@ body {
 
 .faq-item.open .faq-icon {
   transform: rotate(180deg);
-  background-color: #1E4620;
+  background-color: #111111;
   color: #FFFFFF;
 }
 
@@ -251,20 +252,20 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F2EFE9;
+  background: #F3F4F6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C5B9A8;
+  background: #A1A1AA;
   border-radius: 5px;
-  border: 2px solid #F2EFE9;
+  border: 2px solid #F3F4F6;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8C5A32;
+  background: #3F3F46;
 }
 
 :focus-visible {
-  outline: 3px solid #B07D4F;
+  outline: 3px solid #52525B;
   outline-offset: 2px;
 }

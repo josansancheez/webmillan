@@ -194,10 +194,10 @@ function initHeroCarousel() {
     });
     dots.forEach((dot, idx) => {
       if (idx === currentIndex) {
-        dot.classList.add("w-8", "bg-[#B07D4F]");
+        dot.classList.add("w-8", "bg-[#52525B]");
         dot.classList.remove("w-2.5", "bg-white/60");
       } else {
-        dot.classList.remove("w-8", "bg-[#B07D4F]");
+        dot.classList.remove("w-8", "bg-[#52525B]");
         dot.classList.add("w-2.5", "bg-white/60");
       }
     });
@@ -217,8 +217,8 @@ function initHeroCarousel() {
     if (pauseLabel) {
       pauseLabel.textContent = isPaused ? "Reanudar" : "Pausar";
     }
-    pauseToggleBtn.classList.toggle("bg-[#B07D4F]", isPaused);
-    pauseToggleBtn.classList.toggle("border-[#E8C39E]", isPaused);
+    pauseToggleBtn.classList.toggle("bg-[#52525B]", isPaused);
+    pauseToggleBtn.classList.toggle("border-[#D4D4D8]", isPaused);
     pauseToggleBtn.classList.toggle("bg-black/40", !isPaused);
     pauseToggleBtn.classList.toggle("border-white/25", !isPaused);
   };
@@ -325,17 +325,17 @@ function initCatalogsSystem() {
   const createCatalogCardHTML = (item) => {
     const isExposicion = item.sede === "Sede Exposición";
     const sedeBadgeClasses = isExposicion
-      ? "bg-[#F7EFE6] text-[#8C5A32] border-[#E5D3C0]"
-      : "bg-[#E8F2EC] text-[#1E4620] border-[#C5DEC9]";
+      ? "bg-[#EDEDEF] text-[#3F3F46] border-[#DCDCE0]"
+      : "bg-[#F4F4F5] text-[#111111] border-[#D4D4D8]";
 
     const logoBlock = item.logoUrl
       ? `<img src="${escapeHTML(item.logoUrl)}" alt="Logo ${escapeHTML(item.name)}" class="h-9 sm:h-10 w-auto max-w-[155px] object-contain" loading="lazy">`
-      : `<span class="font-extrabold tracking-wider text-xs uppercase px-2.5 py-1 rounded bg-[#FAF8F5] text-[#1E4620] border border-[#E5E0D8]">${escapeHTML(item.logoMonogram || item.name)}</span>`;
+      : `<span class="font-extrabold tracking-wider text-xs uppercase px-2.5 py-1 rounded bg-[#F9FAFB] text-[#111111] border border-[#E5E7EB]">${escapeHTML(item.logoMonogram || item.name)}</span>`;
 
     return `
-      <article id="brand-card-${escapeHTML(item.id)}" class="bg-white rounded-2xl border border-[#E5E0D8] overflow-hidden flex flex-col card-hover shadow-sm scroll-mt-28" data-brand-id="${escapeHTML(item.id)}">
+      <article id="brand-card-${escapeHTML(item.id)}" class="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden flex flex-col card-hover shadow-sm scroll-mt-28" data-brand-id="${escapeHTML(item.id)}">
         <!-- Portada del Catálogo -->
-        <div class="relative h-56 overflow-hidden bg-[#F2EFE9] group">
+        <div class="relative h-56 overflow-hidden bg-[#F3F4F6] group">
           <img
             src="${escapeHTML(item.coverImage)}"
             alt="Portada ${escapeHTML(item.edition)} - ${escapeHTML(item.name)}"
@@ -346,10 +346,10 @@ function initCatalogsSystem() {
 
           <!-- Cabecera flotante: Logo y Año -->
           <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
-            <div class="bg-white px-3 py-1.5 rounded-xl shadow-md border border-[#E5E0D8]">
+            <div class="bg-white px-3 py-1.5 rounded-xl shadow-md border border-[#E5E7EB]">
               ${logoBlock}
             </div>
-            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-[#1E4620] text-white shadow-sm">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-[#111111] text-white shadow-sm">
               Edición ${escapeHTML(item.year)}
             </span>
           </div>
@@ -368,24 +368,24 @@ function initCatalogsSystem() {
         <!-- Cuerpo de la Tarjeta -->
         <div class="p-5 flex-1 flex flex-col justify-between">
           <div>
-            <h3 class="text-lg font-bold text-[#1F2937] leading-snug mb-1">
+            <h3 class="text-lg font-bold text-[#18181B] leading-snug mb-1">
               ${escapeHTML(item.name)}
             </h3>
-            <p class="text-sm font-semibold text-[#8C5A32] mb-2.5">
+            <p class="text-sm font-semibold text-[#3F3F46] mb-2.5">
               ${escapeHTML(item.edition)}
             </p>
-            <p class="text-sm text-[#4B5563] line-clamp-3 mb-3">
+            <p class="text-sm text-[#52525B] line-clamp-3 mb-3">
               ${escapeHTML(item.description)}
             </p>
             ${
               Array.isArray(item.subBrands) && item.subBrands.length > 0
-                ? `<div class="mb-4 p-2.5 rounded-xl bg-[#F7EFE6] border border-[#E5D3C0]">
-                     <span class="block text-[10px] font-extrabold uppercase tracking-wider text-[#8C5A32] mb-1.5">Firmas Distribuidas:</span>
+                ? `<div class="mb-4 p-2.5 rounded-xl bg-[#EDEDEF] border border-[#DCDCE0]">
+                     <span class="block text-[10px] font-extrabold uppercase tracking-wider text-[#3F3F46] mb-1.5">Firmas Distribuidas:</span>
                      <div class="flex flex-wrap gap-1.5">
                        ${item.subBrands
                          .map(
                            (sb) =>
-                             `<span class="px-2 py-0.5 rounded-md bg-white text-[#1F2937] border border-[#E5D3C0] text-[11px] font-bold">${escapeHTML(sb)}</span>`
+                             `<span class="px-2 py-0.5 rounded-md bg-white text-[#18181B] border border-[#DCDCE0] text-[11px] font-bold">${escapeHTML(sb)}</span>`
                          )
                          .join("")}
                      </div>
@@ -394,10 +394,10 @@ function initCatalogsSystem() {
             }
           </div>
 
-          <div class="pt-3 border-t border-[#E5E0D8]">
-            <div class="flex items-center justify-between text-xs text-[#4B5563] mb-3">
+          <div class="pt-3 border-t border-[#E5E7EB]">
+            <div class="flex items-center justify-between text-xs text-[#52525B] mb-3">
               <span class="inline-flex items-center gap-1 font-medium">
-                <svg class="w-4 h-4 text-[#1E4620]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <svg class="w-4 h-4 text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 ${item.pagesCount || 120} págs.
               </span>
               <span>Formato PDF · ${escapeHTML(item.fileSize || "15 MB")}</span>
@@ -421,10 +421,10 @@ function initCatalogsSystem() {
                 download="${escapeHTML(item.id)}-${escapeHTML(item.year)}.pdf"
                 target="_blank"
                 rel="noopener"
-                class="sm:col-span-2 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-[#FAF8F5] hover:bg-[#F2EFE9] text-[#1F2937] border border-[#D5CEC2] transition-colors"
+                class="sm:col-span-2 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-[#F9FAFB] hover:bg-[#F3F4F6] text-[#18181B] border border-[#D1D5DB] transition-colors"
                 title="Descargar PDF de ${escapeHTML(item.name)}"
               >
-                <svg class="w-4 h-4 text-[#8C5A32] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-[#3F3F46] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
                 <span>Descargar PDF</span>
@@ -453,20 +453,20 @@ function initCatalogsSystem() {
       categoryButtons.forEach((b, idx) => {
         b.className =
           idx === 0
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
             : b.hasAttribute("data-catalog-category") &&
                 ["Sede Exposición", "Sede Almacén"].includes(
                   b.getAttribute("data-catalog-category")
                 )
-              ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer"
-              : "px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+              ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer"
+              : "px-3 py-1.5 rounded-xl text-xs font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
       });
       renderFullCatalog();
       const cardEl = document.getElementById(targetCardId);
       if (cardEl) {
         cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        cardEl.classList.add("ring-2", "ring-[#8C5A32]");
-        setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#8C5A32]"), 2200);
+        cardEl.classList.add("ring-2", "ring-[#3F3F46]");
+        setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#3F3F46]"), 2200);
       }
     } else {
       window.location.href = `marcas.html?q=${encodeURIComponent(brandName)}`;
@@ -483,12 +483,12 @@ function initCatalogsSystem() {
           .map((id) => brandMap.get(id))
           .filter(Boolean);
         return `
-          <div class="bg-white/90 rounded-2xl p-4 sm:p-5 border border-[#E5D3C0]">
-            <div class="flex items-center justify-between gap-2 mb-3.5 pb-2 border-b border-[#F2EFE9]">
-              <h4 class="text-sm sm:text-base font-extrabold uppercase tracking-wider text-[#8C5A32]">
+          <div class="bg-white/90 rounded-2xl p-4 sm:p-5 border border-[#DCDCE0]">
+            <div class="flex items-center justify-between gap-2 mb-3.5 pb-2 border-b border-[#F3F4F6]">
+              <h4 class="text-sm sm:text-base font-extrabold uppercase tracking-wider text-[#3F3F46]">
                 ${escapeHTML(sec.title)}
               </h4>
-              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#F7EFE6] text-[#8C5A32]">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#EDEDEF] text-[#3F3F46]">
                 ${items.length} ${items.length === 1 ? "marca" : "marcas"}
               </span>
             </div>
@@ -500,7 +500,7 @@ function initCatalogsSystem() {
                     type="button"
                     data-brand-logo-jump="${escapeHTML(item.name)}"
                     data-brand-card-target="brand-card-${escapeHTML(item.id)}"
-                    class="group bg-[#FAF8F5] hover:bg-white rounded-xl p-3 border border-[#E5E0D8] hover:border-[#8C5A32] shadow-2xs hover:shadow-md transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer text-center"
+                    class="group bg-[#F9FAFB] hover:bg-white rounded-xl p-3 border border-[#E5E7EB] hover:border-[#3F3F46] shadow-2xs hover:shadow-md transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer text-center"
                     title="Ver catálogo de ${escapeHTML(item.name)} (${escapeHTML(sec.title)})"
                   >
                     <div class="h-10 w-full flex items-center justify-center px-1">
@@ -511,7 +511,7 @@ function initCatalogsSystem() {
                         loading="lazy"
                       />
                     </div>
-                    <span class="text-[11px] font-bold text-[#1F2937] group-hover:text-[#8C5A32] line-clamp-1">
+                    <span class="text-[11px] font-bold text-[#18181B] group-hover:text-[#3F3F46] line-clamp-1">
                       ${escapeHTML(item.name)}
                     </span>
                   </button>
@@ -545,7 +545,7 @@ function initCatalogsSystem() {
           type="button"
           data-brand-logo-jump="${escapeHTML(item.name)}"
           data-brand-card-target="brand-card-${escapeHTML(item.id)}"
-          class="group bg-white hover:bg-[#FAF8F5] rounded-2xl p-3.5 border border-[#E5E0D8] hover:border-[#1E4620] shadow-xs hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 cursor-pointer text-center"
+          class="group bg-white hover:bg-[#F9FAFB] rounded-2xl p-3.5 border border-[#E5E7EB] hover:border-[#111111] shadow-xs hover:shadow-md transition-all flex flex-col items-center justify-center gap-2 cursor-pointer text-center"
           title="Ver catálogo de ${escapeHTML(item.name)}"
         >
           <div class="h-11 w-full flex items-center justify-center px-1">
@@ -556,7 +556,7 @@ function initCatalogsSystem() {
               loading="lazy"
             />
           </div>
-          <span class="text-[11px] font-bold text-[#4B5563] group-hover:text-[#1E4620] line-clamp-1">
+          <span class="text-[11px] font-bold text-[#52525B] group-hover:text-[#111111] line-clamp-1">
             ${escapeHTML(item.name)}
           </span>
         </button>
@@ -622,12 +622,12 @@ function initCatalogsSystem() {
     if (expoFiltered.length > 0) {
       sectionsHtml.push(`
         <div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#E5D3C0]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#DCDCE0]">
             <div>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-[#8C5A32]">Sede Exposición · Polígono Pelagatos</span>
-              <h3 class="text-2xl font-extrabold text-[#1F2937]">Catálogos de Marcas de la Exposición (${expoFiltered.length})</h3>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#3F3F46]">Sede Exposición · Polígono Pelagatos</span>
+              <h3 class="text-2xl font-extrabold text-[#18181B]">Catálogos de Marcas de la Exposición (${expoFiltered.length})</h3>
             </div>
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#F7EFE6] text-[#8C5A32] border border-[#E5D3C0]">
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#EDEDEF] text-[#3F3F46] border border-[#DCDCE0]">
               Cerámica · Piedras · Sanitario · Grifería · Accesorios · Mamparas · Mobiliario
             </span>
           </div>
@@ -641,12 +641,12 @@ function initCatalogsSystem() {
     if (almacenFiltered.length > 0) {
       sectionsHtml.push(`
         <div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#C5DEC9]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#D4D4D8]">
             <div>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-[#1E4620]">Sede Almacén · Polígono Pelagatos</span>
-              <h3 class="text-2xl font-extrabold text-[#1F2937]">Catálogos de Marcas del Almacén (${almacenFiltered.length})</h3>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#111111]">Sede Almacén · Polígono Pelagatos</span>
+              <h3 class="text-2xl font-extrabold text-[#18181B]">Catálogos de Marcas del Almacén (${almacenFiltered.length})</h3>
             </div>
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#E8F2EC] text-[#1E4620] border border-[#C5DEC9]">
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#F4F4F5] text-[#111111] border border-[#D4D4D8]">
               Obra Gruesa · Cementos · Morteros · Ferretería · Fontanería
             </span>
           </div>
@@ -704,8 +704,8 @@ function initCatalogsSystem() {
         categoryButtons.forEach((b) => {
           const isCurrent = b === btn;
           b.className = isCurrent
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
         });
         renderFullCatalog();
       });
@@ -719,8 +719,8 @@ function initCatalogsSystem() {
         if (searchInput) searchInput.value = "";
         categoryButtons.forEach((b, idx) => {
           b.className = idx === 0
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
         });
         renderFullCatalog();
       });
@@ -797,8 +797,8 @@ function initCatalogsSystem() {
         fireplacesCategoryBtns.forEach((b) => {
           const isCurrent = b === btn;
           b.className = isCurrent
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
         });
         renderFireplacesCatalog();
       });
@@ -812,8 +812,8 @@ function initCatalogsSystem() {
         if (fireplacesSearchInput) fireplacesSearchInput.value = "";
         fireplacesCategoryBtns.forEach((b, idx) => {
           b.className = idx === 0
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
         });
         renderFireplacesCatalog();
       });
@@ -829,15 +829,15 @@ function initCatalogsSystem() {
         if (fireplacesSearchInput) fireplacesSearchInput.value = "";
         fireplacesCategoryBtns.forEach((b, idx) => {
           b.className = idx === 0
-            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+            ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+            : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
         });
         renderFireplacesCatalog();
         const cardEl = document.getElementById(`brand-card-${targetId}`);
         if (cardEl) {
           cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          cardEl.classList.add("ring-2", "ring-[#8C5A32]");
-          setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#8C5A32]"), 2200);
+          cardEl.classList.add("ring-2", "ring-[#3F3F46]");
+          setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#3F3F46]"), 2200);
         }
       });
     }
@@ -854,8 +854,8 @@ function initCatalogsSystem() {
             normalizeText(b.getAttribute("data-fireplace-category") || "") ===
             normalizeText(typeKey);
           b.className = isCurrent
-            ? "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-            : "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+            ? "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+            : "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
         });
         renderFireplacesCatalog();
         fireplacesGrid.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -921,37 +921,37 @@ function initCatalogModalViewer(catalogs) {
     if (currentSpread === 1) {
       flipSpreadContent.innerHTML = `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          <div class="relative rounded-xl overflow-hidden min-h-[280px] bg-[#1F2937]">
+          <div class="relative rounded-xl overflow-hidden min-h-[280px] bg-[#18181B]">
             <img src="${escapeHTML(activeCatalog.coverImage)}" alt="${escapeHTML(activeCatalog.name)}" class="w-full h-full object-cover opacity-90" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent p-6 flex flex-col justify-end">
-              <span class="inline-block w-fit px-3 py-1 rounded-full text-xs font-bold bg-[#B07D4F] text-white mb-2">${escapeHTML(activeCatalog.category)}</span>
+              <span class="inline-block w-fit px-3 py-1 rounded-full text-xs font-bold bg-[#52525B] text-white mb-2">${escapeHTML(activeCatalog.category)}</span>
               <h4 class="text-2xl font-extrabold text-white">${escapeHTML(activeCatalog.name)}</h4>
               <p class="text-sm text-gray-200">${escapeHTML(activeCatalog.edition)}</p>
             </div>
           </div>
-          <div class="bg-[#FAF8F5] rounded-xl p-6 border border-[#E5E0D8] flex flex-col justify-between">
+          <div class="bg-[#F9FAFB] rounded-xl p-6 border border-[#E5E7EB] flex flex-col justify-between">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-[#1E4620]">Ficha de Colección · Millán Chiclana</span>
-              <h5 class="text-xl font-bold text-[#1F2937] mt-1 mb-3">Resumen del Catálogo Oficial ${escapeHTML(activeCatalog.year)}</h5>
-              <p class="text-sm text-[#4B5563] mb-4 leading-relaxed">${escapeHTML(activeCatalog.description)}</p>
-              <div class="bg-white p-4 rounded-xl border border-[#E5E0D8] space-y-2 text-xs sm:text-sm">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#111111]">Ficha de Colección · Millán Chiclana</span>
+              <h5 class="text-xl font-bold text-[#18181B] mt-1 mb-3">Resumen del Catálogo Oficial ${escapeHTML(activeCatalog.year)}</h5>
+              <p class="text-sm text-[#52525B] mb-4 leading-relaxed">${escapeHTML(activeCatalog.description)}</p>
+              <div class="bg-white p-4 rounded-xl border border-[#E5E7EB] space-y-2 text-xs sm:text-sm">
                 <div class="flex justify-between py-1 border-b border-gray-100">
-                  <span class="text-[#4B5563]">Disponibilidad física:</span>
-                  <strong class="text-[#1E4620]">${escapeHTML(activeCatalog.sede)} (Pol. Pelagatos)</strong>
+                  <span class="text-[#52525B]">Disponibilidad física:</span>
+                  <strong class="text-[#111111]">${escapeHTML(activeCatalog.sede)} (Pol. Pelagatos)</strong>
                 </div>
                 <div class="flex justify-between py-1 border-b border-gray-100">
-                  <span class="text-[#4B5563]">Extensión del documento:</span>
-                  <strong class="text-[#1F2937]">${activeCatalog.pagesCount || 120} páginas completas</strong>
+                  <span class="text-[#52525B]">Extensión del documento:</span>
+                  <strong class="text-[#18181B]">${activeCatalog.pagesCount || 120} páginas completas</strong>
                 </div>
                 <div class="flex justify-between py-1">
-                  <span class="text-[#4B5563]">Venta y suministro:</span>
-                  <strong class="text-[#8C5A32]">Particulares y Profesionales</strong>
+                  <span class="text-[#52525B]">Venta y suministro:</span>
+                  <strong class="text-[#3F3F46]">Particulares y Profesionales</strong>
                 </div>
               </div>
             </div>
-            <div class="mt-5 pt-4 border-t border-[#E5E0D8] flex flex-wrap items-center justify-between gap-3">
-              <span class="text-xs text-[#4B5563]">Usa las flechas para hojear o cambia a «Documento PDF Completo»</span>
-              <a href="tel:+34956536104" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E4620] hover:underline">
+            <div class="mt-5 pt-4 border-t border-[#E5E7EB] flex flex-wrap items-center justify-between gap-3">
+              <span class="text-xs text-[#52525B]">Usa las flechas para hojear o cambia a «Documento PDF Completo»</span>
+              <a href="tel:+34956536104" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#111111] hover:underline">
                 Consultar stock por teléfono &rarr;
               </a>
             </div>
@@ -961,35 +961,35 @@ function initCatalogModalViewer(catalogs) {
     } else if (currentSpread === 2) {
       flipSpreadContent.innerHTML = `
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          <div class="bg-[#FAF8F5] rounded-xl p-6 border border-[#E5E0D8] flex flex-col justify-between">
+          <div class="bg-[#F9FAFB] rounded-xl p-6 border border-[#E5E7EB] flex flex-col justify-between">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-[#8C5A32]">Gama de Producto</span>
-              <h5 class="text-xl font-bold text-[#1F2937] mt-1 mb-3">Aplicaciones y Especificaciones</h5>
-              <p class="text-sm text-[#4B5563] mb-4">En Millán Chiclana trabajamos con toda la gama oficial de <strong>${escapeHTML(activeCatalog.name)}</strong>. Si encuentras una referencia específica en el PDF, te la presupuestamos al instante.</p>
-              <ul class="space-y-2.5 text-sm text-[#1F2937]">
+              <span class="text-xs font-bold uppercase tracking-wider text-[#3F3F46]">Gama de Producto</span>
+              <h5 class="text-xl font-bold text-[#18181B] mt-1 mb-3">Aplicaciones y Especificaciones</h5>
+              <p class="text-sm text-[#52525B] mb-4">En Millán Chiclana trabajamos con toda la gama oficial de <strong>${escapeHTML(activeCatalog.name)}</strong>. Si encuentras una referencia específica en el PDF, te la presupuestamos al instante.</p>
+              <ul class="space-y-2.5 text-sm text-[#18181B]">
                 <li class="flex items-start gap-2">
-                  <span class="w-5 h-5 rounded-full bg-[#E8F2EC] text-[#1E4620] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                  <span class="w-5 h-5 rounded-full bg-[#F4F4F5] text-[#111111] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
                   <span>Muestras reales y expositores disponibles en nuestras instalaciones de Chiclana.</span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="w-5 h-5 rounded-full bg-[#E8F2EC] text-[#1E4620] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                  <span class="w-5 h-5 rounded-full bg-[#F4F4F5] text-[#111111] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
                   <span>Cálculo de m², piezas especiales, rodapiés y materiales de agarre recomendados.</span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <span class="w-5 h-5 rounded-full bg-[#E8F2EC] text-[#1E4620] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
+                  <span class="w-5 h-5 rounded-full bg-[#F4F4F5] text-[#111111] flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">✓</span>
                   <span>Servicio de entrega en Chiclana, toda la provincia de Cádiz, Gibraltar y Ceuta.</span>
                 </li>
               </ul>
             </div>
-            <div class="mt-4 p-3 rounded-lg bg-[#F7EFE6] text-xs text-[#8C5A32] font-medium">
+            <div class="mt-4 p-3 rounded-lg bg-[#EDEDEF] text-xs text-[#3F3F46] font-medium">
               Etiquetas clave: ${(activeCatalog.keywords || []).map((k) => `#${escapeHTML(k)}`).join("  ")}
             </div>
           </div>
-          <div class="bg-[#FAF8F5] rounded-xl p-6 border border-[#E5E0D8] flex flex-col justify-between">
+          <div class="bg-[#F9FAFB] rounded-xl p-6 border border-[#E5E7EB] flex flex-col justify-between">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-[#1E4620]">Atención Directa</span>
-              <h5 class="text-xl font-bold text-[#1F2937] mt-1 mb-3">¿Te interesa alguna referencia de ${escapeHTML(activeCatalog.name)}?</h5>
-              <p class="text-sm text-[#4B5563] mb-5">Llámanos indicando el nombre de la serie o envíanos tu consulta para recibir precio y plazo de entrega tanto para reforma particular como para obra profesional.</p>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#111111]">Atención Directa</span>
+              <h5 class="text-xl font-bold text-[#18181B] mt-1 mb-3">¿Te interesa alguna referencia de ${escapeHTML(activeCatalog.name)}?</h5>
+              <p class="text-sm text-[#52525B] mb-5">Llámanos indicando el nombre de la serie o envíanos tu consulta para recibir precio y plazo de entrega tanto para reforma particular como para obra profesional.</p>
               <div class="space-y-3">
                 <a href="tel:+34956536104" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
                   Llamar Ahora: 956 53 61 04
@@ -999,23 +999,23 @@ function initCatalogModalViewer(catalogs) {
                 </a>
               </div>
             </div>
-            <p class="text-xs text-[#4B5563] mt-4">Polígono Industrial Pelagatos · Chiclana de la Frontera (Cádiz)</p>
+            <p class="text-xs text-[#52525B] mt-4">Polígono Industrial Pelagatos · Chiclana de la Frontera (Cádiz)</p>
           </div>
         </div>
       `;
     } else {
       flipSpreadContent.innerHTML = `
-        <div class="bg-[#FAF8F5] rounded-xl p-8 border border-[#E5E0D8] text-center max-w-2xl mx-auto my-auto">
-          <div class="w-14 h-14 rounded-2xl bg-[#E8F2EC] text-[#1E4620] flex items-center justify-center mx-auto mb-4">
+        <div class="bg-[#F9FAFB] rounded-xl p-8 border border-[#E5E7EB] text-center max-w-2xl mx-auto my-auto">
+          <div class="w-14 h-14 rounded-2xl bg-[#F4F4F5] text-[#111111] flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           </div>
-          <h5 class="text-2xl font-extrabold text-[#1F2937] mb-2">Descarga el PDF íntegro (${activeCatalog.pagesCount || 120} páginas)</h5>
-          <p class="text-sm text-[#4B5563] mb-6">Puedes visualizar el PDF completo en esta misma ventana pulsando en la pestaña superior <strong>«Visor PDF Integrado»</strong> o descargarlo directamente en tu móvil u ordenador.</p>
+          <h5 class="text-2xl font-extrabold text-[#18181B] mb-2">Descarga el PDF íntegro (${activeCatalog.pagesCount || 120} páginas)</h5>
+          <p class="text-sm text-[#52525B] mb-6">Puedes visualizar el PDF completo en esta misma ventana pulsando en la pestaña superior <strong>«Visor PDF Integrado»</strong> o descargarlo directamente en tu móvil u ordenador.</p>
           <div class="flex flex-wrap justify-center gap-3">
             <a href="${escapeHTML(activeCatalog.pdfUrl)}" download="${escapeHTML(activeCatalog.id)}.pdf" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm btn-primary-green">
               Descargar Catálogo PDF (${escapeHTML(activeCatalog.fileSize || "15 MB")})
             </a>
-            <a href="${escapeHTML(activeCatalog.pdfUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-white border border-[#D5CEC2] text-[#1F2937] hover:bg-[#F2EFE9]">
+            <a href="${escapeHTML(activeCatalog.pdfUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-white border border-[#D1D5DB] text-[#18181B] hover:bg-[#F3F4F6]">
               Abrir PDF en pestaña nueva
             </a>
           </div>
@@ -1032,10 +1032,10 @@ function initCatalogModalViewer(catalogs) {
     }
     if (modePdfBtn && modeFlipBtn) {
       modePdfBtn.className = isPdf
-        ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-[#1E4620] text-white cursor-pointer"
+        ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-[#111111] text-white cursor-pointer"
         : "px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white cursor-pointer";
       modeFlipBtn.className = !isPdf
-        ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-[#B07D4F] text-white cursor-pointer"
+        ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-[#52525B] text-white cursor-pointer"
         : "px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white cursor-pointer";
     }
   };
@@ -1191,8 +1191,8 @@ function initReviewsCarousel() {
       .map((rev) => {
         const isExposicion = rev.sede === "Sede Exposición";
         const badgeStyle = isExposicion
-          ? "bg-[#F7EFE6] text-[#8C5A32] border-[#E5D3C0]"
-          : "bg-[#E8F2EC] text-[#1E4620] border-[#C5DEC9]";
+          ? "bg-[#EDEDEF] text-[#3F3F46] border-[#DCDCE0]"
+          : "bg-[#F4F4F5] text-[#111111] border-[#D4D4D8]";
 
         const ratingNum = Math.min(5, Math.max(1, Number(rev.rating) || 5));
         const stars = "★".repeat(ratingNum) + "☆".repeat(5 - ratingNum);
@@ -1204,47 +1204,47 @@ function initReviewsCarousel() {
             : "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8");
 
         const avatarHtml = rev.avatar
-          ? `<img src="${escapeHTML(rev.avatar)}" alt="${escapeHTML(rev.author)}" referrerpolicy="no-referrer" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-[#E5E0D8] shrink-0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-             <div style="display:none" class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"} text-white font-bold text-sm items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`
-          : `<div class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"} text-white font-bold text-sm flex items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`;
+          ? `<img src="${escapeHTML(rev.avatar)}" alt="${escapeHTML(rev.author)}" referrerpolicy="no-referrer" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-[#E5E7EB] shrink-0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+             <div style="display:none" class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#52525B]" : "bg-[#111111]"} text-white font-bold text-sm items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`
+          : `<div class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#52525B]" : "bg-[#111111]"} text-white font-bold text-sm flex items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`;
 
         return `
-          <article class="bg-white rounded-2xl p-6 border border-[#E5E0D8] shadow-sm flex flex-col justify-between card-hover h-full">
+          <article class="bg-white rounded-2xl p-6 border border-[#E5E7EB] shadow-sm flex flex-col justify-between card-hover h-full">
             <div>
               <!-- Cabecera de la reseña: Etiqueta de Sede + Enlace Google Maps -->
-              <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#F2EFE9]">
+              <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#F3F4F6]">
                 <span class="inline-flex items-center gap-1.5 text-xs font-extrabold px-3 py-1 rounded-full border ${badgeStyle}">
-                  <span class="w-2 h-2 rounded-full ${isExposicion ? "bg-[#B07D4F]" : "bg-[#1E4620]"}"></span>
+                  <span class="w-2 h-2 rounded-full ${isExposicion ? "bg-[#52525B]" : "bg-[#111111]"}"></span>
                   ${escapeHTML(rev.sede)}
                 </span>
-                <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-[#4B5563] hover:text-[#1E4620] flex items-center gap-1 transition-colors">
-                  <svg class="w-4 h-4 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 15.65 5 12c0-3.65 3.36-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z"/></svg>
+                <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-[#52525B] hover:text-[#111111] flex items-center gap-1 transition-colors">
+                  <svg class="w-4 h-4 text-[#18181B]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 15.65 5 12c0-3.65 3.36-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z"/></svg>
                   <span>Reseña de Google</span>
                 </a>
               </div>
 
               <!-- Estrellas y fecha relativa dinámica -->
               <div class="flex items-center justify-between mb-3">
-                <div class="text-amber-500 tracking-widest text-base font-bold" aria-label="${ratingNum} de 5 estrellas">
+                <div class="text-[#111111] tracking-widest text-base font-bold" aria-label="${ratingNum} de 5 estrellas">
                   ${stars}
                 </div>
-                <span class="text-xs text-[#4B5563]">${escapeHTML(relativeDate)}</span>
+                <span class="text-xs text-[#52525B]">${escapeHTML(relativeDate)}</span>
               </div>
 
               <!-- Texto de la reseña -->
-              <p class="text-sm text-[#1F2937] leading-relaxed mb-5 italic">
+              <p class="text-sm text-[#18181B] leading-relaxed mb-5 italic">
                 “${escapeHTML(rev.text)}”
               </p>
             </div>
 
             <!-- Autor real de Google Maps -->
-            <div class="flex items-center gap-3 pt-3 border-t border-[#F2EFE9]">
+            <div class="flex items-center gap-3 pt-3 border-t border-[#F3F4F6]">
               ${avatarHtml}
               <div class="min-w-0">
-                <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[#1F2937] hover:text-[#1E4620] leading-tight block truncate">
+                <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-sm font-bold text-[#18181B] hover:text-[#111111] leading-tight block truncate">
                   ${escapeHTML(rev.author)}
                 </a>
-                <p class="text-xs text-[#4B5563] truncate">${escapeHTML(rev.role)}</p>
+                <p class="text-xs text-[#52525B] truncate">${escapeHTML(rev.role)}</p>
               </div>
             </div>
           </article>
@@ -1262,8 +1262,8 @@ function initReviewsCarousel() {
       filterBtns.forEach((b) => {
         const isCurrent = b === btn;
         b.className = isCurrent
-          ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-          : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+          ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+          : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
       });
       renderReviews();
     });
@@ -1447,28 +1447,28 @@ function initFaqAccordion() {
   faqContainer.innerHTML = window.MILLAN_DATA.faqs
     .map(
       (item, index) => `
-      <div class="faq-item bg-white rounded-2xl border border-[#E5E0D8] overflow-hidden transition-colors ${index === 0 ? "open" : ""}">
+      <div class="faq-item bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden transition-colors ${index === 0 ? "open" : ""}">
         <button
           type="button"
           class="faq-trigger w-full text-left px-6 py-5 flex items-center justify-between gap-4 focus:outline-none cursor-pointer"
           aria-expanded="${index === 0 ? "true" : "false"}"
         >
           <div>
-            <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-[#8C5A32] mb-1">
+            <span class="inline-block text-[11px] font-bold uppercase tracking-wider text-[#3F3F46] mb-1">
               ${escapeHTML(item.category)}
             </span>
-            <h3 class="text-base sm:text-lg font-bold text-[#1F2937]">
+            <h3 class="text-base sm:text-lg font-bold text-[#18181B]">
               ${escapeHTML(item.question)}
             </h3>
           </div>
-          <span class="faq-icon w-9 h-9 rounded-xl bg-[#F2EFE9] text-[#1E4620] flex items-center justify-center shrink-0 transition-transform duration-300">
+          <span class="faq-icon w-9 h-9 rounded-xl bg-[#F3F4F6] text-[#111111] flex items-center justify-center shrink-0 transition-transform duration-300">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
           </span>
         </button>
         <div class="faq-content px-6">
-          <div class="pb-5 pt-1 text-sm sm:text-base text-[#4B5563] leading-relaxed border-t border-[#F2EFE9]">
+          <div class="pb-5 pt-1 text-sm sm:text-base text-[#52525B] leading-relaxed border-t border-[#F3F4F6]">
             ${escapeHTML(item.answer)}
           </div>
         </div>
@@ -1513,8 +1513,8 @@ function initGalleryFilter() {
       filterBtns.forEach((b) => {
         const active = b === btn;
         b.className = active
-          ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1E4620] text-white shadow-sm transition-all cursor-pointer"
-          : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#1F2937] border border-[#E5E0D8] hover:border-[#B07D4F] transition-all cursor-pointer";
+          ? "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#111111] text-white shadow-sm transition-all cursor-pointer"
+          : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
       });
 
       galleryItems.forEach((card) => {
@@ -1578,8 +1578,8 @@ function initContactFormAntiDuplicates() {
     const isSuccess = type === "success";
     feedbackBox.className = `mt-5 p-4 rounded-xl border text-sm ${
       isSuccess
-        ? "bg-[#E8F2EC] border-[#2D6A4F] text-[#1E4620]"
-        : "bg-amber-50 border-amber-400 text-amber-900"
+        ? "bg-[#F4F4F5] border-[#27272A] text-[#111111]"
+        : "bg-[#F4F4F5] border-[#52525B] text-[#111111]"
     }`;
     feedbackBox.innerHTML = `
       <div class="flex items-start gap-3">

@@ -267,48 +267,48 @@ $htmlBody = '
   <meta charset="UTF-8">
   <title>Nueva consulta web - Millán Chiclana</title>
 </head>
-<body style="margin:0;padding:24px;background-color:#FAF8F5;font-family:Arial,sans-serif;color:#1F2937;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;margin:0 auto;background:#FFFFFF;border:1px solid #E5E0D8;border-radius:12px;overflow:hidden;">
+<body style="margin:0;padding:24px;background-color:#F9FAFB;font-family:Arial,sans-serif;color:#18181B;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;margin:0 auto;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:12px;overflow:hidden;">
     <tr>
-      <td style="background-color:#1E4620;padding:20px 24px;color:#FFFFFF;">
+      <td style="background-color:#111111;padding:20px 24px;color:#FFFFFF;">
         <h2 style="margin:0;font-size:20px;">' . htmlspecialchars(COMPANY_BRAND_NAME, ENT_QUOTES, 'UTF-8') . ' · Nueva Consulta Web</h2>
-        <p style="margin:4px 0 0;font-size:13px;color:#E8F2EC;">' . htmlspecialchars(COMPANY_LEGAL_NAME, ENT_QUOTES, 'UTF-8') . ' | Pol. Ind. Pelagatos, Chiclana</p>
+        <p style="margin:4px 0 0;font-size:13px;color:#F4F4F5;">' . htmlspecialchars(COMPANY_LEGAL_NAME, ENT_QUOTES, 'UTF-8') . ' | Pol. Ind. Pelagatos, Chiclana</p>
       </td>
     </tr>
     <tr>
       <td style="padding:24px;">
         <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-size:14px;">
-          <tr style="border-bottom:1px solid #F2EFE9;">
-            <td width="35%" style="font-weight:bold;color:#8C5A32;">Nombre Completo:</td>
+          <tr style="border-bottom:1px solid #F3F4F6;">
+            <td width="35%" style="font-weight:bold;color:#3F3F46;">Nombre Completo:</td>
             <td>' . htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8') . '</td>
           </tr>
-          <tr style="border-bottom:1px solid #F2EFE9;">
-            <td style="font-weight:bold;color:#8C5A32;">Teléfono directo:</td>
-            <td><a href="tel:' . htmlspecialchars($telefono, ENT_QUOTES, 'UTF-8') . '" style="color:#1E4620;font-weight:bold;">' . htmlspecialchars($telefono, ENT_QUOTES, 'UTF-8') . '</a></td>
+          <tr style="border-bottom:1px solid #F3F4F6;">
+            <td style="font-weight:bold;color:#3F3F46;">Teléfono directo:</td>
+            <td><a href="tel:' . htmlspecialchars($telefono, ENT_QUOTES, 'UTF-8') . '" style="color:#111111;font-weight:bold;">' . htmlspecialchars($telefono, ENT_QUOTES, 'UTF-8') . '</a></td>
           </tr>
-          <tr style="border-bottom:1px solid #F2EFE9;">
-            <td style="font-weight:bold;color:#8C5A32;">Correo Electrónico:</td>
-            <td><a href="mailto:' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '" style="color:#1E4620;">' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '</a></td>
+          <tr style="border-bottom:1px solid #F3F4F6;">
+            <td style="font-weight:bold;color:#3F3F46;">Correo Electrónico:</td>
+            <td><a href="mailto:' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '" style="color:#111111;">' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '</a></td>
           </tr>
-          <tr style="border-bottom:1px solid #F2EFE9;">
-            <td style="font-weight:bold;color:#8C5A32;">Asunto:</td>
+          <tr style="border-bottom:1px solid #F3F4F6;">
+            <td style="font-weight:bold;color:#3F3F46;">Asunto:</td>
             <td><strong>' . htmlspecialchars($asunto, ENT_QUOTES, 'UTF-8') . '</strong></td>
           </tr>
-          <tr style="border-bottom:1px solid #F2EFE9;">
-            <td style="font-weight:bold;color:#8C5A32;">Sede / Departamento:</td>
+          <tr style="border-bottom:1px solid #F3F4F6;">
+            <td style="font-weight:bold;color:#3F3F46;">Sede / Departamento:</td>
             <td>' . htmlspecialchars($sedeInteres, ENT_QUOTES, 'UTF-8') . '</td>
           </tr>
           <tr>
             <td colspan="2" style="padding-top:16px;">
-              <div style="font-weight:bold;color:#1E4620;margin-bottom:8px;">Mensaje del cliente:</div>
-              <div style="background:#FAF8F5;padding:16px;border-radius:8px;border:1px solid #E5E0D8;white-space:pre-line;line-height:1.6;">' . nl2br(htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8')) . '</div>
+              <div style="font-weight:bold;color:#111111;margin-bottom:8px;">Mensaje del cliente:</div>
+              <div style="background:#F9FAFB;padding:16px;border-radius:8px;border:1px solid #E5E7EB;white-space:pre-line;line-height:1.6;">' . nl2br(htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8')) . '</div>
             </td>
           </tr>
         </table>
       </td>
     </tr>
     <tr>
-      <td style="background:#F2EFE9;padding:14px 24px;font-size:12px;color:#4B5563;">
+      <td style="background:#F3F4F6;padding:14px 24px;font-size:12px;color:#52525B;">
         Enviado el ' . $fechaHora . ' · Protección Anti-Duplicados Activa (ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ') · RGPD Aceptado
       </td>
     </tr>

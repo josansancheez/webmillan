@@ -18,7 +18,7 @@ Sitio web multipágina de **Millán Chiclana** (*Millán Servicios Montajes e In
 ├── catalogos/                  # Archivos PDF de catálogos de marcas
 └── assets/
     ├── css/
-    │   └── styles.css          # Estilos personalizados (Modo Claro, paleta verde y madera)
+    │   └── styles.css          # Estilos personalizados (Modo Claro, paleta corporativa negro, gris y blanco)
     └── js/
         ├── data.js             # Datos centralizados: marcas/catálogos, reseñas de Google y preguntas frecuentes
         └── main.js             # Lógica interactiva de la web (menú móvil, visor PDF, filtros y formulario)
