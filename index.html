@@ -28,11 +28,11 @@
   <meta property="og:title" content="Millán Chiclana | Almacén de Construcción, Exposición de Baños, Cerámica y Chimeneas" />
   <meta property="og:description" content="Todo para tu reforma y obra en el Polígono Pelagatos (Chiclana de la Frontera, Cádiz). Sede Exposición y Sede Almacén en la misma calle." />
   <meta property="og:url" content="https://millanchiclana.com/" />
-  <meta property="og:image" content="https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg" />
+  <meta property="og:image" content="https://millanchiclana.com/assets/img/fachada-exposicion.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Millán Chiclana | Materiales de Construcción, Cerámica, Baños y Chimeneas" />
   <meta name="twitter:description" content="Sede Exposición y Sede Almacén en Pol. Ind. Pelagatos, Chiclana de la Frontera (Cádiz)." />
-  <meta name="twitter:image" content="https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg" />
+  <meta name="twitter:image" content="https://millanchiclana.com/assets/img/fachada-exposicion.jpg" />
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -68,7 +68,7 @@
   </script>
 
   <!-- Hoja de estilos personalizada -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261027150510" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261027151203" />
 
   <!-- SEO Local Avanzado: Datos Estructurados Schema.org (JSON-LD) con @graph para Organización y las 2 Sedes Locales -->
   <script type="application/ld+json">
@@ -109,7 +109,10 @@
         "@id": "https://millanchiclana.com/#sede-exposicion",
         "parentOrganization": { "@id": "https://millanchiclana.com/#organization" },
         "name": "Millán Chiclana - Sede Exposición (Azulejos, Baños e Interiorismo)",
-        "image": "https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg",
+        "image": [
+          "https://millanchiclana.com/assets/img/fachada-exposicion.jpg",
+          "https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg"
+        ],
         "url": "https://millanchiclana.com/contacto#sede-exposicion",
         "telephone": "+34956536104",
         "email": "millan@millanchiclana.com",
@@ -440,11 +443,11 @@
       <div class="hero-slide active absolute inset-0 flex items-center" aria-hidden="false">
         <div class="absolute inset-0 overflow-hidden">
           <img
-            src="assets/img/exposicion/ambiente-bano-madera-botanico.jpg"
-            alt="Exposición de cerámica, pavimentos y baños en Millán Chiclana"
-            class="hero-slide-bg w-full h-full object-cover object-center"
+            src="assets/img/fachada-exposicion.jpg"
+            alt="Fachada exterior de la Sede Exposición de Millán Chiclana en el Polígono Industrial Pelagatos"
+            class="hero-slide-bg w-full h-full object-cover object-[center_65%]"
           />
-          <div class="absolute inset-0 bg-gradient-to-r from-[#09090B]/90 via-[#18181B]/75 to-[#18181B]/40"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#09090B]/90 via-[#18181B]/75 to-[#18181B]/35"></div>
         </div>
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
@@ -683,11 +686,14 @@
     <section class="relative z-20 -mt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Resumen de nuestras dos sedes">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <!-- Tarjeta Rápida Sede Exposición -->
-        <div class="bg-white rounded-2xl p-6 border-2 border-[#334155] shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-[#334155] text-white flex items-center justify-center shrink-0 font-bold shadow-xs">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
-            </div>
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#334155] shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start sm:items-center gap-4">
+            <img
+              src="assets/img/fachada-exposicion.jpg"
+              alt="Fachada exterior Sede Exposición Millán Chiclana"
+              class="w-20 h-20 sm:w-24 sm:h-20 rounded-xl object-cover object-[center_65%] border border-[#CBD5E1] shrink-0 shadow-xs"
+              loading="lazy"
+            />
             <div>
               <span class="text-xs font-extrabold uppercase tracking-wider text-[#334155]">1. Sede Exposición · Av. Bahía de Algeciras N23</span>
               <h2 class="text-lg font-extrabold text-[#18181B]">Azulejos, Pavimentos, Baños e Interiorismo</h2>
@@ -701,11 +707,14 @@
         </div>
 
         <!-- Tarjeta Rápida Sede Almacén -->
-        <div class="bg-white rounded-2xl p-6 border-2 border-[#111111] shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-[#111111] text-white flex items-center justify-center shrink-0 font-bold shadow-xs">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-            </div>
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#111111] shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-start sm:items-center gap-4">
+            <img
+              src="assets/img/fachada-almacen.jpg"
+              alt="Fachada exterior Sede Almacén Millán Chiclana"
+              class="w-20 h-20 sm:w-24 sm:h-20 rounded-xl object-cover object-center border border-[#CBD5E1] shrink-0 shadow-xs"
+              loading="lazy"
+            />
             <div>
               <span class="text-xs font-extrabold uppercase tracking-wider text-[#111111]">2. Sede Almacén · Av. Bahía de Algeciras N16 (misma calle)</span>
               <h2 class="text-lg font-extrabold text-[#18181B]">Obra Gruesa, Áridos, Sacos y Ferretería</h2>
@@ -1734,7 +1743,7 @@
   </div>
 
   <!-- Scripts de Datos y Lógica Principal -->
-  <script src="assets/js/data.js?v=20261027150510"></script>
-  <script src="assets/js/main.js?v=20261027150510"></script>
+  <script src="assets/js/data.js?v=20261027151203"></script>
+  <script src="assets/js/main.js?v=20261027151203"></script>
 </body>
 </html>

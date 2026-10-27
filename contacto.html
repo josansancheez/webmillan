@@ -27,11 +27,11 @@
   <meta property="og:title" content="Contacto, Horarios y Ubicación (2 Sedes en Pelagatos) | Millán Chiclana" />
   <meta property="og:description" content="Teléfonos directos, horarios y ubicación GPS de nuestra Sede Exposición y Sede Almacén en Pol. Ind. Pelagatos, Chiclana de la Frontera (Cádiz)." />
   <meta property="og:url" content="https://millanchiclana.com/contacto" />
-  <meta property="og:image" content="https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg" />
+  <meta property="og:image" content="https://millanchiclana.com/assets/img/fachada-exposicion.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Contacto y Horarios | Millán Chiclana" />
   <meta name="twitter:description" content="Dos sedes en la misma calle en Pol. Ind. Pelagatos, Chiclana de la Frontera." />
-  <meta name="twitter:image" content="https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg" />
+  <meta name="twitter:image" content="https://millanchiclana.com/assets/img/fachada-exposicion.jpg" />
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,7 +64,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261027150510" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261027151203" />
 
   <!-- Datos Estructurados Schema.org (JSON-LD) con @graph para las 2 Sedes Locales -->
   <script type="application/ld+json">
@@ -85,6 +85,7 @@
         "@id": "https://millanchiclana.com/#sede-exposicion",
         "parentOrganization": { "@id": "https://millanchiclana.com/#organization" },
         "name": "Millán Chiclana - Sede Exposición (Azulejos, Baños e Interiorismo)",
+        "image": "https://millanchiclana.com/assets/img/fachada-exposicion.jpg",
         "url": "https://millanchiclana.com/contacto#sede-exposicion",
         "hasMap": "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
         "telephone": "+34956536104",
@@ -133,6 +134,7 @@
         "@id": "https://millanchiclana.com/#sede-almacen",
         "parentOrganization": { "@id": "https://millanchiclana.com/#organization" },
         "name": "Millán Chiclana - Sede Almacén (Materiales de Construcción y Obra Gruesa)",
+        "image": "https://millanchiclana.com/assets/img/fachada-almacen.jpg",
         "url": "https://millanchiclana.com/contacto#sede-almacen",
         "hasMap": "https://maps.app.goo.gl/zsD1AbVrbpVkRBYB8",
         "telephone": "+34956530361",
@@ -429,29 +431,43 @@
           <!-- Información de la Sede Exposición -->
           <div class="lg:col-span-6 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
             <div>
-              <!-- Fotografías Reales de la Sede Exposición -->
-              <div class="grid grid-cols-2 gap-3 mb-6">
-                <div class="relative h-48 sm:h-56 rounded-2xl overflow-hidden border border-[#DCDCE0] shadow-sm bg-[#F3F4F6]">
+              <!-- Fotografía Real de la Fachada Exterior + Ambientes Interiores de la Sede Exposición -->
+              <div class="space-y-3 mb-6">
+                <div class="relative h-52 sm:h-60 rounded-2xl overflow-hidden border border-[#CBD5E1] shadow-sm bg-[#F3F4F6]">
                   <img
-                    src="assets/img/exposicion/ambiente-bano-madera-botanico.jpg"
-                    alt="Ambiente real de baño y cerámica en Sede Exposición Millán Chiclana"
-                    class="w-full h-full object-cover object-center"
+                    src="assets/img/fachada-exposicion.jpg"
+                    alt="Fachada exterior de Sede Exposición Millán Chiclana en Avenida Bahía de Algeciras N23 (Polígono Industrial Pelagatos)"
+                    class="w-full h-full object-cover object-[center_65%]"
                     loading="lazy"
                   />
-                  <span class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#3F3F46]/90 text-white backdrop-blur-sm">
-                    Exposición · Cerámica y Baño
+                  <span class="absolute bottom-3 left-3 px-3 py-1 rounded-lg text-xs font-extrabold bg-[#334155]/95 text-white backdrop-blur-sm shadow-xs">
+                    Fachada Sede Exposición · Av. Bahía de Algeciras N23
                   </span>
                 </div>
-                <div class="relative h-48 sm:h-56 rounded-2xl overflow-hidden border border-[#DCDCE0] shadow-sm bg-[#F3F4F6]">
-                  <img
-                    src="assets/img/exposicion/ambiente-bano-nogal-hidraulico.jpg"
-                    alt="Ambiente real de mueble de baño, espejo LED y suelo hidráulico en Sede Exposición Millán Chiclana"
-                    class="w-full h-full object-cover object-center"
-                    loading="lazy"
-                  />
-                  <span class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#111111]/90 text-white backdrop-blur-sm">
-                    Exposición · Mobiliario y Grifería
-                  </span>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="relative h-40 sm:h-44 rounded-2xl overflow-hidden border border-[#DCDCE0] shadow-sm bg-[#F3F4F6]">
+                    <img
+                      src="assets/img/exposicion/ambiente-bano-madera-botanico.jpg"
+                      alt="Ambiente real de baño y cerámica en Sede Exposición Millán Chiclana"
+                      class="w-full h-full object-cover object-center"
+                      loading="lazy"
+                    />
+                    <span class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#334155]/90 text-white backdrop-blur-sm">
+                      Interior · Cerámica y Baño
+                    </span>
+                  </div>
+                  <div class="relative h-40 sm:h-44 rounded-2xl overflow-hidden border border-[#DCDCE0] shadow-sm bg-[#F3F4F6]">
+                    <img
+                      src="assets/img/exposicion/ambiente-bano-nogal-hidraulico.jpg"
+                      alt="Ambiente real de mueble de baño, espejo LED y suelo hidráulico en Sede Exposición Millán Chiclana"
+                      class="w-full h-full object-cover object-center"
+                      loading="lazy"
+                    />
+                    <span class="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#111111]/90 text-white backdrop-blur-sm">
+                      Interior · Mobiliario y Grifería
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -1004,7 +1020,7 @@
     </div>
   </div>
 
-  <script src="assets/js/data.js?v=20261027150510"></script>
-  <script src="assets/js/main.js?v=20261027150510"></script>
+  <script src="assets/js/data.js?v=20261027151203"></script>
+  <script src="assets/js/main.js?v=20261027151203"></script>
 </body>
 </html>

@@ -27,11 +27,11 @@
   <meta property="og:title" content="Sobre Nosotros, Instalaciones y Preguntas Frecuentes | Millán Chiclana" />
   <meta property="og:description" content="Conoce nuestras 2 sedes en el Polígono Industrial Pelagatos (Chiclana de la Frontera, Cádiz): Exposición de Azulejos y Baños + Almacén de Construcción." />
   <meta property="og:url" content="https://millanchiclana.com/sobre-nosotros" />
-  <meta property="og:image" content="https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg" />
+  <meta property="og:image" content="https://millanchiclana.com/assets/img/fachada-exposicion.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Sobre Nosotros | Millán Chiclana" />
   <meta name="twitter:description" content="Dos sedes especializadas en el Polígono Pelagatos, Chiclana de la Frontera (Cádiz)." />
-  <meta name="twitter:image" content="https://millanchiclana.com/assets/img/exposicion/ambiente-bano-madera-botanico.jpg" />
+  <meta name="twitter:image" content="https://millanchiclana.com/assets/img/fachada-exposicion.jpg" />
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,7 +64,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261027150510" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261027151203" />
 
   <!-- Datos Estructurados Schema.org (JSON-LD): Organización, 2 Sedes Locales con Reseñas y FAQPage -->
   <script type="application/ld+json">
@@ -85,6 +85,7 @@
         "@id": "https://millanchiclana.com/#sede-exposicion",
         "parentOrganization": { "@id": "https://millanchiclana.com/#organization" },
         "name": "Millán Chiclana - Sede Exposición",
+        "image": "https://millanchiclana.com/assets/img/fachada-exposicion.jpg",
         "telephone": "+34956536104",
         "address": {
           "@type": "PostalAddress",
@@ -105,6 +106,7 @@
         "@id": "https://millanchiclana.com/#sede-almacen",
         "parentOrganization": { "@id": "https://millanchiclana.com/#organization" },
         "name": "Millán Chiclana - Sede Almacén",
+        "image": "https://millanchiclana.com/assets/img/fachada-almacen.jpg",
         "telephone": "+34956530361",
         "address": {
           "@type": "PostalAddress",
@@ -379,7 +381,7 @@
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
         <div>
           <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-[#3F3F46] bg-[#EDEDEF] px-3 py-1 rounded-full mb-3">
-            Conoce Nuestras Instalaciones por Dentro
+            Conoce Nuestras Instalaciones por Fuera y por Dentro
           </span>
           <h2 class="text-3xl sm:text-4xl font-extrabold text-[#18181B] tracking-tight">
             Nuestra Exposición y Nuestro Almacén en Pelagatos
@@ -400,7 +402,48 @@
         </div>
       </div>
 
-      <!-- Grid de Fotos de Instalaciones (Preparado para sustituir src por fotos reales) -->
+      <!-- Fila Destacada: Fachadas Exteriores de Nuestras 2 Sedes -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- Fachada 1: Sede Exposición (Foto Exterior Real) -->
+        <figure data-gallery-item="exposicion" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
+          <div class="h-64 sm:h-72 overflow-hidden relative bg-[#18181B]">
+            <img
+              src="assets/img/fachada-exposicion.jpg"
+              alt="Fachada exterior real de la Sede Exposición de Azulejos, Baños y Chimeneas Millán Chiclana en Avenida Bahía de Algeciras N23, Polígono Pelagatos"
+              class="w-full h-full object-cover object-[center_65%]"
+              loading="lazy"
+            />
+            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold bg-[#334155] text-white border border-white/25 shadow-xs">
+              Nuestra Exposición · Exterior
+            </span>
+          </div>
+          <figcaption class="p-4 sm:p-5">
+            <h3 class="text-base sm:text-lg font-bold text-[#18181B]">Fachada Sede Exposición en Pol. Ind. Pelagatos (Av. Bahía de Algeciras, N23)</h3>
+            <p class="text-xs sm:text-sm text-[#52525B] mt-1">Edificio de exposición de cerámica, suelos porcelánicos, baños, griferías, cocinas y chimeneas con aparcamiento en la puerta.</p>
+          </figcaption>
+        </figure>
+
+        <!-- Fachada 2: Sede Almacén (Foto Exterior Real) -->
+        <figure data-gallery-item="almacen" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
+          <div class="h-64 sm:h-72 overflow-hidden relative bg-[#111111]">
+            <img
+              src="assets/img/fachada-almacen.jpg"
+              alt="Fachada exterior real de la Sede Almacén de Materiales de Construcción Millán en Avenida Bahía de Algeciras N16, Polígono Pelagatos"
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+            />
+            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold bg-[#111111] text-white border border-white/20 shadow-xs">
+              Nuestro Almacén · Exterior
+            </span>
+          </div>
+          <figcaption class="p-4 sm:p-5">
+            <h3 class="text-base sm:text-lg font-bold text-[#18181B]">Fachada Sede Almacén en Pol. Ind. Pelagatos (Av. Bahía de Algeciras, N16)</h3>
+            <p class="text-xs sm:text-sm text-[#52525B] mt-1">Nave logística de materiales de construcción, saneamientos, morteros, áridos, obra gruesa y carga rápida para furgonetas y camiones.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Grid de Fotos Interiores de Instalaciones -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Foto 1: Exposición (Foto Real Ambiente Madera y Cerámica Botánica) -->
         <figure data-gallery-item="exposicion" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
@@ -421,26 +464,7 @@
           </figcaption>
         </figure>
 
-        <!-- Foto 2: Almacén (Fachada Real) -->
-        <figure data-gallery-item="almacen" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
-          <div class="h-60 overflow-hidden relative bg-[#F3F4F6]">
-            <img
-              src="assets/img/fachada-almacen.jpg"
-              alt="Fachada real de la Sede Almacén de Materiales de Construcción Millán en Polígono Pelagatos"
-              class="w-full h-full object-cover"
-              loading="lazy"
-            />
-            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold bg-[#111111] text-white">
-              Nuestro Almacén
-            </span>
-          </div>
-          <figcaption class="p-4">
-            <h3 class="text-base font-bold text-[#18181B]">Fachada Sede Almacén en Pol. Ind. Pelagatos</h3>
-            <p class="text-xs text-[#52525B] mt-1">Instalaciones de materiales de construcción, saneamientos, obra gruesa y carga rápida.</p>
-          </figcaption>
-        </figure>
-
-        <!-- Foto 3: Exposición (Foto Real Ambiente Baño Nogal e Hidráulico) -->
+        <!-- Foto 2: Exposición (Foto Real Ambiente Baño Nogal e Hidráulico) -->
         <figure data-gallery-item="exposicion" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
           <div class="h-60 overflow-hidden relative bg-[#F3F4F6]">
             <img
@@ -456,6 +480,25 @@
           <figcaption class="p-4">
             <h3 class="text-base font-bold text-[#18181B]">Ambientes de Baño, Espejos LED y Grifería</h3>
             <p class="text-xs text-[#52525B] mt-1">Soluciones completas de mobiliario de baño, revestimientos con relieve y suelos hidráulicos.</p>
+          </figcaption>
+        </figure>
+
+        <!-- Foto 3: Exposición (Foto Real Exposición de Chimeneas) -->
+        <figure data-gallery-item="exposicion" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
+          <div class="h-60 overflow-hidden relative bg-[#F3F4F6]">
+            <img
+              src="assets/img/chimeneas/exposicion-barbacoa-bonfeu-chimeneas.jpg"
+              alt="Zona de exposición de chimeneas, estufas y braseros en Millán Chiclana"
+              class="w-full h-full object-cover object-center"
+              loading="lazy"
+            />
+            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold bg-[#334155] text-white border border-white/25 shadow-xs">
+              Nuestra Exposición
+            </span>
+          </div>
+          <figcaption class="p-4">
+            <h3 class="text-base font-bold text-[#18181B]">Exposición y Montaje de Chimeneas</h3>
+            <p class="text-xs text-[#52525B] mt-1">Amplia exposición de chimeneas y estufas de leña, pellet, bioetanol, gas y eléctricas.</p>
           </figcaption>
         </figure>
 
@@ -478,22 +521,22 @@
           </figcaption>
         </figure>
 
-        <!-- Foto 5: Exposición (Foto Real Exposición de Chimeneas) -->
-        <figure data-gallery-item="exposicion" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
+        <!-- Foto 5: Almacén -->
+        <figure data-gallery-item="almacen" class="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB] shadow-sm card-hover">
           <div class="h-60 overflow-hidden relative bg-[#F3F4F6]">
             <img
-              src="assets/img/chimeneas/exposicion-barbacoa-bonfeu-chimeneas.jpg"
-              alt="Zona de exposición de chimeneas, estufas y braseros en Millán Chiclana"
+              src="assets/img/categorias/obra-gruesa-aridos.jpg"
+              alt="Ladrillos, bloques, áridos en sacas big-bag y materiales de obra gruesa en Sede Almacén Millán Chiclana"
               class="w-full h-full object-cover object-center"
               loading="lazy"
             />
-            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold bg-[#334155] text-white border border-white/25 shadow-xs">
-              Nuestra Exposición
+            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-extrabold bg-[#111111] text-white">
+              Nuestro Almacén
             </span>
           </div>
           <figcaption class="p-4">
-            <h3 class="text-base font-bold text-[#18181B]">Exposición y Montaje de Chimeneas</h3>
-            <p class="text-xs text-[#52525B] mt-1">Amplia exposición de chimeneas y estufas de leña, pellet, bioetanol, gas y eléctricas.</p>
+            <h3 class="text-base font-bold text-[#18181B]">Ladrillos, Bloques, Tejas y Suministro de Obra</h3>
+            <p class="text-xs text-[#52525B] mt-1">Stock permanente de palets de ladrillo, bovedillas, áridos en big-bag y prefabricados.</p>
           </figcaption>
         </figure>
 
@@ -776,7 +819,7 @@
     </div>
   </div>
 
-  <script src="assets/js/data.js?v=20261027150510"></script>
-  <script src="assets/js/main.js?v=20261027150510"></script>
+  <script src="assets/js/data.js?v=20261027151203"></script>
+  <script src="assets/js/main.js?v=20261027151203"></script>
 </body>
 </html>
