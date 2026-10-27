@@ -217,11 +217,11 @@ function initHeroCarousel() {
     });
     dots.forEach((dot, idx) => {
       if (idx === currentIndex) {
-        dot.classList.add("w-8", "bg-[#52525B]");
-        dot.classList.remove("w-2.5", "bg-white/60");
+        dot.classList.add("w-8", "bg-white", "shadow-md");
+        dot.classList.remove("w-2.5", "bg-white/45");
       } else {
-        dot.classList.remove("w-8", "bg-[#52525B]");
-        dot.classList.add("w-2.5", "bg-white/60");
+        dot.classList.remove("w-8", "bg-white", "shadow-md");
+        dot.classList.add("w-2.5", "bg-white/45");
       }
     });
   };
@@ -348,8 +348,8 @@ function initCatalogsSystem() {
   const createCatalogCardHTML = (item) => {
     const isExposicion = item.sede === "Sede Exposición";
     const sedeBadgeClasses = isExposicion
-      ? "bg-[#EDEDEF] text-[#3F3F46] border-[#DCDCE0]"
-      : "bg-[#F4F4F5] text-[#111111] border-[#D4D4D8]";
+      ? "bg-[#18181B] text-white border-[#3F3F46] shadow-xs"
+      : "bg-white text-[#111111] border-[#111111] shadow-xs";
 
     const logoBlock = item.logoUrl
       ? `<img src="${escapeHTML(item.logoUrl)}" alt="Logo ${escapeHTML(item.name)}" class="h-9 sm:h-10 w-auto max-w-[155px] object-contain" loading="lazy">`
@@ -645,12 +645,12 @@ function initCatalogsSystem() {
     if (expoFiltered.length > 0) {
       sectionsHtml.push(`
         <div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#DCDCE0]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#18181B]">
             <div>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-[#3F3F46]">Sede Exposición · Polígono Pelagatos</span>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#334155]">1. Sede Exposición · Polígono Pelagatos</span>
               <h3 class="text-2xl font-extrabold text-[#18181B]">Catálogos de Marcas de la Exposición (${expoFiltered.length})</h3>
             </div>
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#EDEDEF] text-[#3F3F46] border border-[#DCDCE0]">
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#18181B] text-white border border-[#18181B]">
               Cerámica · Piedras · Sanitario · Grifería · Accesorios · Mamparas · Mobiliario
             </span>
           </div>
@@ -664,12 +664,12 @@ function initCatalogsSystem() {
     if (almacenFiltered.length > 0) {
       sectionsHtml.push(`
         <div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#D4D4D8]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#64748B]">
             <div>
-              <span class="text-xs font-extrabold uppercase tracking-wider text-[#111111]">Sede Almacén · Polígono Pelagatos</span>
+              <span class="text-xs font-extrabold uppercase tracking-wider text-[#111111]">2. Sede Almacén · Polígono Pelagatos</span>
               <h3 class="text-2xl font-extrabold text-[#18181B]">Catálogos de Marcas del Almacén (${almacenFiltered.length})</h3>
             </div>
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#F4F4F5] text-[#111111] border border-[#D4D4D8]">
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#E2E8F0] text-[#111111] border border-[#64748B]">
               Obra Gruesa · Cementos · Morteros · Ferretería · Fontanería
             </span>
           </div>
@@ -1214,8 +1214,8 @@ function initReviewsCarousel() {
       .map((rev) => {
         const isExposicion = rev.sede === "Sede Exposición";
         const badgeStyle = isExposicion
-          ? "bg-[#EDEDEF] text-[#3F3F46] border-[#DCDCE0]"
-          : "bg-[#F4F4F5] text-[#111111] border-[#D4D4D8]";
+          ? "bg-[#18181B] text-white border-[#18181B]"
+          : "bg-[#F1F5F9] text-[#111111] border-[#64748B]";
 
         const ratingNum = Math.min(5, Math.max(1, Number(rev.rating) || 5));
         const stars = "★".repeat(ratingNum) + "☆".repeat(5 - ratingNum);
@@ -1228,27 +1228,27 @@ function initReviewsCarousel() {
 
         const avatarHtml = rev.avatar
           ? `<img src="${escapeHTML(rev.avatar)}" alt="${escapeHTML(rev.author)}" referrerpolicy="no-referrer" loading="lazy" class="w-10 h-10 rounded-full object-cover border border-[#E5E7EB] shrink-0" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-             <div style="display:none" class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#52525B]" : "bg-[#111111]"} text-white font-bold text-sm items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`
-          : `<div class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#52525B]" : "bg-[#111111]"} text-white font-bold text-sm flex items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`;
+             <div style="display:none" class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#334155]" : "bg-[#111111]"} text-white font-bold text-sm items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`
+          : `<div class="w-10 h-10 rounded-full ${isExposicion ? "bg-[#334155]" : "bg-[#111111]"} text-white font-bold text-sm flex items-center justify-center shrink-0">${escapeHTML(rev.initials || "MC")}</div>`;
 
         return `
-          <article class="bg-white rounded-2xl p-6 border border-[#E5E7EB] shadow-sm flex flex-col justify-between card-hover h-full">
+          <article class="bg-white rounded-2xl p-6 border border-[#CBD5E1] shadow-sm flex flex-col justify-between card-hover h-full">
             <div>
               <!-- Cabecera de la reseña: Etiqueta de Sede + Enlace Google Maps -->
               <div class="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#F3F4F6]">
                 <span class="inline-flex items-center gap-1.5 text-xs font-extrabold px-3 py-1 rounded-full border ${badgeStyle}">
-                  <span class="w-2 h-2 rounded-full ${isExposicion ? "bg-[#52525B]" : "bg-[#111111]"}"></span>
+                  <span class="w-2 h-2 rounded-full ${isExposicion ? "bg-white" : "bg-[#111111]"}"></span>
                   ${escapeHTML(rev.sede)}
                 </span>
                 <a href="${escapeHTML(reviewLink)}" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-[#52525B] hover:text-[#111111] flex items-center gap-1 transition-colors">
-                  <svg class="w-4 h-4 text-[#18181B]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 15.65 5 12c0-3.65 3.36-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z"/></svg>
+                  <svg class="w-4 h-4 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 15.65 5 12c0-3.65 3.36-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z"/></svg>
                   <span>Reseña de Google</span>
                 </a>
               </div>
 
               <!-- Estrellas y fecha relativa dinámica -->
               <div class="flex items-center justify-between mb-3">
-                <div class="text-[#111111] tracking-widest text-base font-bold" aria-label="${ratingNum} de 5 estrellas">
+                <div class="text-amber-500 tracking-widest text-base font-bold" aria-label="${ratingNum} de 5 estrellas">
                   ${stars}
                 </div>
                 <span class="text-xs text-[#52525B]">${escapeHTML(relativeDate)}</span>
@@ -1601,8 +1601,8 @@ function initContactFormAntiDuplicates() {
     const isSuccess = type === "success";
     feedbackBox.className = `mt-5 p-4 rounded-xl border text-sm ${
       isSuccess
-        ? "bg-[#F4F4F5] border-[#27272A] text-[#111111]"
-        : "bg-[#F4F4F5] border-[#52525B] text-[#111111]"
+        ? "bg-emerald-50 border-emerald-500 text-emerald-950"
+        : "bg-amber-50 border-amber-400 text-amber-900"
     }`;
     feedbackBox.innerHTML = `
       <div class="flex items-start gap-3">
