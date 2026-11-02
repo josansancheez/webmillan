@@ -2245,8 +2245,12 @@ function initImageProtectionAndLightbox() {
     ) {
       return false;
     }
-    // Excluir fondos del carrusel hero y el preloader
-    if (img.closest("#hero-slider, .hero-slide, [data-carousel-slide], #site-preloader, header, footer")) {
+    // Excluir fondos del carrusel hero, tarjetas de marcas/catálogos y el preloader
+    if (
+      img.closest(
+        "#hero-slider, .hero-slide, [data-carousel-slide], [data-brand-id], #all-catalogs-grid, #fireplaces-catalogs-grid, #featured-catalogs-grid, #catalog-modal, #site-preloader, header, footer"
+      )
+    ) {
       return false;
     }
     return Boolean(img.closest("main"));
@@ -2460,7 +2464,13 @@ function initImageProtectionAndLightbox() {
 
   // Abrir Lightbox al pulsar sobre cualquier fotografía ampliable o tarjeta de galería
   document.addEventListener("click", (e) => {
-    if (e.target.closest("a, button, #hero-slider, .hero-slide")) return;
+    if (
+      e.target.closest(
+        "a, button, #hero-slider, .hero-slide, [data-brand-id], #all-catalogs-grid, #fireplaces-catalogs-grid, #featured-catalogs-grid, #catalog-modal"
+      )
+    ) {
+      return;
+    }
 
     let targetImg = e.target.closest("img");
     if (!targetImg) {
@@ -2469,7 +2479,12 @@ function initImageProtectionAndLightbox() {
         targetImg = fig.querySelector("img");
       } else {
         const cardBox = e.target.closest(".relative.overflow-hidden");
-        if (cardBox && !cardBox.closest("#hero-slider, .hero-slide, [data-carousel-slide]")) {
+        if (
+          cardBox &&
+          !cardBox.closest(
+            "#hero-slider, .hero-slide, [data-carousel-slide], [data-brand-id], #all-catalogs-grid, #fireplaces-catalogs-grid, #featured-catalogs-grid, #catalog-modal"
+          )
+        ) {
           targetImg = cardBox.querySelector("img");
         }
       }
