@@ -2260,7 +2260,7 @@ function initImageProtectionAndLightbox() {
       return false;
     }
     // Excluir fondos del carrusel hero y el preloader
-    if (img.closest("[data-carousel-slide], #site-preloader, header, footer")) {
+    if (img.closest("#hero-slider, .hero-slide, [data-carousel-slide], #site-preloader, header, footer")) {
       return false;
     }
     return Boolean(img.closest("main"));
@@ -2474,7 +2474,7 @@ function initImageProtectionAndLightbox() {
 
   // Abrir Lightbox al pulsar sobre cualquier fotografía ampliable o tarjeta de galería
   document.addEventListener("click", (e) => {
-    if (e.target.closest("a, button")) return;
+    if (e.target.closest("a, button, #hero-slider, .hero-slide")) return;
 
     let targetImg = e.target.closest("img");
     if (!targetImg) {
@@ -2483,7 +2483,7 @@ function initImageProtectionAndLightbox() {
         targetImg = fig.querySelector("img");
       } else {
         const cardBox = e.target.closest(".relative.overflow-hidden");
-        if (cardBox && !cardBox.closest("[data-carousel-slide]")) {
+        if (cardBox && !cardBox.closest("#hero-slider, .hero-slide, [data-carousel-slide]")) {
           targetImg = cardBox.querySelector("img");
         }
       }
