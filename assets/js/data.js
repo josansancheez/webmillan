@@ -1910,7 +1910,7 @@ window.MILLAN_DATA = {
   ],
 
   // 2B. MARCAS EXCLUSIVAS DE CHIMENEAS Y CALEFACCIÓN (chimeneas.html)
-  // Únicamente las marcas comercializadas e instaladas por Millán Chiclana:
+  // Únicamente las marcas comercializadas en la Exposición de Chimeneas de Millán Chiclana:
   // BRONPI, FM CALEFACCIÓN, HERGÓM, BOSCH MARÍN (Austroflamm, M-Design, Faber, Charlton & Jenrick) y EXOJO.
   fireplacesCatalogs: [
     {
@@ -1919,7 +1919,7 @@ window.MILLAN_DATA = {
       edition: "Catálogo General de Chimeneas de Leña, Pellet, Insertables e Hidroestufas 2026",
       year: "2026",
       category: "Leña, Pellet e Insertables",
-      sede: "Exposición y Montaje",
+      sede: "Exposición · Chimeneas",
       featured: true,
       isMainBrand: true,
       logoUrl: "assets/img/marcas/bronpi.svg",
@@ -1937,7 +1937,7 @@ window.MILLAN_DATA = {
       edition: "Colección de Chimeneas de Leña, Pellet, Bioetanol y Eléctricas 2026",
       year: "2026",
       category: "Leña, Pellet e Insertables",
-      sede: "Exposición y Montaje",
+      sede: "Exposición · Chimeneas",
       featured: true,
       isMainBrand: true,
       logoUrl: "assets/img/marcas/fm-calefaccion.svg",
@@ -1955,7 +1955,7 @@ window.MILLAN_DATA = {
       edition: "Hogares, Insertables y Estufas de Leña y Pellet en Hierro Fundido 2026",
       year: "2026",
       category: "Hierro Fundido y Hogares",
-      sede: "Exposición y Montaje",
+      sede: "Exposición · Chimeneas",
       featured: true,
       isMainBrand: true,
       logoUrl: "assets/img/marcas/hergom.svg",
@@ -1973,7 +1973,7 @@ window.MILLAN_DATA = {
       edition: "Distribuidor Oficial de Chimeneas: Austroflamm, M-Design, Faber y Charlton & Jenrick",
       year: "2026",
       category: "Chimeneas Bosch Marín",
-      sede: "Exposición y Montaje",
+      sede: "Exposición · Chimeneas",
       featured: true,
       isMainBrand: true,
       subBrands: ["Austroflamm", "M-Design", "Faber", "Charlton & Jenrick"],
@@ -1992,7 +1992,7 @@ window.MILLAN_DATA = {
       edition: "Conductos de Evacuación de Humos, Tubería Vitrificada e Inoxidable Doble Pared",
       year: "2026",
       category: "Conductos y Tubería",
-      sede: "Exposición y Montaje",
+      sede: "Exposición · Chimeneas",
       featured: true,
       isMainBrand: true,
       logoUrl: "assets/img/marcas/exojo.svg",

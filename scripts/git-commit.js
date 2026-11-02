@@ -13,9 +13,6 @@ let commitMsg = process.argv.slice(2).join(" ").trim();
 if (fs.existsSync(msgFile)) {
   const fileMsg = fs.readFileSync(msgFile, "utf8").trim();
   if (!commitMsg && fileMsg) commitMsg = fileMsg;
-  try {
-    fs.unlinkSync(msgFile);
-  } catch (_) {}
 }
 if (!commitMsg) {
   commitMsg = "Actualizar web Millan Chiclana";
@@ -45,6 +42,11 @@ function findGitExe() {
 }
 
 const gitExe = findGitExe();
+if (gitExe !== "git" && fs.existsSync(msgFile)) {
+  try {
+    fs.unlinkSync(msgFile);
+  } catch (_) {}
+}
 execFileSync(gitExe, ["add", "-A"], { cwd: ROOT, stdio: "inherit" });
 
 const statusOut = execFileSync(gitExe, ["status", "--porcelain"], {
