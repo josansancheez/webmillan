@@ -68,7 +68,7 @@
   </script>
 
   <!-- Hoja de estilos personalizada -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261102193938" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261102194139" />
 
   <!-- SEO Local Avanzado: Datos Estructurados Schema.org (JSON-LD) con @graph para Organización y las 2 Sedes Locales -->
   <script type="application/ld+json">
@@ -1351,35 +1351,71 @@
           </a>
         </div>
 
-        <!-- 1. Mosaico de las Marcas Oficiales de la EXPOSICIÓN (Por Familias) -->
-        <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#334155] shadow-sm">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+        <!-- 1. Mosaico Desplegable de las Marcas Oficiales de la EXPOSICIÓN (Por Familias) -->
+        <div data-brands-collapsible class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#334155] shadow-sm transition-all">
+          <button
+            type="button"
+            data-brands-collapsible-trigger
+            aria-expanded="false"
+            aria-controls="home-expo-brands-panel"
+            class="w-full text-left flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer group"
+          >
             <div>
               <span class="inline-block text-xs font-extrabold uppercase tracking-wider bg-[#334155] text-white px-3 py-1 rounded-full mb-1.5">1. Sede Exposición · 41 Marcas Oficiales</span>
-              <h3 class="text-lg sm:text-xl font-extrabold text-[#18181B]">
+              <h3 class="text-lg sm:text-xl font-extrabold text-[#18181B] group-hover:text-[#334155] transition-colors">
                 Cerámica, Piedras, Sanitario, Grifería, Accesorios, Mamparas y Mobiliario
               </h3>
             </div>
-            <a href="marcas.html#seccion-marcas-exposicion" class="text-xs font-bold text-[#334155] hover:underline">Ver catálogos de Exposición &rarr;</a>
-          </div>
-          <div id="exposicion-brands-logos-wall" class="space-y-6">
-            <!-- Se hidrata automáticamente por familia desde data.js -->
+            <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-[#F4F4F5] group-hover:bg-[#334155] text-[#18181B] group-hover:text-white border border-[#DCDCE0] transition-colors shrink-0 self-start sm:self-center">
+              <span data-brands-collapsible-label data-label-closed="Desplegar marcas" data-label-open="Ocultar marcas">Desplegar marcas</span>
+              <svg data-brands-collapsible-icon class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+
+          <div id="home-expo-brands-panel" data-brands-collapsible-body class="hidden mt-6 pt-6 border-t border-[#E5E7EB]">
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-xs font-semibold text-[#52525B]">Pulsa en cualquier marca para abrir su catálogo interactivo</span>
+              <a href="marcas.html#seccion-marcas-exposicion" class="text-xs font-bold text-[#334155] hover:underline">Ver catálogos de Exposición &rarr;</a>
+            </div>
+            <div id="exposicion-brands-logos-wall" class="space-y-6">
+              <!-- Se hidrata automáticamente por familia desde data.js -->
+            </div>
           </div>
         </div>
 
-        <!-- 2. Mosaico de las 38 Marcas Oficiales de ALMACÉN -->
-        <div class="mt-8 bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#111111] shadow-sm">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+        <!-- 2. Mosaico Desplegable de las 38 Marcas Oficiales de ALMACÉN -->
+        <div data-brands-collapsible class="mt-6 bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#111111] shadow-sm transition-all">
+          <button
+            type="button"
+            data-brands-collapsible-trigger
+            aria-expanded="false"
+            aria-controls="home-warehouse-brands-panel"
+            class="w-full text-left flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer group"
+          >
             <div>
               <span class="inline-block text-xs font-extrabold uppercase tracking-wider bg-[#111111] text-white px-3 py-1 rounded-full mb-1.5">2. Sede Almacén · 38 Marcas Oficiales</span>
-              <h3 class="text-lg sm:text-xl font-extrabold text-[#18181B]">
+              <h3 class="text-lg sm:text-xl font-extrabold text-[#18181B] group-hover:text-[#111111] transition-colors">
                 Proveedores de Obra Gruesa, Cementos, Morteros, Fontanería y Ferretería
               </h3>
             </div>
-            <a href="marcas.html#seccion-marcas-almacen" class="text-xs font-bold text-[#111111] hover:underline">Ver catálogos de Almacén &rarr;</a>
-          </div>
-          <div id="warehouse-brands-logos-wall" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3">
-            <!-- Se hidrata automáticamente desde data.js -->
+            <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-[#F4F4F5] group-hover:bg-[#111111] text-[#18181B] group-hover:text-white border border-[#DCDCE0] transition-colors shrink-0 self-start sm:self-center">
+              <span data-brands-collapsible-label data-label-closed="Desplegar marcas" data-label-open="Ocultar marcas">Desplegar marcas</span>
+              <svg data-brands-collapsible-icon class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </button>
+
+          <div id="home-warehouse-brands-panel" data-brands-collapsible-body class="hidden mt-6 pt-6 border-t border-[#E5E7EB]">
+            <div class="flex items-center justify-between gap-2 mb-4">
+              <span class="text-xs font-semibold text-[#52525B]">Pulsa en cualquier proveedor para abrir su catálogo interactivo</span>
+              <a href="marcas.html#seccion-marcas-almacen" class="text-xs font-bold text-[#111111] hover:underline">Ver catálogos de Almacén &rarr;</a>
+            </div>
+            <div id="warehouse-brands-logos-wall" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3">
+              <!-- Se hidrata automáticamente desde data.js -->
+            </div>
           </div>
         </div>
       </div>
@@ -1842,7 +1878,7 @@
   </div>
 
   <!-- Scripts de Datos y Lógica Principal -->
-  <script src="assets/js/data.js?v=20261102193938"></script>
-  <script src="assets/js/main.js?v=20261102193938"></script>
+  <script src="assets/js/data.js?v=20261102194139"></script>
+  <script src="assets/js/main.js?v=20261102194139"></script>
 </body>
 </html>

@@ -600,6 +600,39 @@ function initCatalogsSystem() {
     });
   }
 
+  // Inicializar desplegables de marcas por sede en Inicio (index.html)
+  document.querySelectorAll("[data-brands-collapsible]").forEach((box) => {
+    const trigger = box.querySelector("[data-brands-collapsible-trigger]");
+    const body = box.querySelector("[data-brands-collapsible-body]");
+    const label = box.querySelector("[data-brands-collapsible-label]");
+    const icon = box.querySelector("[data-brands-collapsible-icon]");
+    if (!trigger || !body) return;
+
+    trigger.addEventListener("click", () => {
+      const isCurrentlyOpen = trigger.getAttribute("aria-expanded") === "true";
+      const nextOpen = !isCurrentlyOpen;
+      trigger.setAttribute("aria-expanded", nextOpen ? "true" : "false");
+      body.classList.toggle("hidden", !nextOpen);
+
+      if (label) {
+        label.textContent = nextOpen
+          ? label.getAttribute("data-label-open") || "Ocultar marcas"
+          : label.getAttribute("data-label-closed") || "Desplegar marcas";
+      }
+      if (icon) {
+        icon.classList.toggle("rotate-180", nextOpen);
+      }
+
+      if (nextOpen) {
+        requestAnimationFrame(() => {
+          body.querySelectorAll(".apple-reveal").forEach((el) => {
+            el.classList.add("is-inview");
+          });
+        });
+      }
+    });
+  });
+
   // Renderizar y filtrar en Marcas (marcas.html) separando Exposición y Almacén en sus respectivos sitios
   const renderFullCatalog = () => {
     if (!fullCatalogContainer) return;
