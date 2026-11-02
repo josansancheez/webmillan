@@ -663,24 +663,10 @@ function initCatalogsSystem() {
     const expoFiltered = filtered.filter((item) => item.sede === "Sede Exposición");
     const almacenFiltered = filtered.filter((item) => item.sede === "Sede Almacén");
 
-    // Mostrar u ocultar los mosaicos superiores según el filtro activo
-    const expoWallBox = document.getElementById("seccion-marcas-exposicion");
-    const almacenWallBox = document.getElementById("seccion-marcas-almacen");
-    if (expoWallBox && almacenWallBox) {
-      const isOnlyAlmacen =
-        activeCategory === "Sede Almacén" ||
-        (expoFiltered.length === 0 && almacenFiltered.length > 0 && activeCategory !== "all");
-      const isOnlyExpo =
-        activeCategory === "Sede Exposición" ||
-        (almacenFiltered.length === 0 && expoFiltered.length > 0 && activeCategory !== "all");
-      expoWallBox.classList.toggle("hidden", isOnlyAlmacen);
-      almacenWallBox.classList.toggle("hidden", isOnlyExpo);
-    }
-
     const sectionsHtml = [];
     if (expoFiltered.length > 0) {
       sectionsHtml.push(`
-        <div>
+        <div id="seccion-marcas-exposicion" class="scroll-mt-24">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#18181B]">
             <div>
               <span class="text-xs font-extrabold uppercase tracking-wider text-[#334155]">1. Sede Exposición · Polígono Pelagatos</span>
@@ -699,7 +685,7 @@ function initCatalogsSystem() {
 
     if (almacenFiltered.length > 0) {
       sectionsHtml.push(`
-        <div>
+        <div id="seccion-marcas-almacen" class="scroll-mt-24">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 pb-3 border-b-2 border-[#64748B]">
             <div>
               <span class="text-xs font-extrabold uppercase tracking-wider text-[#111111]">2. Sede Almacén · Polígono Pelagatos</span>
