@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCookieConsentBanner();
   initDesktopPhoneQrModal();
   initImageProtectionAndLightbox();
+  initAppleScrollAnimations();
   initCurrentYear();
 });
 
@@ -494,7 +495,7 @@ function initCatalogsSystem() {
         setTimeout(() => cardEl.classList.remove("ring-2", "ring-[#3F3F46]"), 2200);
       }
     } else {
-      window.location.href = `/marcas?q=${encodeURIComponent(brandName)}`;
+      window.location.href = `marcas.html?q=${encodeURIComponent(brandName)}`;
     }
   };
 
@@ -1019,7 +1020,7 @@ function initCatalogModalViewer(catalogs) {
                 <a href="tel:+34956536104" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
                   Llamar Ahora: 956 53 61 04
                 </a>
-                <a href="/contacto#formulario-contacto" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood">
+                <a href="contacto.html#formulario-contacto" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood">
                   Solicitar Presupuesto por Escrito
                 </a>
               </div>
@@ -2463,7 +2464,229 @@ function initImageProtectionAndLightbox() {
 }
 
 /* ==========================================================================
-   12. UTILIDADES GENERALES
+   12. COREOGRAFÍA DE SCROLL ESTILO APPLE (REVEAL 3D, ESCALA Y PARALAJE EN VIVO)
+   ========================================================================== */
+function initAppleScrollAnimations() {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  // 1. Barra de progreso de scroll sutil en la parte inferior del Navbar sticky
+  const headerEl = document.querySelector("header.sticky");
+  let progressBarEl = document.getElementById("apple-scroll-progress-bar");
+  if (headerEl && !progressBarEl) {
+    const track = document.createElement("div");
+    track.className = "w-full h-[2.5px] bg-transparent overflow-hidden pointer-events-none";
+    progressBarEl = document.createElement("div");
+    progressBarEl.id = "apple-scroll-progress-bar";
+    progressBarEl.className =
+      "h-full bg-gradient-to-r from-[#111111] via-[#52525B] to-[#111111] origin-left transition-transform duration-75";
+    progressBarEl.style.transform = "scaleX(0)";
+    track.appendChild(progressBarEl);
+    headerEl.appendChild(track);
+  }
+
+  // 2. Observer bidireccional estilo Apple (entra suavemente al bajar y se rearma al subir)
+  const io =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const el = entry.target;
+              if (entry.isIntersecting) {
+                el.classList.add("is-inview");
+              } else if (entry.boundingClientRect.top > window.innerHeight * 0.94) {
+                // Si el elemento queda de nuevo por debajo de la pantalla al subir, se rearma
+                el.classList.remove("is-inview");
+              }
+            });
+          },
+          {
+            threshold: 0.08,
+            rootMargin: "0px 0px -40px 0px"
+          }
+        )
+      : null;
+
+  const registerReveal = (el, variant = "apple-reveal-up", delayMs = 0) => {
+    if (!el || el.dataset.appleBound === "1") return;
+    el.dataset.appleBound = "1";
+    el.classList.add("apple-reveal", variant);
+    if (delayMs > 0) {
+      el.style.setProperty("--apple-delay", `${delayMs}ms`);
+    }
+    if (io) {
+      io.observe(el);
+      // Si ya está visible en el viewport inicial al cargar, activarlo de inmediato
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        requestAnimationFrame(() => el.classList.add("is-inview"));
+      }
+    } else {
+      el.classList.add("is-inview");
+    }
+  };
+
+  // 3. Asignar coreografía por tipo de bloque sin alterar el diseño visual
+  const bindAllScrollTargets = () => {
+    // Cabeceras de sección (efecto zoom de apertura estilo Apple)
+    document.querySelectorAll("main section h2").forEach((h2) => {
+      const headerBlock = h2.closest("div.max-w-3xl, div.text-center") || h2;
+      registerReveal(headerBlock, "apple-reveal-zoom", 0);
+    });
+
+    // Cuadrículas de 2 columnas (Sede Exposición vs Sede Almacén, Chimeneas vs Obras Menores, etc.):
+    // Columna izquierda entra desde la izquierda y columna derecha entra desde la derecha
+    document.querySelectorAll("main .grid").forEach((grid) => {
+      const cls = grid.className || "";
+      const isTwoCol =
+        (cls.includes("lg:grid-cols-2") || cls.includes("md:grid-cols-2")) &&
+        !cls.includes("lg:grid-cols-3") &&
+        !cls.includes("lg:grid-cols-4") &&
+        !cls.includes("lg:grid-cols-6");
+
+      const children = Array.from(grid.children).filter(
+        (c) => c.tagName !== "SCRIPT" && c.tagName !== "STYLE"
+      );
+
+      if (isTwoCol && children.length === 2) {
+        registerReveal(children[0], "apple-reveal-left", 0);
+        registerReveal(children[1], "apple-reveal-right", 110);
+      } else if (children.length > 0) {
+        const colsPerRow = cls.includes("lg:grid-cols-6")
+          ? 6
+          : cls.includes("lg:grid-cols-4")
+            ? 4
+            : cls.includes("lg:grid-cols-3")
+              ? 3
+              : 2;
+        children.forEach((child, idx) => {
+          const delay = (idx % colsPerRow) * 75;
+          registerReveal(child, "apple-reveal-up", delay);
+        });
+      }
+    });
+
+    // Tarjetas individuales, figuras de galería, preguntas frecuentes y bloques de logotipos
+    document
+      .querySelectorAll(
+        "main article, main figure, main .faq-item, #exposicion-brands-logos-wall > div, #almacen-brands-logos-wall > div"
+      )
+      .forEach((el, idx) => {
+        registerReveal(el, "apple-reveal-up", (idx % 3) * 75);
+      });
+  };
+
+  bindAllScrollTargets();
+
+  // Observar contenedores dinámicos (catálogos filtrados, muro de marcas) para aplicar la animación a nuevas tarjetas
+  if ("MutationObserver" in window) {
+    const dynObserver = new MutationObserver(() => {
+      bindAllScrollTargets();
+    });
+    [
+      "featured-catalogs-grid",
+      "full-catalog-grid",
+      "exposicion-brands-logos-wall",
+      "almacen-brands-logos-wall"
+    ].forEach((id) => {
+      const container = document.getElementById(id);
+      if (container) {
+        dynObserver.observe(container, { childList: true });
+      }
+    });
+  }
+
+  // Cuando se pulsa un botón de filtro de galería, asegurar que las fotos filtradas se muestren al instante
+  document.querySelectorAll("[data-gallery-filter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      requestAnimationFrame(() => {
+        document.querySelectorAll("figure[data-gallery-item]").forEach((fig) => {
+          if (!fig.classList.contains("hidden")) {
+            fig.classList.add("is-inview");
+          }
+        });
+      });
+    });
+  });
+
+  // 4. Efecto continuo vinculado al scroll en tiempo real (Escala progresiva en grandes bloques + Paralaje Hero)
+  const stageSelectors = [
+    "#montaje-chimeneas-obras-menores > div",
+    "#financiacion-caixabank > div",
+    "#exposicion > div.mt-10",
+    "#sede-exposicion",
+    "#sede-almacen"
+  ];
+  const stageEls = Array.from(
+    document.querySelectorAll(stageSelectors.join(", "))
+  );
+  stageEls.forEach((el) => el.classList.add("apple-scroll-stage"));
+
+  const heroImages = Array.from(
+    document.querySelectorAll("[data-carousel-slide] img")
+  );
+
+  let ticking = false;
+  const updateContinuousScrollEffects = () => {
+    ticking = false;
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    const vh = window.innerHeight || 800;
+
+    // Actualizar barra de progreso superior
+    if (progressBarEl) {
+      const maxScroll = Math.max(
+        1,
+        document.documentElement.scrollHeight - vh
+      );
+      const ratio = Math.min(1, Math.max(0, scrollY / maxScroll));
+      progressBarEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
+    }
+
+    // Paralaje suave en el Hero principal mientras está visible
+    if (heroImages.length && scrollY < vh * 1.1) {
+      const yOffset = Math.round(scrollY * 0.16);
+      const scaleVal = (1 + Math.min(0.08, (scrollY / vh) * 0.08)).toFixed(4);
+      heroImages.forEach((img) => {
+        img.style.transform = `translate3d(0, ${yOffset}px, 0) scale(${scaleVal})`;
+      });
+    }
+
+    // Escala progresiva estilo ventana de Apple para los grandes contenedores destacados
+    stageEls.forEach((stage) => {
+      const rect = stage.getBoundingClientRect();
+      if (rect.top < vh && rect.bottom > 0) {
+        // Progreso desde que asoma por abajo (0) hasta que llega al tercio inferior/central (1)
+        const enterProgress = Math.min(
+          1,
+          Math.max(0, (vh - rect.top) / (vh * 0.65))
+        );
+        const scale = 0.94 + enterProgress * 0.06;
+        const yShift = (1 - enterProgress) * 24;
+        stage.style.transform = `translate3d(0, ${yShift.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
+      }
+    });
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateContinuousScrollEffects);
+      }
+    },
+    { passive: true }
+  );
+
+  updateContinuousScrollEffects();
+}
+
+/* ==========================================================================
+   13. UTILIDADES GENERALES
    ========================================================================== */
 function initCurrentYear() {
   const yearEls = document.querySelectorAll(".js-current-year, #current-year");
