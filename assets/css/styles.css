@@ -273,3 +273,24 @@ body {
   outline: 3px solid #52525B;
   outline-offset: 2px;
 }
+
+/* ==========================================================================
+   PROTECCIÓN GLOBAL DE IMÁGENES (BLOQUEO DE DESCARGA Y ARRASTRE) Y LIGHTBOX
+   ========================================================================== */
+img,
+svg {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.js-lightbox-trigger {
+  cursor: zoom-in;
+}
+

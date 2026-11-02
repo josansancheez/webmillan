@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initGalleryFilter();
   initContactFormAntiDuplicates();
   initCookieConsentBanner();
+  initDesktopPhoneQrModal();
+  initImageProtectionAndLightbox();
   initCurrentYear();
 });
 
@@ -1783,7 +1785,685 @@ function initCookieConsentBanner() {
 }
 
 /* ==========================================================================
-   10. UTILIDADES GENERALES
+   10. POPUP DE LLAMADA EN ORDENADOR CON CÓDIGO QR ESCANEABLE (tel:)
+   ========================================================================== */
+function generateQRCodeSVG(text) {
+  const bytes = Array.from(unescape(encodeURIComponent(text))).map((ch) => ch.charCodeAt(0));
+  const bits = [];
+  const pushBits = (val, len) => {
+    for (let i = len - 1; i >= 0; i--) bits.push((val >> i) & 1);
+  };
+  pushBits(0b0100, 4); // Modo Byte (ISO/IEC 18004)
+  pushBits(bytes.length, 8);
+  for (const b of bytes) pushBits(b, 8);
+  pushBits(0, Math.min(4, 28 * 8 - bits.length));
+  while (bits.length % 8 !== 0) bits.push(0);
+
+  const data = [];
+  for (let i = 0; i < bits.length; i += 8) {
+    let b = 0;
+    for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+    data.push(b);
+  }
+  const pads = [0xec, 0x11];
+  let pi = 0;
+  while (data.length < 28) data.push(pads[pi++ % 2]);
+
+  const exp = new Uint8Array(512);
+  const log = new Uint8Array(256);
+  let x = 1;
+  for (let i = 0; i < 255; i++) {
+    exp[i] = x;
+    log[x] = i;
+    x <<= 1;
+    if (x & 256) x ^= 0x11d;
+  }
+  for (let i = 255; i < 512; i++) exp[i] = exp[i - 255];
+  const mul = (a, b) => (a === 0 || b === 0 ? 0 : exp[log[a] + log[b]]);
+
+  let gen = [1];
+  for (let i = 0; i < 16; i++) {
+    const next = new Array(gen.length + 1).fill(0);
+    for (let j = 0; j < gen.length; j++) {
+      next[j] ^= gen[j];
+      next[j + 1] ^= mul(gen[j], exp[i]);
+    }
+    gen = next;
+  }
+
+  const msg = [...data, ...new Array(16).fill(0)];
+  for (let i = 0; i < data.length; i++) {
+    const coef = msg[i];
+    if (coef !== 0) {
+      for (let j = 0; j < gen.length; j++) msg[i + j] ^= mul(gen[j], coef);
+    }
+  }
+  const codewords = [...data, ...msg.slice(data.length)];
+
+  const N = 25;
+  const grid = Array.from({ length: N }, () => new Array(N).fill(0));
+  const reserved = Array.from({ length: N }, () => new Array(N).fill(false));
+
+  const placeFinder = (r0, c0) => {
+    for (let r = -1; r <= 7; r++) {
+      for (let c = -1; c <= 7; c++) {
+        const rr = r0 + r;
+        const cc = c0 + c;
+        if (rr < 0 || rr >= N || cc < 0 || cc >= N) continue;
+        reserved[rr][cc] = true;
+        if (
+          r >= 0 &&
+          r <= 6 &&
+          c >= 0 &&
+          c <= 6 &&
+          (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4))
+        ) {
+          grid[rr][cc] = 1;
+        }
+      }
+    }
+  };
+  placeFinder(0, 0);
+  placeFinder(0, N - 7);
+  placeFinder(N - 7, 0);
+
+  for (let r = -2; r <= 2; r++) {
+    for (let c = -2; c <= 2; c++) {
+      reserved[18 + r][18 + c] = true;
+      if (Math.max(Math.abs(r), Math.abs(c)) !== 1) grid[18 + r][18 + c] = 1;
+    }
+  }
+
+  for (let i = 8; i < N - 8; i++) {
+    reserved[6][i] = reserved[i][6] = true;
+    grid[6][i] = grid[i][6] = i % 2 === 0 ? 1 : 0;
+  }
+
+  reserved[17][8] = true;
+  grid[17][8] = 1;
+  for (let i = 0; i < 9; i++) {
+    if (i !== 6) reserved[8][i] = reserved[i][8] = true;
+  }
+  for (let i = 0; i < 8; i++) {
+    reserved[8][N - 1 - i] = reserved[N - 1 - i][8] = true;
+  }
+
+  const cwBits = [];
+  for (const cw of codewords) {
+    for (let i = 7; i >= 0; i--) cwBits.push((cw >> i) & 1);
+  }
+  for (let i = 0; i < 7; i++) cwBits.push(0);
+
+  let bitIdx = 0;
+  let up = true;
+  for (let col = N - 1; col > 0; col -= 2) {
+    if (col === 6) col--;
+    for (let step = 0; step < N; step++) {
+      const r = up ? N - 1 - step : step;
+      for (let dc = 0; dc < 2; dc++) {
+        const c = col - dc;
+        if (!reserved[r][c]) {
+          const b = bitIdx < cwBits.length ? cwBits[bitIdx++] : 0;
+          grid[r][c] = b ^ ((r + c) % 2 === 0 ? 1 : 0);
+        }
+      }
+    }
+    up = !up;
+  }
+
+  const fmt = 0x5412;
+  const fbits = [];
+  for (let i = 0; i < 15; i++) fbits.push((fmt >> i) & 1);
+  const tlCoords = [
+    [8, 0], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 7], [8, 8],
+    [7, 8], [5, 8], [4, 8], [3, 8], [2, 8], [1, 8], [0, 8]
+  ];
+  for (let i = 0; i < 15; i++) grid[tlCoords[i][0]][tlCoords[i][1]] = fbits[14 - i];
+  for (let i = 0; i < 7; i++) grid[N - 1 - i][8] = fbits[14 - i];
+  for (let i = 7; i < 15; i++) grid[8][N - 15 + i] = fbits[14 - i];
+
+  const margin = 2;
+  const size = N + margin * 2;
+  let pathD = "";
+  for (let r = 0; r < N; r++) {
+    for (let c = 0; c < N; c++) {
+      if (grid[r][c]) {
+        pathD += `M${c + margin},${r + margin}h1v1h-1z`;
+      }
+    }
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges" class="w-full h-full block" role="img" aria-label="Código QR para llamar a ${escapeHTML(text)}"><rect width="${size}" height="${size}" fill="#FFFFFF"/><path d="${pathD}" fill="#111111"/></svg>`;
+}
+
+function initDesktopPhoneQrModal() {
+  const PHONES = {
+    exposicion: {
+      key: "exposicion",
+      label: "Sede Exposición",
+      sublabel: "Azulejos, Baños, Grifería y Chimeneas · N23",
+      formatted: "956 53 61 04",
+      telUri: "tel:+34956536104",
+      badgeClass: "bg-[#334155] text-white"
+    },
+    almacen: {
+      key: "almacen",
+      label: "Sede Almacén",
+      sublabel: "Materiales de Construcción y Obra Gruesa · N16",
+      formatted: "956 53 03 61",
+      telUri: "tel:+34956530361",
+      badgeClass: "bg-[#111111] text-white"
+    }
+  };
+
+  const isMobilePhoneDevice = () => {
+    const ua = navigator.userAgent || "";
+    if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+      return true;
+    }
+    if (window.innerWidth < 768 && window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+      return true;
+    }
+    return false;
+  };
+
+  let modalEl = document.getElementById("desktop-phone-qr-modal");
+  if (!modalEl) {
+    modalEl = document.createElement("div");
+    modalEl.id = "desktop-phone-qr-modal";
+    modalEl.className =
+      "fixed inset-0 z-[120] hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity";
+    modalEl.setAttribute("role", "dialog");
+    modalEl.setAttribute("aria-modal", "true");
+    modalEl.setAttribute("aria-labelledby", "desktop-phone-qr-title");
+
+    modalEl.innerHTML = `
+      <div class="bg-white rounded-3xl max-w-md w-full border border-[#E5E7EB] shadow-2xl overflow-hidden relative animate-[fadeIn_0.18s_ease-out]">
+        <!-- Cabecera -->
+        <div class="bg-[#111111] text-white px-6 py-5 flex items-start justify-between gap-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-white/15 text-gray-100 mb-1.5">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span>Atención Telefónica Directa</span>
+            </span>
+            <h3 id="desktop-phone-qr-title" class="text-xl font-extrabold tracking-tight text-white">
+              Llámanos desde tu móvil
+            </h3>
+          </div>
+          <button
+            type="button"
+            data-close-phone-qr
+            class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+            aria-label="Cerrar ventana de llamada"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Cuerpo del Popup -->
+        <div class="p-6 space-y-5">
+          <!-- Selector de Sede (Exposición / Almacén) -->
+          <div class="grid grid-cols-2 gap-2 p-1 bg-[#F3F4F6] rounded-2xl border border-[#E5E7EB]">
+            <button
+              type="button"
+              data-phone-qr-tab="exposicion"
+              class="py-2 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer text-center"
+            >
+              Sede Exposición
+            </button>
+            <button
+              type="button"
+              data-phone-qr-tab="almacen"
+              class="py-2 px-3 rounded-xl text-xs font-extrabold transition-all cursor-pointer text-center"
+            >
+              Sede Almacén
+            </button>
+          </div>
+
+          <!-- Número de Teléfono Destacado + Copiar -->
+          <div class="text-center bg-[#F9FAFB] rounded-2xl p-4 border border-[#E5E7EB]">
+            <p id="phone-qr-sede-subtitle" class="text-xs font-bold text-[#52525B] mb-1">
+              Azulejos, Baños, Grifería y Chimeneas · N23
+            </p>
+            <div class="flex items-center justify-center gap-3">
+              <span id="phone-qr-number-display" class="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+                956 53 61 04
+              </span>
+              <button
+                type="button"
+                id="phone-qr-copy-btn"
+                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white hover:bg-[#EDEDEF] text-[#18181B] border border-[#D1D5DB] transition-colors cursor-pointer"
+                title="Copiar número de teléfono"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                <span id="phone-qr-copy-text">Copiar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Código QR Escaneable -->
+          <div class="flex flex-col items-center text-center">
+            <div class="relative p-3 bg-white rounded-2xl border-2 border-[#111111] shadow-md w-48 h-48 flex items-center justify-center">
+              <div id="phone-qr-svg-container" class="w-full h-full"></div>
+            </div>
+            <p class="text-xs sm:text-sm font-semibold text-[#18181B] mt-3.5 max-w-xs leading-snug">
+              Escanea este QR con la cámara de tu móvil para llamar del tirón sin marcar el número
+            </p>
+            <p class="text-[11px] text-[#52525B] mt-1">
+              Horario: Lunes a Viernes 8:00–14:00 y 16:00–19:30 · Sábados 9:00–13:00
+            </p>
+          </div>
+
+          <!-- Botón secundario para llamar desde aplicación en el ordenador -->
+          <div class="pt-2 border-t border-[#E5E7EB] flex items-center justify-between gap-3">
+            <a
+              id="phone-qr-direct-call-link"
+              href="tel:+34956536104"
+              data-direct-tel="true"
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#18181B] transition-colors"
+            >
+              <svg class="w-4 h-4 text-[#3F3F46]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span>Llamar desde una aplicación en este ordenador</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modalEl);
+  }
+
+  const tabBtns = modalEl.querySelectorAll("[data-phone-qr-tab]");
+  const subtitleEl = document.getElementById("phone-qr-sede-subtitle");
+  const numberEl = document.getElementById("phone-qr-number-display");
+  const qrContainer = document.getElementById("phone-qr-svg-container");
+  const directCallLink = document.getElementById("phone-qr-direct-call-link");
+  const copyBtn = document.getElementById("phone-qr-copy-btn");
+  const copyText = document.getElementById("phone-qr-copy-text");
+
+  let activeSedeKey = "exposicion";
+
+  const selectSede = (sedeKey) => {
+    activeSedeKey = PHONES[sedeKey] ? sedeKey : "exposicion";
+    const info = PHONES[activeSedeKey];
+
+    tabBtns.forEach((btn) => {
+      const isSelected = btn.getAttribute("data-phone-qr-tab") === activeSedeKey;
+      btn.className = isSelected
+        ? "py-2 px-3 rounded-xl text-xs font-extrabold bg-[#111111] text-white shadow-xs transition-all cursor-pointer text-center"
+        : "py-2 px-3 rounded-xl text-xs font-bold text-[#52525B] hover:text-[#111111] transition-all cursor-pointer text-center";
+    });
+
+    if (subtitleEl) subtitleEl.textContent = info.sublabel;
+    if (numberEl) numberEl.textContent = info.formatted;
+    if (qrContainer) qrContainer.innerHTML = generateQRCodeSVG(info.telUri);
+    if (directCallLink) directCallLink.setAttribute("href", info.telUri);
+    if (copyText) copyText.textContent = "Copiar";
+  };
+
+  const openModal = (sedeKey) => {
+    selectSede(sedeKey);
+    modalEl.classList.remove("hidden");
+    modalEl.classList.add("flex");
+  };
+
+  const closeModal = () => {
+    modalEl.classList.add("hidden");
+    modalEl.classList.remove("flex");
+  };
+
+  tabBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      selectSede(btn.getAttribute("data-phone-qr-tab"));
+    });
+  });
+
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      const info = PHONES[activeSedeKey];
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(info.formatted).then(() => {
+          if (copyText) copyText.textContent = "¡Copiado!";
+          setTimeout(() => {
+            if (copyText) copyText.textContent = "Copiar";
+          }, 2000);
+        });
+      }
+    });
+  }
+
+  modalEl.querySelectorAll("[data-close-phone-qr]").forEach((btn) => {
+    btn.addEventListener("click", closeModal);
+  });
+
+  modalEl.addEventListener("click", (e) => {
+    if (e.target === modalEl) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modalEl.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+  // Interceptar clics en enlaces tel: cuando el usuario navega desde ordenador
+  document.addEventListener("click", (e) => {
+    const telLink = e.target.closest('a[href^="tel:"]');
+    if (!telLink) return;
+    if (telLink.hasAttribute("data-direct-tel")) return;
+    if (isMobilePhoneDevice()) return;
+
+    e.preventDefault();
+    const href = telLink.getAttribute("href") || "";
+    const isAlmacen = href.includes("956530361");
+    openModal(isAlmacen ? "almacen" : "exposicion");
+  });
+}
+
+/* ==========================================================================
+   11. PROTECCIÓN TOTAL ANTI-DESCARGA DE IMÁGENES Y VISOR LIGHTBOX EN PÁGINA
+   ========================================================================== */
+function initImageProtectionAndLightbox() {
+  // 1. Deshabilitar descarga, clic derecho (contextmenu) y arrastre (dragstart) en TODAS las imágenes de la web
+  const protectImagesInRoot = (root = document) => {
+    root.querySelectorAll("img, svg").forEach((el) => {
+      el.setAttribute("draggable", "false");
+    });
+  };
+  protectImagesInRoot();
+
+  document.addEventListener(
+    "contextmenu",
+    (e) => {
+      if (
+        e.target.closest("img, svg, picture, figure, #site-image-lightbox, [data-gallery-item]")
+      ) {
+        e.preventDefault();
+      }
+    },
+    true
+  );
+
+  document.addEventListener(
+    "dragstart",
+    (e) => {
+      if (e.target.closest("img, svg, picture, figure, #site-image-lightbox")) {
+        e.preventDefault();
+      }
+    },
+    true
+  );
+
+  // Observar imágenes inyectadas dinámicamente (catálogos, logos, etc.) para bloquear su arrastre
+  if ("MutationObserver" in window) {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((m) => {
+        m.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) {
+            if (node.matches && node.matches("img, svg")) {
+              node.setAttribute("draggable", "false");
+            } else if (node.querySelectorAll) {
+              protectImagesInRoot(node);
+            }
+          }
+        });
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // 2. Determinar qué fotografías se pueden ampliar en el visor Lightbox
+  const isZoomablePhoto = (img) => {
+    if (!img || img.tagName !== "IMG") return false;
+    const src = img.getAttribute("src") || "";
+    if (!src) return false;
+    // Excluir logotipos, iconos y marcas vectoriales
+    if (
+      src.includes("logo-") ||
+      src.includes("favicon") ||
+      src.includes("caixabank-star") ||
+      src.includes("assets/img/marcas/")
+    ) {
+      return false;
+    }
+    // Excluir fondos del carrusel hero y el preloader
+    if (img.closest("[data-carousel-slide], #site-preloader, header, footer")) {
+      return false;
+    }
+    return Boolean(img.closest("main"));
+  };
+
+  // Añadir cursor zoom-in a todas las fotografías ampliables
+  const markZoomablePhotos = () => {
+    document.querySelectorAll("main img").forEach((img) => {
+      if (isZoomablePhoto(img)) {
+        img.classList.add("js-lightbox-trigger");
+        const fig = img.closest("figure[data-gallery-item]");
+        if (fig) fig.classList.add("js-lightbox-trigger");
+      }
+    });
+  };
+  markZoomablePhotos();
+
+  // 3. Crear el Modal Lightbox en la misma web con su botón de cerrar y escudo anti-descarga
+  let lightboxEl = document.getElementById("site-image-lightbox");
+  if (!lightboxEl) {
+    lightboxEl = document.createElement("div");
+    lightboxEl.id = "site-image-lightbox";
+    lightboxEl.className =
+      "fixed inset-0 z-[130] hidden items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md select-none";
+    lightboxEl.setAttribute("role", "dialog");
+    lightboxEl.setAttribute("aria-modal", "true");
+    lightboxEl.setAttribute("aria-label", "Visor de imagen a tamaño completo");
+
+    lightboxEl.innerHTML = `
+      <!-- Barra Superior con Contador y Botón de Cerrar -->
+      <div class="fixed top-4 left-4 right-4 sm:top-6 sm:left-6 sm:right-6 z-[145] flex items-center justify-between pointer-events-none">
+        <span id="lightbox-counter" class="pointer-events-auto px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-white/15 text-white backdrop-blur-md border border-white/20">
+          1 / 1
+        </span>
+        <button
+          type="button"
+          data-lightbox-close
+          class="pointer-events-auto inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-gray-200 text-[#111111] font-extrabold text-xs sm:text-sm shadow-xl transition-all cursor-pointer"
+          aria-label="Cerrar imagen"
+        >
+          <span>Cerrar</span>
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Botón Anterior -->
+      <button
+        type="button"
+        id="lightbox-prev-btn"
+        class="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-[145] w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#111111] border border-white/25 flex items-center justify-center transition-all cursor-pointer shadow-lg"
+        aria-label="Imagen anterior"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+
+      <!-- Botón Siguiente -->
+      <button
+        type="button"
+        id="lightbox-next-btn"
+        class="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-[145] w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#111111] border border-white/25 flex items-center justify-center transition-all cursor-pointer shadow-lg"
+        aria-label="Imagen siguiente"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Contenedor Central de la Imagen Protegida + Pie de Foto -->
+      <div id="lightbox-content-box" class="relative max-w-5xl w-full flex flex-col items-center justify-center">
+        <div class="relative inline-flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl border border-white/15 bg-[#111111]">
+          <img
+            id="lightbox-main-img"
+            src=""
+            alt=""
+            draggable="false"
+            class="max-h-[76vh] max-w-[92vw] sm:max-w-[82vw] w-auto h-auto object-contain block select-none pointer-events-none"
+          />
+          <!-- Escudo transparente anti-descarga sobre la imagen ampliada -->
+          <div class="absolute inset-0 z-10 select-none" aria-hidden="true"></div>
+        </div>
+
+        <div id="lightbox-caption-box" class="mt-4 text-center max-w-2xl px-4">
+          <h4 id="lightbox-title" class="text-base sm:text-lg font-extrabold text-white leading-snug"></h4>
+          <p id="lightbox-desc" class="text-xs sm:text-sm text-gray-300 mt-1"></p>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(lightboxEl);
+  }
+
+  const mainImgEl = document.getElementById("lightbox-main-img");
+  const titleEl = document.getElementById("lightbox-title");
+  const descEl = document.getElementById("lightbox-desc");
+  const counterEl = document.getElementById("lightbox-counter");
+  const prevBtn = document.getElementById("lightbox-prev-btn");
+  const nextBtn = document.getElementById("lightbox-next-btn");
+
+  let currentList = [];
+  let currentIndex = 0;
+
+  const extractPhotoMetadata = (img) => {
+    const src = img.getAttribute("src") || "";
+    const alt = img.getAttribute("alt") || "Instalaciones Millán Chiclana";
+    let title = "";
+    let desc = "";
+
+    const figure = img.closest("figure");
+    if (figure) {
+      const h3 = figure.querySelector("figcaption h3");
+      const p = figure.querySelector("figcaption p");
+      if (h3) title = h3.textContent.trim();
+      if (p) desc = p.textContent.trim();
+    } else {
+      const article = img.closest("article");
+      if (article) {
+        const h3 = article.querySelector("h3");
+        const p = article.querySelector("p");
+        if (h3) title = h3.textContent.trim();
+        if (p) desc = p.textContent.trim();
+      }
+    }
+
+    if (!title) {
+      const wrapper = img.parentElement;
+      const badge = wrapper ? wrapper.querySelector("span") : null;
+      title = badge ? badge.textContent.trim() : alt;
+      desc = title !== alt ? alt : "";
+    }
+
+    return { src, alt, title, desc };
+  };
+
+  const getVisibleZoomableImages = () => {
+    return Array.from(document.querySelectorAll("main img")).filter((img) => {
+      if (!isZoomablePhoto(img)) return false;
+      const hiddenParent = img.closest(".hidden");
+      return !hiddenParent && img.offsetParent !== null;
+    });
+  };
+
+  const renderCurrentLightboxImage = () => {
+    if (!currentList.length) return;
+    const img = currentList[currentIndex];
+    const meta = extractPhotoMetadata(img);
+
+    if (mainImgEl) {
+      mainImgEl.setAttribute("src", meta.src);
+      mainImgEl.setAttribute("alt", meta.alt);
+    }
+    if (titleEl) titleEl.textContent = meta.title;
+    if (descEl) {
+      descEl.textContent = meta.desc;
+      descEl.classList.toggle("hidden", !meta.desc);
+    }
+    if (counterEl) {
+      counterEl.textContent = `${currentIndex + 1} / ${currentList.length}`;
+    }
+    const showNav = currentList.length > 1;
+    if (prevBtn) prevBtn.classList.toggle("hidden", !showNav);
+    if (nextBtn) nextBtn.classList.toggle("hidden", !showNav);
+  };
+
+  const openLightboxForImage = (targetImg) => {
+    currentList = getVisibleZoomableImages();
+    currentIndex = currentList.indexOf(targetImg);
+    if (currentIndex === -1) {
+      currentList = [targetImg];
+      currentIndex = 0;
+    }
+    renderCurrentLightboxImage();
+    lightboxEl.classList.remove("hidden");
+    lightboxEl.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeLightbox = () => {
+    lightboxEl.classList.add("hidden");
+    lightboxEl.classList.remove("flex");
+    document.body.style.overflow = "";
+  };
+
+  const showPrev = () => {
+    if (!currentList.length) return;
+    currentIndex = (currentIndex - 1 + currentList.length) % currentList.length;
+    renderCurrentLightboxImage();
+  };
+
+  const showNext = () => {
+    if (!currentList.length) return;
+    currentIndex = (currentIndex + 1) % currentList.length;
+    renderCurrentLightboxImage();
+  };
+
+  if (prevBtn) prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrev(); });
+  if (nextBtn) nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNext(); });
+
+  lightboxEl.querySelectorAll("[data-lightbox-close]").forEach((btn) => {
+    btn.addEventListener("click", closeLightbox);
+  });
+
+  lightboxEl.addEventListener("click", (e) => {
+    if (e.target === lightboxEl || e.target.id === "lightbox-content-box") {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (lightboxEl.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") showPrev();
+    if (e.key === "ArrowRight") showNext();
+  });
+
+  // Abrir Lightbox al pulsar sobre cualquier fotografía ampliable o tarjeta de galería
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("a, button")) return;
+
+    let targetImg = e.target.closest("img");
+    if (!targetImg) {
+      const fig = e.target.closest("figure[data-gallery-item]");
+      if (fig) {
+        targetImg = fig.querySelector("img");
+      } else {
+        const cardBox = e.target.closest(".relative.overflow-hidden");
+        if (cardBox && !cardBox.closest("[data-carousel-slide]")) {
+          targetImg = cardBox.querySelector("img");
+        }
+      }
+    }
+
+    if (targetImg && isZoomablePhoto(targetImg)) {
+      e.preventDefault();
+      openLightboxForImage(targetImg);
+    }
+  });
+}
+
+/* ==========================================================================
+   12. UTILIDADES GENERALES
    ========================================================================== */
 function initCurrentYear() {
   const yearEls = document.querySelectorAll(".js-current-year, #current-year");
