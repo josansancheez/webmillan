@@ -84,26 +84,28 @@ if ($honeypot !== '') {
 /**
  * 4. RECOGIDA Y SANEAMIENTO DE CAMPOS DEL FORMULARIO
  */
-$nombre         = trim(strip_tags((string)($_POST['nombre'] ?? '')));
-$email          = filter_var(trim((string)($_POST['email'] ?? '')), FILTER_SANITIZE_EMAIL);
-$telefono       = trim(strip_tags((string)($_POST['telefono'] ?? '')));
-$asunto         = trim(strip_tags((string)($_POST['asunto'] ?? '')));
-$sedeInteres    = trim(strip_tags((string)($_POST['sede_interes'] ?? 'Consulta General')));
-$mensaje        = trim(strip_tags((string)($_POST['mensaje'] ?? '')));
-$privacidad     = isset($_POST['privacidad']) && ($_POST['privacidad'] === '1' || $_POST['privacidad'] === 'on');
-$formToken      = trim((string)($_POST['form_token'] ?? ''));
-$idempotencyKey = trim((string)($_POST['idempotency_key'] ?? ''));
+$nombre           = trim(strip_tags((string)($_POST['nombre'] ?? '')));
+$email            = filter_var(trim((string)($_POST['email'] ?? '')), FILTER_SANITIZE_EMAIL);
+$telefono         = trim(strip_tags((string)($_POST['telefono'] ?? '')));
+$asunto           = trim(strip_tags((string)($_POST['asunto'] ?? '')));
+$marcaPresupuesto = trim(strip_tags((string)($_POST['marca_presupuesto'] ?? '')));
+$sedeInteres      = trim(strip_tags((string)($_POST['sede_interes'] ?? ($marcaPresupuesto !== '' ? $marcaPresupuesto : 'Consulta General'))));
+$mensaje          = trim(strip_tags((string)($_POST['mensaje'] ?? '')));
+$privacidad       = isset($_POST['privacidad']) && ($_POST['privacidad'] === '1' || $_POST['privacidad'] === 'on');
+$formToken        = trim((string)($_POST['form_token'] ?? ''));
+$idempotencyKey   = trim((string)($_POST['idempotency_key'] ?? ''));
 
 // Prevenir inyección de cabeceras de correo en campos de una línea
 $cleanSingleLine = static function (string $value): string {
     return str_replace(["\r", "\n", "%0a", "%0d", "Content-Type:", "bcc:", "cc:", "to:"], '', $value);
 };
 
-$nombre      = $cleanSingleLine($nombre);
-$email       = $cleanSingleLine($email);
-$telefono    = $cleanSingleLine($telefono);
-$asunto      = $cleanSingleLine($asunto);
-$sedeInteres = $cleanSingleLine($sedeInteres);
+$nombre           = $cleanSingleLine($nombre);
+$email            = $cleanSingleLine($email);
+$telefono         = $cleanSingleLine($telefono);
+$asunto           = $cleanSingleLine($asunto);
+$marcaPresupuesto = $cleanSingleLine($marcaPresupuesto);
+$sedeInteres      = $cleanSingleLine($sedeInteres);
 
 /**
  * 5. VALIDACIÓN DE CAMPOS OBLIGATORIOS
@@ -144,11 +146,11 @@ if ($asunto === '') {
     exit;
 }
 
-if (mb_strlen($mensaje) < 10) {
+if (mb_strlen($mensaje) < 2) {
     http_response_code(422);
     echo json_encode([
         'success' => false,
-        'message' => 'Por favor, detalla un poco más tu mensaje (mínimo 10 caracteres).',
+        'message' => 'Por favor, escribe el mensaje de tu consulta.',
     ]);
     exit;
 }
@@ -257,8 +259,18 @@ if (!empty($_SESSION['form_token']) && $formToken !== '' && !hash_equals($_SESSI
 /**
  * 7. CONSTRUCCIÓN Y ENVÍO DEL CORREO ELECTRÓNICO ÚNICO
  */
-$emailSubject = '=?UTF-8?B?' . base64_encode("[Web Millán Chiclana] $asunto - $nombre") . '?=';
+$subjectPrefix = $marcaPresupuesto !== '' ? "[Presupuesto $marcaPresupuesto]" : "[Web Millán Chiclana]";
+$emailSubject = '=?UTF-8?B?' . base64_encode("$subjectPrefix $asunto - $nombre") . '?=';
 $fechaHora = date('d/m/Y H:i:s');
+
+$marcaRowHtml = '';
+if ($marcaPresupuesto !== '') {
+    $marcaRowHtml = '
+          <tr style="border-bottom:1px solid #F3F4F6;">
+            <td style="font-weight:bold;color:#3F3F46;">Marca y Destino:</td>
+            <td><strong style="color:#111111;background:#EDEDEF;padding:4px 8px;border-radius:6px;display:inline-block;">' . htmlspecialchars($marcaPresupuesto, ENT_QUOTES, 'UTF-8') . '</strong></td>
+          </tr>';
+}
 
 $htmlBody = '
 <!DOCTYPE html>
@@ -293,7 +305,7 @@ $htmlBody = '
           <tr style="border-bottom:1px solid #F3F4F6;">
             <td style="font-weight:bold;color:#3F3F46;">Asunto:</td>
             <td><strong>' . htmlspecialchars($asunto, ENT_QUOTES, 'UTF-8') . '</strong></td>
-          </tr>
+          </tr>' . $marcaRowHtml . '
           <tr style="border-bottom:1px solid #F3F4F6;">
             <td style="font-weight:bold;color:#3F3F46;">Sede / Departamento:</td>
             <td>' . htmlspecialchars($sedeInteres, ENT_QUOTES, 'UTF-8') . '</td>

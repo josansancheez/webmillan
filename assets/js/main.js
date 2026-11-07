@@ -429,12 +429,12 @@ function initCatalogsSystem() {
               <span>Formato PDF · ${escapeHTML(item.fileSize || "15 MB")}</span>
             </div>
 
-            <!-- Botones de Acción -->
-            <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+            <!-- Botones de Acción (Tamaños iguales) -->
+            <div class="grid grid-cols-2 gap-2.5 items-stretch">
               <button
                 type="button"
                 data-open-catalog="${escapeHTML(item.id)}"
-                class="sm:col-span-3 inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer"
+                class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
               >
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
@@ -442,19 +442,17 @@ function initCatalogsSystem() {
                 <span>Ver Catálogo</span>
               </button>
 
-              <a
-                href="${escapeHTML(item.pdfUrl)}"
-                download="${escapeHTML(item.id)}-${escapeHTML(item.year)}.pdf"
-                target="_blank"
-                rel="noopener"
-                class="sm:col-span-2 inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-[#F9FAFB] hover:bg-[#F3F4F6] text-[#18181B] border border-[#D1D5DB] transition-colors"
-                title="Descargar PDF de ${escapeHTML(item.name)}"
+              <button
+                type="button"
+                data-open-brand-quote="${escapeHTML(item.id)}"
+                class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#F9FAFB] hover:bg-[#F3F4F6] text-[#18181B] border border-[#D1D5DB] hover:border-[#18181B] transition-colors cursor-pointer text-center"
+                title="Pedir presupuesto de ${escapeHTML(item.name)}"
               >
-                <svg class="w-4 h-4 text-[#3F3F46] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                <svg class="w-4 h-4 text-[#18181B] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
-                <span>Descargar PDF</span>
-              </a>
+                <span>Pedir Presupuesto</span>
+              </button>
             </div>
           </div>
         </div>
@@ -908,12 +906,389 @@ function initCatalogsSystem() {
     });
   }
 
-  // Inicializar Visor Modal / Flipbook de Catálogos (incluyendo marcas generales y chimeneas)
+  // Inicializar Visor Modal / Flipbook de Catálogos y Modal de Presupuesto por Marca
   const allCatalogsCombined = [
     ...data.brandsCatalogs,
     ...(Array.isArray(data.fireplacesCatalogs) ? data.fireplacesCatalogs : [])
   ];
   initCatalogModalViewer(allCatalogsCombined);
+  initBrandQuoteModal(allCatalogsCombined);
+}
+
+function formatBrandQuoteTarget(item) {
+  if (!item) return "";
+  const rawSede = String(item.sede || "").toLowerCase();
+  const destino = rawSede.includes("almac") ? "Almacén" : "Exposición";
+  const material = String(item.category || "Material").trim();
+  return `${item.name} (${material}) - ${destino}`;
+}
+
+function initBrandQuoteModal(catalogs) {
+  let modal = document.getElementById("brand-quote-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "brand-quote-modal";
+    modal.className =
+      "modal-hidden fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-labelledby", "brand-quote-modal-title");
+
+    modal.innerHTML = `
+      <div class="bg-white text-[#18181B] w-full max-w-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-[#E5E7EB] overflow-hidden my-auto">
+        <!-- Cabecera del Modal -->
+        <div class="bg-[#111111] text-white px-5 sm:px-7 py-4 sm:py-5 flex items-center justify-between gap-3 border-b border-gray-800">
+          <div class="min-w-0">
+            <span class="inline-block text-[11px] font-extrabold uppercase tracking-widest text-[#D4D4D8] mb-0.5">
+              Solicitud de Presupuesto por Marca
+            </span>
+            <h3 id="brand-quote-modal-title" class="text-lg sm:text-xl font-extrabold text-white truncate">
+              Pedir Presupuesto
+            </h3>
+          </div>
+          <button
+            id="brand-quote-close-btn"
+            type="button"
+            aria-label="Cerrar ventana de presupuesto"
+            class="w-9 h-9 rounded-xl bg-gray-800 hover:bg-red-600 text-white flex items-center justify-center transition-colors cursor-pointer shrink-0"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Formulario -->
+        <form id="brand-quote-form" action="enviar-correo.php" method="POST" class="p-5 sm:p-7 space-y-4" novalidate>
+          <!-- Honeypot y Tokens de Seguridad -->
+          <div class="hidden" aria-hidden="true">
+            <label for="bq-website-hp">No rellenar este campo</label>
+            <input id="bq-website-hp" name="website_hp" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <input id="bq-form-token" name="form_token" type="hidden" value="" />
+          <input id="bq-idempotency-key" name="idempotency_key" type="hidden" value="" />
+          <input id="bq-sede-interes" name="sede_interes" type="hidden" value="" />
+          <input name="privacidad" type="hidden" value="1" />
+
+          <!-- Cuadro fijo no editable: Marca (Tipo de material) - Destino -->
+          <div>
+            <label for="brand-quote-locked-input" class="block text-xs font-extrabold uppercase tracking-wider text-[#3F3F46] mb-1.5">
+              Marca, Material y Destino Seleccionado
+            </label>
+            <div class="relative">
+              <input
+                id="brand-quote-locked-input"
+                name="marca_presupuesto"
+                type="text"
+                readonly
+                tabindex="-1"
+                aria-readonly="true"
+                value=""
+                class="w-full px-4 py-3 pr-10 rounded-xl bg-[#F3F4F6] border-2 border-[#D1D5DB] text-sm font-extrabold text-[#111111] select-none cursor-not-allowed focus:outline-none"
+              />
+              <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#52525B] pointer-events-none" title="Campo bloqueado">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Nombre y Teléfono -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="bq-nombre" class="block text-xs font-bold text-[#18181B] mb-1">
+                Nombre <span class="text-red-600">*</span>
+              </label>
+              <input
+                id="bq-nombre"
+                name="nombre"
+                type="text"
+                required
+                placeholder="Tu nombre y apellidos"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#F9FAFB] border border-[#D1D5DB] text-sm text-[#18181B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]"
+              />
+            </div>
+
+            <div>
+              <label for="bq-telefono" class="block text-xs font-bold text-[#18181B] mb-1">
+                Teléfono <span class="text-red-600">*</span>
+              </label>
+              <input
+                id="bq-telefono"
+                name="telefono"
+                type="tel"
+                required
+                placeholder="Ej: 600 000 000"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#F9FAFB] border border-[#D1D5DB] text-sm text-[#18181B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]"
+              />
+            </div>
+          </div>
+
+          <!-- Correo y Asunto -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="bq-email" class="block text-xs font-bold text-[#18181B] mb-1">
+                Correo electrónico <span class="text-red-600">*</span>
+              </label>
+              <input
+                id="bq-email"
+                name="email"
+                type="email"
+                required
+                placeholder="tucorreo@ejemplo.com"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#F9FAFB] border border-[#D1D5DB] text-sm text-[#18181B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]"
+              />
+            </div>
+
+            <div>
+              <label for="bq-asunto" class="block text-xs font-bold text-[#18181B] mb-1">
+                Asunto <span class="text-red-600">*</span>
+              </label>
+              <input
+                id="bq-asunto"
+                name="asunto"
+                type="text"
+                required
+                placeholder="Ej: Presupuesto pavimento / serie..."
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#F9FAFB] border border-[#D1D5DB] text-sm text-[#18181B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]"
+              />
+            </div>
+          </div>
+
+          <!-- Mensaje -->
+          <div>
+            <label for="bq-mensaje" class="block text-xs font-bold text-[#18181B] mb-1">
+              Mensaje <span class="text-red-600">*</span>
+            </label>
+            <textarea
+              id="bq-mensaje"
+              name="mensaje"
+              rows="3"
+              required
+              placeholder="Indícanos el modelo, medidas aproximadas, cantidad o cualquier consulta sobre esta marca..."
+              class="w-full px-3.5 py-2.5 rounded-xl bg-[#F9FAFB] border border-[#D1D5DB] text-sm text-[#18181B] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#111111]"
+            ></textarea>
+          </div>
+
+          <p class="text-[11px] text-[#52525B] leading-relaxed">
+            Todos los campos marcados con <span class="text-red-600 font-bold">*</span> son obligatorios. Al enviar aceptas nuestra <a href="privacidad.html" target="_blank" class="underline font-semibold hover:text-[#111111]">Política de Privacidad</a>.
+          </p>
+
+          <!-- Mensaje de estado / feedback -->
+          <div id="brand-quote-feedback" class="hidden rounded-xl p-3.5 text-xs sm:text-sm font-semibold"></div>
+
+          <!-- Botones de acción del modal -->
+          <div class="pt-2 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5">
+            <button
+              id="brand-quote-cancel-btn"
+              type="button"
+              class="px-5 py-3 rounded-xl text-xs sm:text-sm font-bold bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#18181B] transition-colors cursor-pointer"
+            >
+              Cancelar
+            </button>
+            <button
+              id="brand-quote-submit-btn"
+              type="submit"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold btn-primary-green cursor-pointer"
+            >
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              <span>Enviar Solicitud de Presupuesto</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  const form = document.getElementById("brand-quote-form");
+  const lockedInput = document.getElementById("brand-quote-locked-input");
+  const sedeHiddenInput = document.getElementById("bq-sede-interes");
+  const tokenInput = document.getElementById("bq-form-token");
+  const idempotencyInput = document.getElementById("bq-idempotency-key");
+  const titleEl = document.getElementById("brand-quote-modal-title");
+  const closeBtn = document.getElementById("brand-quote-close-btn");
+  const cancelBtn = document.getElementById("brand-quote-cancel-btn");
+  const submitBtn = document.getElementById("brand-quote-submit-btn");
+  const feedbackEl = document.getElementById("brand-quote-feedback");
+
+  let currentLockedValue = "";
+
+  // Garantizar que el cuadro bloqueado no se pueda alterar nunca
+  if (lockedInput) {
+    ["input", "change", "keydown", "paste", "cut"].forEach((evtName) => {
+      lockedInput.addEventListener(evtName, (e) => {
+        e.preventDefault();
+        lockedInput.value = currentLockedValue;
+      });
+    });
+  }
+
+  const generateTokens = () => {
+    const nowSec = Math.floor(Date.now() / 1000);
+    if (tokenInput) tokenInput.value = btoa(String(nowSec));
+    if (idempotencyInput) {
+      const rand = Math.random().toString(36).substring(2, 12);
+      idempotencyInput.value = `bq_${nowSec}_${rand}`;
+    }
+  };
+
+  const openQuoteModal = (brandId) => {
+    const item = catalogs.find((c) => c.id === brandId);
+    if (!item) return;
+
+    currentLockedValue = formatBrandQuoteTarget(item);
+    if (lockedInput) lockedInput.value = currentLockedValue;
+    if (sedeHiddenInput) sedeHiddenInput.value = currentLockedValue;
+    if (titleEl) titleEl.textContent = `Pedir Presupuesto · ${item.name}`;
+
+    if (feedbackEl) {
+      feedbackEl.className = "hidden rounded-xl p-3.5 text-xs sm:text-sm font-semibold";
+      feedbackEl.textContent = "";
+    }
+
+    generateTokens();
+
+    modal.classList.remove("modal-hidden");
+    modal.classList.add("modal-visible");
+    document.body.style.overflow = "hidden";
+
+    const firstInput = document.getElementById("bq-nombre");
+    if (firstInput) {
+      setTimeout(() => firstInput.focus(), 60);
+    }
+  };
+
+  const closeQuoteModal = () => {
+    modal.classList.remove("modal-visible");
+    modal.classList.add("modal-hidden");
+    const catalogModal = document.getElementById("catalog-modal");
+    const isCatalogModalOpen = catalogModal && catalogModal.classList.contains("modal-visible");
+    if (!isCatalogModalOpen) {
+      document.body.style.overflow = "";
+    }
+  };
+
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-open-brand-quote]");
+    if (trigger) {
+      e.preventDefault();
+      const brandId = trigger.getAttribute("data-open-brand-quote");
+      openQuoteModal(brandId);
+    }
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", closeQuoteModal);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeQuoteModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeQuoteModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("modal-visible")) {
+      closeQuoteModal();
+    }
+  });
+
+  if (form) {
+    let isSubmitting = false;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (isSubmitting) return;
+
+      if (lockedInput) lockedInput.value = currentLockedValue;
+      if (sedeHiddenInput) sedeHiddenInput.value = currentLockedValue;
+
+      const nombre = (document.getElementById("bq-nombre")?.value || "").trim();
+      const telefono = (document.getElementById("bq-telefono")?.value || "").trim();
+      const email = (document.getElementById("bq-email")?.value || "").trim();
+      const asunto = (document.getElementById("bq-asunto")?.value || "").trim();
+      const mensaje = (document.getElementById("bq-mensaje")?.value || "").trim();
+
+      const showFeedback = (msg, isError) => {
+        if (!feedbackEl) return;
+        feedbackEl.className = isError
+          ? "rounded-xl p-3.5 text-xs sm:text-sm font-semibold bg-red-50 border border-red-300 text-red-900"
+          : "rounded-xl p-3.5 text-xs sm:text-sm font-semibold bg-emerald-50 border border-emerald-300 text-emerald-900";
+        feedbackEl.textContent = msg;
+      };
+
+      if (!nombre || !telefono || !email || !asunto || !mensaje) {
+        showFeedback("Por favor, completa todos los campos obligatorios (Nombre, Teléfono, Correo, Asunto y Mensaje).", true);
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showFeedback("Por favor, introduce una dirección de correo electrónico válida.", true);
+        return;
+      }
+
+      const phoneDigits = telefono.replace(/\D/g, "");
+      if (phoneDigits.length < 9) {
+        showFeedback("Por favor, introduce un número de teléfono válido (mínimo 9 dígitos).", true);
+        return;
+      }
+
+      isSubmitting = true;
+      const originalBtnHTML = submitBtn ? submitBtn.innerHTML : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span>Enviando solicitud...</span>`;
+      }
+
+      try {
+        const formData = new FormData(form);
+        formData.set("marca_presupuesto", currentLockedValue);
+        formData.set("sede_interes", currentLockedValue);
+
+        const response = await fetch(form.getAttribute("action") || "enviar-correo.php", {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+          }
+        });
+
+        const result = await response.json().catch(() => null);
+
+        if (response.ok && result && result.success) {
+          showFeedback(
+            result.message || "¡Solicitud enviada correctamente! Nuestro equipo te responderá con tu presupuesto lo antes posible.",
+            false
+          );
+          form.reset();
+          if (lockedInput) lockedInput.value = currentLockedValue;
+          if (sedeHiddenInput) sedeHiddenInput.value = currentLockedValue;
+          generateTokens();
+        } else {
+          showFeedback(
+            (result && result.message) || "No se pudo enviar la solicitud en este momento. También puedes llamarnos al 956 53 61 04.",
+            true
+          );
+          generateTokens();
+        }
+      } catch (err) {
+        showFeedback(
+          "Error de conexión al enviar el formulario. Por favor, inténtalo de nuevo o llámanos al 956 53 61 04.",
+          true
+        );
+        generateTokens();
+      } finally {
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        }
+      }
+    });
+  }
 }
 
 function initCatalogModalViewer(catalogs) {
@@ -1039,9 +1414,9 @@ function initCatalogModalViewer(catalogs) {
                 <a href="tel:+34956536104" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
                   Llamar Ahora: 956 53 61 04
                 </a>
-                <a href="contacto.html#formulario-contacto" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood">
-                  Solicitar Presupuesto por Escrito
-                </a>
+                <button type="button" data-open-brand-quote="${escapeHTML(activeCatalog.id)}" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-wood cursor-pointer">
+                  Pedir Presupuesto de ${escapeHTML(activeCatalog.name)}
+                </button>
               </div>
             </div>
             <p class="text-xs text-[#52525B] mt-4">Polígono Industrial Pelagatos · Chiclana de la Frontera (Cádiz)</p>
@@ -1052,14 +1427,14 @@ function initCatalogModalViewer(catalogs) {
       flipSpreadContent.innerHTML = `
         <div class="bg-[#F9FAFB] rounded-xl p-8 border border-[#E5E7EB] text-center max-w-2xl mx-auto my-auto">
           <div class="w-14 h-14 rounded-2xl bg-[#F4F4F5] text-[#111111] flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           </div>
-          <h5 class="text-2xl font-extrabold text-[#18181B] mb-2">Descarga el PDF íntegro (${activeCatalog.pagesCount || 120} páginas)</h5>
-          <p class="text-sm text-[#52525B] mb-6">Puedes visualizar el PDF completo en esta misma ventana pulsando en la pestaña superior <strong>«Visor PDF Integrado»</strong> o descargarlo directamente en tu móvil u ordenador.</p>
+          <h5 class="text-2xl font-extrabold text-[#18181B] mb-2">¿Necesitas presupuesto de ${escapeHTML(activeCatalog.name)}?</h5>
+          <p class="text-sm text-[#52525B] mb-6">Puedes visualizar el catálogo completo pulsando en la pestaña superior <strong>«Visor PDF Integrado»</strong> o solicitar presupuesto directo de esta marca.</p>
           <div class="flex flex-wrap justify-center gap-3">
-            <a href="${escapeHTML(activeCatalog.pdfUrl)}" download="${escapeHTML(activeCatalog.id)}.pdf" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm btn-primary-green">
-              Descargar Catálogo PDF (${escapeHTML(activeCatalog.fileSize || "15 MB")})
-            </a>
+            <button type="button" data-open-brand-quote="${escapeHTML(activeCatalog.id)}" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm btn-primary-green cursor-pointer">
+              Pedir Presupuesto de ${escapeHTML(activeCatalog.name)}
+            </button>
             <a href="${escapeHTML(activeCatalog.pdfUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-white border border-[#D1D5DB] text-[#18181B] hover:bg-[#F3F4F6]">
               Abrir PDF en pestaña nueva
             </a>
@@ -1097,8 +1472,9 @@ function initCatalogModalViewer(catalogs) {
     if (sedeBadgeEl) sedeBadgeEl.textContent = item.sede;
 
     if (downloadBtn) {
-      downloadBtn.setAttribute("href", item.pdfUrl);
-      downloadBtn.setAttribute("download", `${item.id}-${item.year}.pdf`);
+      downloadBtn.setAttribute("data-open-brand-quote", item.id);
+      downloadBtn.removeAttribute("download");
+      downloadBtn.setAttribute("href", `#presupuesto-${item.id}`);
     }
     if (externalBtn) {
       externalBtn.setAttribute("href", item.pdfUrl);
