@@ -1261,7 +1261,7 @@ window.MILLAN_DATA = {
     },
 
     // =========================================================================
-    // MARCAS SEDE ALMACÉN (38 Marcas Oficiales)
+    // MARCAS SEDE ALMACÉN (37 Marcas Oficiales)
     // =========================================================================
     {
       id: "holcim",
@@ -1381,23 +1381,6 @@ window.MILLAN_DATA = {
       fileSize: "21.5 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
       keywords: ["demetrio", "fontaneria", "saneamiento", "tuberias", "almacen"]
-    },
-    {
-      id: "lasur",
-      name: "Lasur",
-      edition: "Soluciones Técnicas, Impermeabilización y Protección en Obra 2026",
-      year: "2026",
-      category: "Aislamientos",
-      sede: "Sede Almacén",
-      featured: false,
-      logoUrl: "assets/img/marcas/lasur.svg",
-      logoMonogram: "LASUR",
-      coverImage: "assets/img/categorias/marca-lasur.jpg",
-      description: "Protectores y tratamientos técnicos para superficies, láminas impermeabilizantes, aislamientos y soluciones auxiliares de construcción.",
-      pagesCount: 92,
-      fileSize: "10.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["lasur", "tratamientos", "proteccion", "aislamiento", "impermeabilizacion", "almacen"]
     },
     {
       id: "cofan",
