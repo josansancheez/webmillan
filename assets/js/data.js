@@ -314,7 +314,7 @@ window.MILLAN_DATA = {
           "description": "Elegancia italiana en gres porcelánico y revestimiento cerámico con colecciones inspiradas en mármoles clásicos, travertinos y maderas nobles.",
           "pagesCount": 172,
           "fileSize": "18.9 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "vallelunga",
                 "ceramica",
@@ -504,7 +504,7 @@ window.MILLAN_DATA = {
           "description": "Especialistas en soluciones técnicas en gres extruido: peldaños de escalera de una pieza, bordes skimmer e infinity para piscinas y suelos exteriores C3.",
           "pagesCount": 168,
           "fileSize": "18.6 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "exagres",
                 "peldaños",
@@ -560,7 +560,7 @@ window.MILLAN_DATA = {
           "description": "Diseños vanguardistas en cerámica decorativa, listones porcelánicos efecto madera y revestimientos con textura para paredes de acento.",
           "pagesCount": 140,
           "fileSize": "15.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "estilker",
                 "ceramica",
@@ -586,7 +586,7 @@ window.MILLAN_DATA = {
           "description": "Referente mundial en mosaico de vidrio reciclado con sistema JointPoint para revestimiento de piscinas, duchas de obra, wellness e interiorismo.",
           "pagesCount": 144,
           "fileSize": "16.4 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "ezarri",
                 "gresite",
@@ -614,7 +614,7 @@ window.MILLAN_DATA = {
           "description": "Tradición e innovación en azulejos cerámicos de alta luminosidad, esmaltes brillantes y mates para el revestimiento de baños y cocinas.",
           "pagesCount": 132,
           "fileSize": "14.9 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "ribesalbes",
                 "ceramica",
@@ -640,7 +640,7 @@ window.MILLAN_DATA = {
           "description": "Superficies de autor inspiradas en piedras naturales, lavas volcánicas, terracotas y maderas recuperadas con un acabado táctil inigualable.",
           "pagesCount": 162,
           "fileSize": "18.3 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "provenza",
                 "ceramica",
@@ -694,7 +694,7 @@ window.MILLAN_DATA = {
           "description": "Plaquetas decorativas de piedra reconstituida para fachadas e interiores, celosías, albardillas, cubremuros, baldosas y decoración de jardín.",
           "pagesCount": 144,
           "fileSize": "16.2 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "verni-prens",
                 "verniprens",
@@ -721,7 +721,7 @@ window.MILLAN_DATA = {
           "description": "Selección de piedras naturales, paneles de mampostería premontada, lajas, cuarcitas, pizarras y cantos rodados para revestimiento interior y exterior.",
           "pagesCount": 116,
           "fileSize": "13.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "ceramat",
                 "piedras",
@@ -890,7 +890,7 @@ window.MILLAN_DATA = {
           "description": "Cerámica sanitaria italiana de vanguardia con colecciones de lavabos e inodoros en blanco brillo, blanco mate, negro mate y tonos tierra.",
           "pagesCount": 154,
           "fileSize": "17.1 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "olympia",
                 "olympia ceramica",
@@ -1086,7 +1086,7 @@ window.MILLAN_DATA = {
           "description": "Fabricación y distribución de accesorios de baño en acero inoxidable y latón, ayudas técnicas de movilidad reducida y espejos retroiluminados.",
           "pagesCount": 136,
           "fileSize": "15.1 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "pedro beltran",
                 "accesorios",
@@ -1113,7 +1113,7 @@ window.MILLAN_DATA = {
           "description": "Más de 75 años de excelencia italiana en accesorios de baño en latón cromado, negro mate, níquel cepillado y acabados PVD.",
           "pagesCount": 148,
           "fileSize": "16.3 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "inda",
                 "accesorios",
@@ -1223,7 +1223,7 @@ window.MILLAN_DATA = {
           "description": "Mamparas de ducha de entrega rápida y fabricación a medida con vidrio de seguridad de 6 y 8 mm y cierres magnéticos herméticos.",
           "pagesCount": 104,
           "fileSize": "12.1 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "pdfUrl": "",
           "keywords": [
                 "split",
                 "mamparas split",
@@ -1522,7 +1522,7 @@ window.MILLAN_DATA = {
       description: "Ladrillos huecos dobles y triples, ladrillo perforado, rasillones machihembrados, bovedillas cerámicas y piezas para tabiquería y cerramientos.",
       pagesCount: 74,
       fileSize: "9.0 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["ceramica la perdiz", "la perdiz", "ladrillos", "rasillones", "tabiqueria", "ceramica estructural", "obra gruesa", "almacen"]
     },
     {
@@ -1557,7 +1557,7 @@ window.MILLAN_DATA = {
       description: "Cementos grises y blancos de alta durabilidad, conglomerantes para albañilería y hormigones de uso estructural y civil.",
       pagesCount: 90,
       fileSize: "10.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["lafarge", "cemento", "cemento blanco", "hormigon", "sacos", "obra gruesa", "almacen"]
     },
     {
@@ -1574,7 +1574,7 @@ window.MILLAN_DATA = {
       description: "Calzos, cuñas y tenazas de nivelación para alicatado y solado de gran formato, crucetas separadoras de precisión y accesorios de colocación.",
       pagesCount: 82,
       fileSize: "9.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["mustang", "nivelacion", "crucetas", "cuñas", "calzos", "alicatado", "almacen"]
     },
     {
@@ -1663,7 +1663,7 @@ window.MILLAN_DATA = {
       description: "Sacos de sal compactada de alta pureza para equipos descalcificadores domésticos e industriales y sal especial para piscinas con clorador salino.",
       pagesCount: 48,
       fileSize: "6.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["aquasal", "sal", "sal piscinas", "descalcificador", "cloracion salina", "sacos", "almacen"]
     },
     {
@@ -1716,7 +1716,7 @@ window.MILLAN_DATA = {
       description: "Distribución especializada de materiales de construcción, tableros de encofrar, suministros sanitarios y complementos para edificación y reforma.",
       pagesCount: 84,
       fileSize: "9.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["macofema", "materiales construccion", "encofrado", "obra", "suministros", "almacen"]
     },
     {
@@ -1751,7 +1751,7 @@ window.MILLAN_DATA = {
       description: "Productos químicos para mantenimiento de piscinas (cloro multiacción, antialgas, floculantes), accesorios de fontanería, grifería técnica y ferretería.",
       pagesCount: 112,
       fileSize: "12.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["juancode", "piscinas", "cloro", "fontaneria", "saneamiento", "quimicos piscina", "almacen"]
     },
     {
@@ -1840,7 +1840,7 @@ window.MILLAN_DATA = {
       description: "Cepillos de barrer de obra, escobas industriales, rodillos para fachada e impermeabilización, brochas, cubos, espuertas y útiles de limpieza.",
       pagesCount: 88,
       fileSize: "10.3 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["jar", "cepillos", "rodillos", "brochas", "espuertas", "ferreteria", "utiles obra", "almacen"]
     },
     {
@@ -1857,7 +1857,7 @@ window.MILLAN_DATA = {
       description: "Limpiadores ácidos y desincrustantes de restos de cemento y salitre fin de obra, hidrofugantes para piedra, ladrillo visto y barro cocido.",
       pagesCount: 64,
       fileSize: "7.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["patriol", "quitacementos", "desincrustante", "limpieza obra", "hidrofugante", "quimicos", "almacen"]
     },
     {
@@ -1910,7 +1910,7 @@ window.MILLAN_DATA = {
       description: "Guardavivos, cantoneras, junquillos, perfiles de remate y dilatación y accesorios auxiliares para albañilería, yeso y revestimientos.",
       pagesCount: 80,
       fileSize: "9.5 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["viat", "perfiles", "guardavivos", "cantoneras", "obra", "ferreteria", "almacen"]
     },
     {
@@ -2067,7 +2067,7 @@ window.MILLAN_DATA = {
       description: "Marca distribuida por Bosch Marín. Estufas y hogares de leña y pellet con interior blanco Keramott de autolimpieza pirolítica y acumuladores de calor Heat Memory System.",
       pagesCount: 132,
       fileSize: "17.2 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["austroflamm", "bosch marin", "keramott", "acumulacion termica", "diseño", "leña", "pellet"]
     },
     {
@@ -2086,7 +2086,7 @@ window.MILLAN_DATA = {
       description: "Marca belga de alta gama distribuida por Bosch Marín. Chimeneas encastrables de leña y gas de visión total sin marco con puerta guillotina motorizada, de 1, 2 y 3 caras.",
       pagesCount: 144,
       fileSize: "19.0 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["m-design", "mdesign", "bosch marin", "luna", "diamond", "guillotina", "panoramica", "leña", "gas"]
     },
     {
@@ -2105,7 +2105,7 @@ window.MILLAN_DATA = {
       description: "Firma neerlandesa distribuida por Bosch Marín. Chimeneas eléctricas y de vapor de agua e-MatriX sin salida de humos, bioetanol y chimeneas de gas con control por App.",
       pagesCount: 120,
       fileSize: "15.6 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["faber", "bosch marin", "e-matrix", "opti-myst", "gas", "electrica", "bioetanol", "vapor de agua"]
     },
     {
@@ -2124,7 +2124,7 @@ window.MILLAN_DATA = {
       description: "Prestigiosa firma británica distribuida por Bosch Marín. Especialistas en chimeneas eléctricas encastrables de gran formato para paredes Media Wall, además de gamas de gas y leña.",
       pagesCount: 110,
       fileSize: "14.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      pdfUrl: "",
       keywords: ["charlton", "jenrick", "charlton & jenrick", "bosch marin", "electrica", "gas", "leña", "media wall"]
     }
   ],

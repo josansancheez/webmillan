@@ -359,13 +359,35 @@ function initCatalogsSystem() {
       : `<span class="font-extrabold tracking-wider text-xs uppercase px-2.5 py-1 rounded bg-[#F9FAFB] text-[#111111] border border-[#E5E7EB]">${escapeHTML(item.logoMonogram || item.name)}</span>`;
 
     const rawPdfUrl = String(item.pdfUrl || "").trim();
+    const isDemoPdf = rawPdfUrl.includes("catalogo-demo-millan.pdf");
+    const cleanPdfUrl = isDemoPdf ? "" : rawPdfUrl;
     const externalCatalogUrl =
       item.externalUrl ||
-      (/^https?:\/\//i.test(rawPdfUrl) &&
-      !/\.pdf(\?.*)?$/i.test(rawPdfUrl) &&
-      !rawPdfUrl.includes("drive.google.com/file/")
-        ? rawPdfUrl
+      (/^https?:\/\//i.test(cleanPdfUrl) &&
+      !/\.pdf(\?.*)?$/i.test(cleanPdfUrl) &&
+      !cleanPdfUrl.includes("drive.google.com/file/")
+        ? cleanPdfUrl
         : "");
+    const hasPdfCatalog = Boolean(cleanPdfUrl && !externalCatalogUrl);
+    const hasCatalog = Boolean(externalCatalogUrl || hasPdfCatalog);
+
+    const catalogMetaHTML = externalCatalogUrl
+      ? `<span class="inline-flex items-center gap-1 font-medium text-[#18181B]">
+          <svg class="w-4 h-4 text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+          Catálogo Web Oficial
+        </span>
+        <span>Apertura en pestaña</span>`
+      : hasPdfCatalog
+        ? `<span class="inline-flex items-center gap-1 font-medium">
+            <svg class="w-4 h-4 text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            ${item.pagesCount || 120} págs.
+          </span>
+          <span>Formato PDF · ${escapeHTML(item.fileSize || "15 MB")}</span>`
+        : `<span class="inline-flex items-center gap-1 font-medium text-[#71717A]">
+            <svg class="w-4 h-4 text-[#71717A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+            Sin catálogo online
+          </span>
+          <span class="text-[#71717A]">Consultar en tienda</span>`;
 
     const viewCatalogBtnHTML = externalCatalogUrl
       ? `<a
@@ -380,16 +402,27 @@ function initCatalogsSystem() {
           </svg>
           <span>Ver Catálogo</span>
         </a>`
-      : `<button
-          type="button"
-          data-open-catalog="${escapeHTML(item.id)}"
-          class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
-        >
-          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-          </svg>
-          <span>Ver Catálogo</span>
-        </button>`;
+      : hasPdfCatalog
+        ? `<button
+            type="button"
+            data-open-catalog="${escapeHTML(item.id)}"
+            class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
+          >
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            <span>Ver Catálogo</span>
+          </button>`
+        : `<span
+            aria-disabled="true"
+            class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#E5E7EB] text-[#71717A] border border-[#D1D5DB] cursor-not-allowed select-none text-center"
+            title="Esta marca no dispone de catálogo digital"
+          >
+            <svg class="w-4 h-4 shrink-0 text-[#71717A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+            </svg>
+            <span>Sin Catálogo</span>
+          </span>`;
 
     return `
       <article id="brand-card-${escapeHTML(item.id)}" class="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden flex flex-col card-hover shadow-sm scroll-mt-28" data-brand-id="${escapeHTML(item.id)}">
@@ -455,11 +488,7 @@ function initCatalogsSystem() {
 
           <div class="pt-3 border-t border-[#E5E7EB]">
             <div class="flex items-center justify-between text-xs text-[#52525B] mb-3">
-              <span class="inline-flex items-center gap-1 font-medium">
-                <svg class="w-4 h-4 text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                ${item.pagesCount || 120} págs.
-              </span>
-              <span>Formato PDF · ${escapeHTML(item.fileSize || "15 MB")}</span>
+              ${catalogMetaHTML}
             </div>
 
             <!-- Botones de Acción (Tamaños iguales) -->
@@ -1492,18 +1521,21 @@ function initCatalogModalViewer(catalogs) {
     if (!item) return;
 
     const rawPdfUrl = String(item.pdfUrl || "").trim();
+    const cleanPdfUrl = rawPdfUrl.includes("catalogo-demo-millan.pdf") ? "" : rawPdfUrl;
     const externalCatalogUrl =
       item.externalUrl ||
-      (/^https?:\/\//i.test(rawPdfUrl) &&
-      !/\.pdf(\?.*)?$/i.test(rawPdfUrl) &&
-      !rawPdfUrl.includes("drive.google.com/file/")
-        ? rawPdfUrl
+      (/^https?:\/\//i.test(cleanPdfUrl) &&
+      !/\.pdf(\?.*)?$/i.test(cleanPdfUrl) &&
+      !cleanPdfUrl.includes("drive.google.com/file/")
+        ? cleanPdfUrl
         : "");
 
     if (externalCatalogUrl) {
       window.open(externalCatalogUrl, "_blank", "noopener,noreferrer");
       return;
     }
+
+    if (!cleanPdfUrl) return;
 
     activeCatalog = item;
     currentSpread = 1;

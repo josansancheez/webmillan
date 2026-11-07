@@ -7,6 +7,12 @@ const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
+const demoCatalogFile = path.join(rootDir, 'catalogos', 'catalogo-demo-millan.pdf');
+if (fs.existsSync(demoCatalogFile)) {
+  try {
+    fs.unlinkSync(demoCatalogFile);
+  } catch (_) {}
+}
 const version = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 14);
 
 const htmlFiles = fs.readdirSync(rootDir).filter((f) => f.endsWith('.html'));
