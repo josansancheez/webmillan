@@ -148,7 +148,7 @@ window.MILLAN_DATA = {
           "id": "Mobiliario",
           "title": "Mobiliario",
           "brandIds": [
-              "sanchis",
+              "grupo-seys",
               "valman",
               "doccia"
           ]
@@ -1206,9 +1206,9 @@ window.MILLAN_DATA = {
           ]
     },
     {
-          "id": "sanchis",
-          "name": "Sanchis",
-          "edition": "Colección de Muebles de Baño Suspendidos, Auxiliares y Encimeras 2026",
+          "id": "grupo-seys",
+          "name": "Grupo Seys",
+          "edition": "Colección de Muebles de Baño en Madera Maciza, Auxiliares y Espejos 2026",
           "year": "2026",
           "category": "Mobiliario",
           "exposicionFamilies": [
@@ -1216,17 +1216,19 @@ window.MILLAN_DATA = {
           ],
           "sede": "Sede Exposición",
           "featured": false,
-          "logoUrl": "assets/img/marcas/sanchis.svg",
-          "logoMonogram": "SANCHIS",
+          "logoUrl": "assets/img/marcas/grupo-seys.svg",
+          "logoMonogram": "GRUPO SEYS",
           "coverImage": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80",
-          "description": "Muebles de baño con cajones de extracción total y cierre amortiguado, acabados en maderas naturales, lacados mates y frentes alistonados.",
+          "description": "Muebles de baño artesanales en madera maciza y diseños contemporáneos, nórdicos y rústicos con acabados personalizados, encimeras y espejos a juego.",
           "pagesCount": 160,
           "fileSize": "17.9 MB",
           "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
           "keywords": [
-                "sanchis",
+                "grupo seys",
+                "seys",
                 "mobiliario",
                 "muebles de baño",
+                "madera maciza",
                 "encimeras baño",
                 "exposicion"
           ]
