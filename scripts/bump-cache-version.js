@@ -54,4 +54,15 @@ for (const file of htmlFiles) {
   fs.writeFileSync(fullPath, html, 'utf8');
 }
 
+// 3. Mantener sitemap.xml con fecha <lastmod> actualizada al día actual
+const sitemapPath = path.join(rootDir, 'sitemap.xml');
+if (fs.existsSync(sitemapPath)) {
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const sitemapXml = fs.readFileSync(sitemapPath, 'utf8').replace(
+    /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g,
+    `<lastmod>${todayIso}</lastmod>`
+  );
+  fs.writeFileSync(sitemapPath, sitemapXml, 'utf8');
+}
+
 console.log(`Cache version bumped to ${version} across ${htmlFiles.length} HTML files.`);
