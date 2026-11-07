@@ -177,7 +177,8 @@ window.MILLAN_DATA = {
           "description": "Colecciones cerámicas de vanguardia, gres porcelánico con relieve, texturas pétreas, hidráulicos e imitación barro y madera.",
           "pagesCount": 196,
           "fileSize": "21.4 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.realonda.com",
+          "pdfUrl": "https://www.realonda.com",
           "keywords": [
                 "realonda",
                 "ceramica",
@@ -203,7 +204,8 @@ window.MILLAN_DATA = {
           "description": "Referente nacional en cerámica arquitectónica: porcelánicos rectificados gran formato, revestimientos pasta blanca para baños y suelos continuos In&Out.",
           "pagesCount": 240,
           "fileSize": "24.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://saloni.com/es",
+          "pdfUrl": "https://saloni.com/es",
           "keywords": [
                 "saloni",
                 "ceramica",
@@ -230,7 +232,8 @@ window.MILLAN_DATA = {
           "description": "Diseños cerámicos con personalidad propia: baldosas hidráulicas, pequeño formato decorativo, terrazos cerámicos y maderas porcelánicas.",
           "pagesCount": 180,
           "fileSize": "19.2 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.vivesceramica.com",
+          "pdfUrl": "https://www.vivesceramica.com",
           "keywords": [
                 "vives",
                 "vives azulejos",
@@ -257,7 +260,8 @@ window.MILLAN_DATA = {
           "description": "Superficies porcelánicas pulidas, satinadas y mates en grandes formatos para salones, cocinas, fachadas y cuartos de baño.",
           "pagesCount": 148,
           "fileSize": "16.5 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.fanal.com",
+          "pdfUrl": "https://www.fanal.com",
           "keywords": [
                 "fanal",
                 "ceramica",
@@ -283,7 +287,8 @@ window.MILLAN_DATA = {
           "description": "Cerámica italiana de alta gama con acabados tridimensionales, texturas minerales y tonalidades cálidas para proyectos de interiorismo.",
           "pagesCount": 156,
           "fileSize": "17.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://ascotcer.it",
+          "pdfUrl": "https://ascotcer.it",
           "keywords": [
                 "ascot",
                 "ceramica italiana",
@@ -335,7 +340,8 @@ window.MILLAN_DATA = {
           "description": "Gres porcelánico de altísima resistencia y realismo superficial para pavimentos interiores, terrazas exteriores y espacios comerciales.",
           "pagesCount": 164,
           "fileSize": "18.2 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.cerdomus.com/en/home",
+          "pdfUrl": "https://www.cerdomus.com/en/home",
           "keywords": [
                 "cerdomus",
                 "ceramica",
@@ -361,7 +367,8 @@ window.MILLAN_DATA = {
           "description": "Soluciones cerámicas sostenibles para baños, cocinas y salones: revestimientos rectificados, suelos antideslizantes C3 y láminas de fino espesor.",
           "pagesCount": 188,
           "fileSize": "20.1 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.azulev.com",
+          "pdfUrl": "https://www.azulev.com",
           "keywords": [
                 "azulev",
                 "ceramica",
@@ -387,7 +394,8 @@ window.MILLAN_DATA = {
           "description": "Amplio abanico de formatos en pavimentos y azulejos cerámicos con acabados madera, cemento, piedra y marmoleados de gran durabilidad.",
           "pagesCount": 160,
           "fileSize": "17.4 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://cristalceramicas.com",
+          "pdfUrl": "https://cristalceramicas.com",
           "keywords": [
                 "cristacer",
                 "ceramica",
@@ -413,7 +421,8 @@ window.MILLAN_DATA = {
           "description": "Superficies cerámicas versátiles para reformas integrales y obra nueva con diseños actuales en tonos neutros, tierras y grises.",
           "pagesCount": 152,
           "fileSize": "16.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.navarti.com",
+          "pdfUrl": "https://www.navarti.com",
           "keywords": [
                 "navarti",
                 "ceramica",
@@ -439,7 +448,8 @@ window.MILLAN_DATA = {
           "description": "Líder internacional en cerámica decorativa de pequeño formato: azulejos artesanales efecto Zellige, biselados, escamas y mosaicos geométricos.",
           "pagesCount": 204,
           "fileSize": "22.3 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.equipeceramicas.com",
+          "pdfUrl": "https://www.equipeceramicas.com",
           "keywords": [
                 "equipe",
                 "equipe ceramicas",
@@ -466,7 +476,8 @@ window.MILLAN_DATA = {
           "description": "Colección Tribeca de Keros Cerámica y gamas de revestimiento brillante, destonificado y pavimentos porcelánicos para baños y cocinas.",
           "pagesCount": 128,
           "fileSize": "14.5 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://keros.com",
+          "pdfUrl": "https://keros.com",
           "keywords": [
                 "tribeca",
                 "keros",
@@ -521,7 +532,8 @@ window.MILLAN_DATA = {
           "description": "Porcelánico técnico integral de gran resistencia al desgaste, ideal para viviendas modernas, garajes, terrazas, fachadas ventiladas y zonas de alto tránsito.",
           "pagesCount": 136,
           "fileSize": "15.2 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://alcalagres.es",
+          "pdfUrl": "https://alcalagres.es",
           "keywords": [
                 "alcalagres",
                 "porcelanico tecnico",
@@ -654,7 +666,8 @@ window.MILLAN_DATA = {
           "description": "Uno de los mayores fabricantes europeos de pavimento porcelánico, tarimas cerámicas imitación madera y revestimientos rectificados.",
           "pagesCount": 210,
           "fileSize": "22.7 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://stnceramica.es",
+          "pdfUrl": "https://stnceramica.es",
           "keywords": [
                 "stn",
                 "stn ceramica",
@@ -735,7 +748,8 @@ window.MILLAN_DATA = {
           "description": "Sanitarios rimless de descarga limpia, inodoros compactos y suspendidos, lavabos sobre encimera, bidés y platos de ducha cerámicos.",
           "pagesCount": 176,
           "fileSize": "19.0 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://sanindusa.com/es",
+          "pdfUrl": "https://sanindusa.com/es",
           "keywords": [
                 "sanindusa",
                 "sanitario",
@@ -762,7 +776,8 @@ window.MILLAN_DATA = {
           "description": "Porcelana sanitaria de precisión alemana firmada por diseñadores internacionales (Philippe Starck, Cecilie Manz): inodoros HygieneGlaze y lavabos DuraCeram.",
           "pagesCount": 220,
           "fileSize": "23.6 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.duravit.com/es-es",
+          "pdfUrl": "https://www.duravit.com/es-es",
           "keywords": [
                 "duravit",
                 "sanitario",
@@ -790,7 +805,8 @@ window.MILLAN_DATA = {
           "description": "Ingeniería alemana para el agua: grifería monomando, columnas y sistemas empotrados SmartControl, cisternas ocultas Rapid SL y porcelana sanitaria Grohe.",
           "pagesCount": 248,
           "fileSize": "25.4 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.grohe.com/es-ES",
+          "pdfUrl": "https://www.grohe.com/es-ES",
           "keywords": [
                 "grohe",
                 "sanitario",
@@ -818,7 +834,8 @@ window.MILLAN_DATA = {
           "description": "Especialistas en lavabos sobre encimera y murales en porcelana, piedra natural, Solid Surface, bambú y acabados decorados a mano en su Atelier.",
           "pagesCount": 192,
           "fileSize": "20.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.thebathcollection.com",
+          "pdfUrl": "https://www.thebathcollection.com",
           "keywords": [
                 "bathco",
                 "sanitario",
@@ -845,7 +862,8 @@ window.MILLAN_DATA = {
           "description": "Líneas minimalistas y arquitectónicas en sanitarios suspendidos y a suelo, lavabos integrados y soluciones completas para cuartos de baño.",
           "pagesCount": 140,
           "fileSize": "15.5 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.cifial.pt/es",
+          "pdfUrl": "https://www.cifial.pt/es",
           "keywords": [
                 "cifial",
                 "sanitario",
@@ -899,7 +917,8 @@ window.MILLAN_DATA = {
           "description": "Fabricante nacional líder en grifería monomando y termostática en acabados cromo, negro mate, oro cepillado, acero y bronce para baño y cocina.",
           "pagesCount": 216,
           "fileSize": "23.1 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.tresgriferia.com",
+          "pdfUrl": "https://www.tresgriferia.com",
           "keywords": [
                 "tres",
                 "tres griferia",
@@ -926,7 +945,8 @@ window.MILLAN_DATA = {
           "description": "Innovación alemana desde 1901 en rociadores de ducha, grifería con ahorro de agua EcoSmart, sistemas empotrados iBox universal y acabados FinishPlus.",
           "pagesCount": 208,
           "fileSize": "22.4 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.hansgrohe.es",
+          "pdfUrl": "https://www.hansgrohe.es",
           "keywords": [
                 "hansgrohe",
                 "griferia",
@@ -953,7 +973,8 @@ window.MILLAN_DATA = {
           "description": "Conjuntos de ducha termostáticos, grifería empotrada de lavabo y ducha, caños altos y grifos de cocina extraíbles en múltiples acabados.",
           "pagesCount": 124,
           "fileSize": "14.2 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://clausybath.com",
+          "pdfUrl": "https://clausybath.com",
           "keywords": [
                 "claus&bath",
                 "claus and bath",
@@ -980,7 +1001,8 @@ window.MILLAN_DATA = {
           "description": "Soluciones fiables en grifería de lavabo, bidé, bañera-ducha y fregadero con cartuchos cerámicos de alta durabilidad.",
           "pagesCount": 98,
           "fileSize": "11.6 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://griferiatiempo.com",
+          "pdfUrl": "https://griferiatiempo.com",
           "keywords": [
                 "tiempo",
                 "griferia tiempo",
@@ -1008,7 +1030,8 @@ window.MILLAN_DATA = {
           "description": "Diseño italiano desde 1953 en accesorios murales (toalleros, portarrollos, dosificadores con fijación con o sin taladro) y series de grifería para baño.",
           "pagesCount": 168,
           "fileSize": "18.4 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://gedyiberica.es",
+          "pdfUrl": "https://gedyiberica.es",
           "keywords": [
                 "gedy",
                 "griferia",
@@ -1035,7 +1058,8 @@ window.MILLAN_DATA = {
           "description": "Referente en accesorios de baño minimalistas de alta resistencia anticorrosión, espejos de aumento, repisas de ducha y papeleras de diseño.",
           "pagesCount": 152,
           "fileSize": "16.9 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.cosmicbrand.com/es/es/",
+          "pdfUrl": "https://www.cosmicbrand.com/es/es/",
           "keywords": [
                 "cosmic",
                 "accesorios",
@@ -1117,7 +1141,8 @@ window.MILLAN_DATA = {
           "description": "Soluciones integrales de baño fabricadas en Andalucía: mamparas con vidrio templado antical, platos de ducha de carga mineral y mobiliario de baño.",
           "pagesCount": 184,
           "fileSize": "20.2 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.docciagroup.com/es",
+          "pdfUrl": "https://www.docciagroup.com/es",
           "keywords": [
                 "doccia",
                 "mamparas",
@@ -1144,7 +1169,8 @@ window.MILLAN_DATA = {
           "description": "Especialistas en mamparas de ducha correderas, abatibles y fijos walk-in con perfilería y rodamientos en acero inoxidable de máxima durabilidad.",
           "pagesCount": 128,
           "fileSize": "14.7 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.glassinox.com",
+          "pdfUrl": "https://www.glassinox.com",
           "keywords": [
                 "glassinox",
                 "mamparas",
@@ -1170,7 +1196,8 @@ window.MILLAN_DATA = {
           "description": "Mamparas frontales, angulares, plegables y paneles fijos con tratamiento antical de serie y perfilería en plata brillo, negro mate, blanco y oro.",
           "pagesCount": 118,
           "fileSize": "13.6 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.mamparaspremium.com/marca/mampasystem/",
+          "pdfUrl": "https://www.mamparaspremium.com/marca/mampasystem/",
           "keywords": [
                 "mampasystem",
                 "mamparas",
@@ -1222,7 +1249,8 @@ window.MILLAN_DATA = {
           "description": "Muebles de baño artesanales en madera maciza y diseños contemporáneos, nórdicos y rústicos con acabados personalizados, encimeras y espejos a juego.",
           "pagesCount": 160,
           "fileSize": "17.9 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://www.gruposeys.com",
+          "pdfUrl": "https://www.gruposeys.com",
           "keywords": [
                 "grupo seys",
                 "seys",
@@ -1250,7 +1278,8 @@ window.MILLAN_DATA = {
           "description": "Fabricación de mobiliario de baño funcional y de diseño con múltiples combinaciones de lavabos cerámicos, carga mineral y espejos LED.",
           "pagesCount": 142,
           "fileSize": "15.8 MB",
-          "pdfUrl": "catalogos/catalogo-demo-millan.pdf",
+          "externalUrl": "https://valmanmobiliario.com",
+          "pdfUrl": "https://valmanmobiliario.com",
           "keywords": [
                 "valman",
                 "mobiliario",
@@ -1277,7 +1306,8 @@ window.MILLAN_DATA = {
       description: "Cementos de alta resistencia, conglomerantes hidráulicos ECOPlanet y soluciones para cimentaciones, estructuras y albañilería profesional.",
       pagesCount: 124,
       fileSize: "14.6 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.holcim.es",
+      pdfUrl: "https://www.holcim.es",
       keywords: ["holcim", "cemento", "hormigon", "sacos", "obra gruesa", "almacen"]
     },
     {
@@ -1294,7 +1324,8 @@ window.MILLAN_DATA = {
       description: "Aditivos para hormigón, masillas de poliuretano Sikaflex, resinas epoxi, morteros de reparación estructural e impermeabilizantes para cubiertas y terrazas.",
       pagesCount: 168,
       fileSize: "18.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://esp.sika.com",
+      pdfUrl: "https://esp.sika.com",
       keywords: ["sika", "sikaflex", "quimicos", "humedades", "cubiertas", "selladores", "impermeabilizar", "almacen"]
     },
     {
@@ -1311,7 +1342,8 @@ window.MILLAN_DATA = {
       description: "Adhesivos cementosos Pegoland C2TE S1/S2 para gres porcelánico, morteros de albañilería y enfoscado, morteros de juntas e impermeabilización.",
       pagesCount: 152,
       fileSize: "16.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.grupopuma.com/es-ES",
+      pdfUrl: "https://www.grupopuma.com/es-ES",
       keywords: ["grupo puma", "pegoland", "mortero cola", "enfoscado", "sate", "sacos", "almacen"]
     },
     {
@@ -1328,7 +1360,8 @@ window.MILLAN_DATA = {
       description: "Paletas forjadas en una sola pieza, llanas y peines dentados, macetas, cinceles, cortadoras manuales de cerámica, discos de diamante y niveles.",
       pagesCount: 184,
       fileSize: "20.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.bellota.com/es-es",
+      pdfUrl: "https://www.bellota.com/es-es",
       keywords: ["bellota", "herramientas", "paletas", "llanas", "discos", "ferreteria", "almacen"]
     },
     {
@@ -1345,7 +1378,8 @@ window.MILLAN_DATA = {
       description: "Cementos ensacados de alta trabajabilidad y resistencia para hormigones, soleras, morteros de albañilería y prefabricados.",
       pagesCount: 76,
       fileSize: "9.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.votorantimcimentos.es/es/cemento",
+      pdfUrl: "https://www.votorantimcimentos.es/es/cemento",
       keywords: ["cosmos", "cementos cosmos", "cemento", "sacos", "obra gruesa", "almacen"]
     },
     {
@@ -1362,7 +1396,8 @@ window.MILLAN_DATA = {
       description: "Herramientas especializadas para colocadores de cerámica, sistemas de nivelación, ventosas, talochas, espátulas y útiles para placa de yeso laminado.",
       pagesCount: 112,
       fileSize: "13.1 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.colotool.com",
+      pdfUrl: "https://www.colotool.com",
       keywords: ["colotool", "herramientas", "alicatador", "llanas", "ventosas", "pladur", "almacen"]
     },
     {
@@ -1379,7 +1414,8 @@ window.MILLAN_DATA = {
       description: "Catálogo Demetrio: tuberías, canalización, evacuación, valvulonería, accesorios de fontanería, piscinas y suministros de obra.",
       pagesCount: 196,
       fileSize: "21.5 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://roferonline.es",
+      pdfUrl: "https://roferonline.es",
       keywords: ["demetrio", "fontaneria", "saneamiento", "tuberias", "almacen"]
     },
     {
@@ -1396,7 +1432,8 @@ window.MILLAN_DATA = {
       description: "Amplio surtido en ferretería de obra, tornillería, fijación, abrasivos, herramientas manuales, señalización, bricolaje y equipos de protección individual.",
       pagesCount: 240,
       fileSize: "24.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.cofan.es/es/",
+      pdfUrl: "https://www.cofan.es/es/",
       keywords: ["cofan", "ferreteria", "tornilleria", "herramientas", "epis", "industrial", "almacen"]
     },
     {
@@ -1413,7 +1450,8 @@ window.MILLAN_DATA = {
       description: "Bobinas de plástico negro y natural para soleras y barreras de vapor, film protector para reformas, sacos de escombro y mallas de señalización.",
       pagesCount: 68,
       fileSize: "8.2 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://valenplas.net",
+      pdfUrl: "https://valenplas.net",
       keywords: ["valenplas", "plasticos", "polietileno", "film", "sacos escombro", "soleras", "almacen"]
     },
     {
@@ -1430,7 +1468,8 @@ window.MILLAN_DATA = {
       description: "Morteros secos Tector by Holcim para albañilería, adhesivos cerámicos de altas prestaciones, autonivelantes y morteros de acabado para fachadas.",
       pagesCount: 118,
       fileSize: "13.7 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.holcim.es/tector",
+      pdfUrl: "https://www.holcim.es/tector",
       keywords: ["tector", "holcim", "morteros", "adhesivos", "revocos", "autonivelante", "almacen"]
     },
     {
@@ -1447,7 +1486,8 @@ window.MILLAN_DATA = {
       description: "Botas y zapatos de seguridad S3 con puntera no metálica, plantilla antiperforación, suelas antideslizantes de alta resistencia y membrana impermeable.",
       pagesCount: 104,
       fileSize: "12.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://falseguridad.com",
+      pdfUrl: "https://falseguridad.com",
       keywords: ["fal seguridad", "botas obra", "calzado seguridad", "epis", "vestuario laboral", "almacen"]
     },
     {
@@ -1464,7 +1504,8 @@ window.MILLAN_DATA = {
       description: "Yesos manuales y de proyección, escayolas de alta blancura, placas para techos registrables, molduras y prefabricados de escayola.",
       pagesCount: 86,
       fileSize: "10.1 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.ruizdorantes.com",
+      pdfUrl: "https://www.ruizdorantes.com",
       keywords: ["ruiz dorantes", "yeso", "escayola", "techos", "prefabricados", "sacos", "almacen"]
     },
     {
@@ -1498,7 +1539,8 @@ window.MILLAN_DATA = {
       description: "Bloques de hormigón vibrado lisos y split, bovedillas para forjados, adoquines, bordillos, arquetas prefabricadas y cubremuros.",
       pagesCount: 96,
       fileSize: "11.5 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://arcobloc.com",
+      pdfUrl: "https://arcobloc.com",
       keywords: ["arcobloc", "bloques hormigon", "bovedillas", "arquetas", "prefabricados", "obra gruesa", "almacen"]
     },
     {
@@ -1549,7 +1591,8 @@ window.MILLAN_DATA = {
       description: "Tacos multimaterial DuoPower, anclajes químicos de alta carga, fijaciones metálicas, espumas de poliuretano, siliconas y adhesivos de montaje.",
       pagesCount: 172,
       fileSize: "19.2 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://shop.fischer.es/",
+      pdfUrl: "https://shop.fischer.es/",
       keywords: ["fischer", "tacos", "duopower", "taco quimico", "anclajes", "fijacion", "espuma", "almacen"]
     },
     {
@@ -1566,7 +1609,8 @@ window.MILLAN_DATA = {
       description: "Discos de diamante profesionales para corte de porcelánico, hormigón, granito y obra general, coronas perforadoras y platos de desbaste.",
       pagesCount: 94,
       fileSize: "11.3 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.fredimar.com/es",
+      pdfUrl: "https://www.fredimar.com/es",
       keywords: ["fredimar", "discos diamante", "corte porcelanico", "brocas", "coronas", "herramientas", "almacen"]
     },
     {
@@ -1583,7 +1627,8 @@ window.MILLAN_DATA = {
       description: "Cajas universales de mecanismos y registro para tabiquería y pladur, cuadros de distribución empotrar/superficie, tubo corrugado y pequeño material eléctrico.",
       pagesCount: 136,
       fileSize: "15.1 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.psolera.com/es/index",
+      pdfUrl: "https://www.psolera.com/es/index",
       keywords: ["solera", "material electrico", "cajas registro", "cuadros electricos", "tubo corrugado", "almacen"]
     },
     {
@@ -1600,7 +1645,8 @@ window.MILLAN_DATA = {
       description: "Morteros cola flexibles webercol para porcelánico y piscinas, morteros de juntas webercolor, revocos técnicos de fachada e impermeabilizantes.",
       pagesCount: 164,
       fileSize: "17.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.es.weber",
+      pdfUrl: "https://www.es.weber",
       keywords: ["weber", "saint-gobain", "webercol", "mortero cola", "rejuntado", "fachadas", "almacen"]
     },
     {
@@ -1634,7 +1680,8 @@ window.MILLAN_DATA = {
       description: "Siliconas neutras y sanitarias antimoho, adhesivos de montaje Sintex, polímeros híbridos MS, espumas de poliuretano y selladores acrílicos.",
       pagesCount: 128,
       fileSize: "14.5 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://quilosa.com",
+      pdfUrl: "https://quilosa.com",
       keywords: ["quilosa", "silicona", "selladores", "espuma poliuretano", "adhesivos", "sintex", "almacen"]
     },
     {
@@ -1651,7 +1698,8 @@ window.MILLAN_DATA = {
       description: "Canaletas y rejillas de evacuación de aguas pluviales, arquetas sifónicas y de registro, sumideros de terraza, plots regulables para pavimento técnico y perfiles.",
       pagesCount: 142,
       fileSize: "16.1 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.dakota.eu/es/productos",
+      pdfUrl: "https://www.dakota.eu/es/productos",
       keywords: ["dakota", "canaletas", "drenaje", "arquetas", "rejillas", "plots", "evacuacion", "almacen"]
     },
     {
@@ -1685,7 +1733,8 @@ window.MILLAN_DATA = {
       description: "Piezas e injertos de PVC para evacuación, sumideros sifónicos, válvulas antirretorno, arquetas, calderetas y canalización sanitaria.",
       pagesCount: 156,
       fileSize: "17.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://crearplast.es",
+      pdfUrl: "https://crearplast.es",
       keywords: ["crearplast", "pvc", "evacuacion", "sumideros", "sifones", "saneamiento", "fontaneria", "almacen"]
     },
     {
@@ -1719,7 +1768,8 @@ window.MILLAN_DATA = {
       description: "Sifones de lavabo y fregadero, válvulas de desagüe, latiguillos, mecanismos de cisterna, accesorios de polietileno y riego.",
       pagesCount: 138,
       fileSize: "15.3 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.hidrotecnoagua.com",
+      pdfUrl: "https://www.hidrotecnoagua.com",
       keywords: ["tecnoagua", "fontaneria", "sifones", "desagues", "latiguillos", "riego", "almacen"]
     },
     {
@@ -1736,7 +1786,8 @@ window.MILLAN_DATA = {
       description: "Descargadores universales de doble pulsador, grifos flotadores silenciosos, cisternas altas y bajas, juntas y recambios originales de fontanería.",
       pagesCount: 92,
       fileSize: "10.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://fominaya.com",
+      pdfUrl: "https://fominaya.com",
       keywords: ["fominaya", "mecanismos cisterna", "flotador", "descargador", "fontaneria", "recambios", "almacen"]
     },
     {
@@ -1753,7 +1804,8 @@ window.MILLAN_DATA = {
       description: "Skimmers, boquillas de impulsión, sumideros, focos LED subacuáticos, filtros de arena, bombas de filtración, limpiafondos y escaleras de piscina.",
       pagesCount: 220,
       fileSize: "23.8 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.astralpool.com/es/es.html",
+      pdfUrl: "https://www.astralpool.com/es/es.html",
       keywords: ["astralpool", "astrapool", "piscinas", "skimmer", "depuradora", "bombas piscina", "almacen"]
     },
     {
@@ -1770,7 +1822,8 @@ window.MILLAN_DATA = {
       description: "Revestimientos elásticos antigoteras con fibra para azoteas y terrazas, membranas impermeabilizantes, mallas de refuerzo y pinturas para fachadas.",
       pagesCount: 78,
       fileSize: "9.2 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://enkelgroup.com",
+      pdfUrl: "https://enkelgroup.com",
       keywords: ["enkel", "antigoteras", "caucho", "impermeabilizante", "azoteas", "pintura fachada", "almacen"]
     },
     {
@@ -1821,7 +1874,8 @@ window.MILLAN_DATA = {
       description: "Cajas y maletines de herramientas de alta resistencia, estuches organizadores, gavetas apilables, enrollacables eléctricos de obra y proyectores LED.",
       pagesCount: 116,
       fileSize: "13.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://tayg.com",
+      pdfUrl: "https://tayg.com",
       keywords: ["tayg", "cajas herramientas", "gavetas", "ordenacion", "enrollacables", "ferreteria", "almacen"]
     },
     {
@@ -1838,7 +1892,8 @@ window.MILLAN_DATA = {
       description: "Fabricante de sistemas de nivelación cerámica de alta precisión, calzos, cuñas reutilizables, crucetas, T y cuñas para colocadores profesionales.",
       pagesCount: 72,
       fileSize: "8.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.arttros.com",
+      pdfUrl: "https://www.arttros.com",
       keywords: ["arttros", "nivelacion", "calzos", "cuñas", "crucetas", "alicatado", "almacen"]
     },
     {
@@ -1872,7 +1927,8 @@ window.MILLAN_DATA = {
       description: "Herramientas eléctricas gama azul Bosch Professional (18V y cable), martillos perforadores SDS-plus/max, amoladoras, niveles láser, brocas y discos.",
       pagesCount: 210,
       fileSize: "22.6 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.bosch-professional.com/es/es/",
+      pdfUrl: "https://www.bosch-professional.com/es/es/",
       keywords: ["bosch", "bosch professional", "herramienta electrica", "taladro", "amoladora", "radial", "laser", "almacen"]
     },
     {
@@ -1889,7 +1945,8 @@ window.MILLAN_DATA = {
       description: "Depósitos de polietileno para agua potable y pluviales, fosas sépticas con filtro biológico, depuradoras compactas de oxidación total y separadores de grasas.",
       pagesCount: 126,
       fileSize: "14.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.simop.es",
+      pdfUrl: "https://www.simop.es",
       keywords: ["simop", "fosas septicas", "depositos agua", "depuradoras", "separador grasas", "saneamiento", "almacen"]
     }
   ],
@@ -1913,7 +1970,8 @@ window.MILLAN_DATA = {
       description: "Estufas y chimeneas de leña, hogares panorámicos, casetes insertables con turbinas, estufas de pellet canalizables, bioetanol y eléctricas de alta eficiencia energética.",
       pagesCount: 212,
       fileSize: "23.4 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://bronpi.com",
+      pdfUrl: "https://bronpi.com",
       keywords: ["bronpi", "chimeneas", "leña", "pellet", "bioetanol", "electrica", "insertables", "estufas", "calefaccion"]
     },
     {
@@ -1931,7 +1989,8 @@ window.MILLAN_DATA = {
       description: "Amplia gama de chimeneas de rincón y frontales, estufas de leña con horno superior, insertables ventilados, estufas de pellet, biochimeneas de bioetanol y eléctricas.",
       pagesCount: 164,
       fileSize: "18.1 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://fmindustrial.es",
+      pdfUrl: "https://fmindustrial.es",
       keywords: ["fm", "fm calefaccion", "chimeneas", "leña", "horno leña", "insertables", "pellet", "bioetanol", "electrica", "estufas"]
     },
     {
@@ -1949,7 +2008,8 @@ window.MILLAN_DATA = {
       description: "Referente en fundición propia: estufas de hierro fundido de gran durabilidad, hogares de combustión limpia Ecodesign en leña y pellet, compactos insertables y cocinas de leña.",
       pagesCount: 148,
       fileSize: "16.9 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.hergom.com",
+      pdfUrl: "https://www.hergom.com",
       keywords: ["hergom", "hierro fundido", "chimeneas", "hogares", "compactos", "leña", "pellet", "ecodesign"]
     },
     {
@@ -1968,7 +2028,8 @@ window.MILLAN_DATA = {
       description: "Chimeneas arquitectónicas de diseño exclusivo distribuidas por Bosch Marín: Austroflamm, M-Design, Faber y Charlton & Jenrick (leña, pellet, bioetanol, gas y eléctricas).",
       pagesCount: 196,
       fileSize: "24.6 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.boschmarin.com/",
+      pdfUrl: "https://www.boschmarin.com/",
       keywords: ["bosch marin", "austroflamm", "m-design", "faber", "charlton", "jenrick", "leña", "pellet", "bioetanol", "gas", "electrica"]
     },
     {
@@ -1986,7 +2047,8 @@ window.MILLAN_DATA = {
       description: "Sistemas certificados de evacuación de humos para instalaciones seguras: tubería acero inoxidable aislada doble pared, tubo vitrificado negro mate para leña, pellet y gas, codos y sombreretes.",
       pagesCount: 118,
       fileSize: "13.5 MB",
-      pdfUrl: "catalogos/catalogo-demo-millan.pdf",
+      externalUrl: "https://www.exojo.es",
+      pdfUrl: "https://www.exojo.es",
       keywords: ["exojo", "tubos chimenea", "conductos humos", "doble pared", "inoxidable", "vitrificado", "sombreretes", "leña", "pellet", "gas"]
     },
     {

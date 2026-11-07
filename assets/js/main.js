@@ -358,6 +358,39 @@ function initCatalogsSystem() {
       ? `<img src="${escapeHTML(item.logoUrl)}" alt="Logo ${escapeHTML(item.name)}" class="h-9 sm:h-10 w-auto max-w-[155px] object-contain" loading="lazy">`
       : `<span class="font-extrabold tracking-wider text-xs uppercase px-2.5 py-1 rounded bg-[#F9FAFB] text-[#111111] border border-[#E5E7EB]">${escapeHTML(item.logoMonogram || item.name)}</span>`;
 
+    const rawPdfUrl = String(item.pdfUrl || "").trim();
+    const externalCatalogUrl =
+      item.externalUrl ||
+      (/^https?:\/\//i.test(rawPdfUrl) &&
+      !/\.pdf(\?.*)?$/i.test(rawPdfUrl) &&
+      !rawPdfUrl.includes("drive.google.com/file/")
+        ? rawPdfUrl
+        : "");
+
+    const viewCatalogBtnHTML = externalCatalogUrl
+      ? `<a
+          href="${escapeHTML(externalCatalogUrl)}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
+          title="Abrir catálogo web oficial de ${escapeHTML(item.name)} en una nueva pestaña"
+        >
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          <span>Ver Catálogo</span>
+        </a>`
+      : `<button
+          type="button"
+          data-open-catalog="${escapeHTML(item.id)}"
+          class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
+        >
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          <span>Ver Catálogo</span>
+        </button>`;
+
     return `
       <article id="brand-card-${escapeHTML(item.id)}" class="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden flex flex-col card-hover shadow-sm scroll-mt-28" data-brand-id="${escapeHTML(item.id)}">
         <!-- Portada del Catálogo -->
@@ -431,16 +464,7 @@ function initCatalogsSystem() {
 
             <!-- Botones de Acción (Tamaños iguales) -->
             <div class="grid grid-cols-2 gap-2.5 items-stretch">
-              <button
-                type="button"
-                data-open-catalog="${escapeHTML(item.id)}"
-                class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
-              >
-                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                </svg>
-                <span>Ver Catálogo</span>
-              </button>
+              ${viewCatalogBtnHTML}
 
               <button
                 type="button"
@@ -1463,6 +1487,20 @@ function initCatalogModalViewer(catalogs) {
   const openModal = (brandId) => {
     const item = catalogs.find((c) => c.id === brandId);
     if (!item) return;
+
+    const rawPdfUrl = String(item.pdfUrl || "").trim();
+    const externalCatalogUrl =
+      item.externalUrl ||
+      (/^https?:\/\//i.test(rawPdfUrl) &&
+      !/\.pdf(\?.*)?$/i.test(rawPdfUrl) &&
+      !rawPdfUrl.includes("drive.google.com/file/")
+        ? rawPdfUrl
+        : "");
+
+    if (externalCatalogUrl) {
+      window.open(externalCatalogUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
 
     activeCatalog = item;
     currentSpread = 1;
