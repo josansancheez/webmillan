@@ -1,9 +1,28 @@
 User-agent: *
 Allow: /
 
+# Permitir explícitamente rastreadores de IA (Google AI Overviews / Gemini, ChatGPT, Perplexity, Claude)
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
 # Evitar indexación de scripts internos de procesamiento
 Disallow: /enviar-correo.php
 Disallow: /scripts/
 
-# Mapa del sitio oficial para Google Search Console y Bing Webmaster Tools
+# Mapa del sitio oficial para Google Search Console, Bing y motores de IA
 Sitemap: https://millanchiclana.com/sitemap.xml
