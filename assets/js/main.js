@@ -953,9 +953,10 @@ function initBrandQuoteModal(catalogs) {
     modal = document.createElement("div");
     modal.id = "brand-quote-modal";
     modal.className =
-      "modal-hidden fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto";
+      "hidden modal-hidden fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm items-center justify-center p-3 sm:p-4 overflow-y-auto";
     modal.setAttribute("role", "dialog");
     modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("aria-hidden", "true");
     modal.setAttribute("aria-labelledby", "brand-quote-modal-title");
 
     modal.innerHTML = `
@@ -1176,8 +1177,9 @@ function initBrandQuoteModal(catalogs) {
 
     generateTokens();
 
-    modal.classList.remove("modal-hidden");
-    modal.classList.add("modal-visible");
+    modal.classList.remove("hidden", "modal-hidden");
+    modal.classList.add("flex", "modal-visible");
+    modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
     const firstInput = document.getElementById("bq-nombre");
@@ -1187,8 +1189,9 @@ function initBrandQuoteModal(catalogs) {
   };
 
   const closeQuoteModal = () => {
-    modal.classList.remove("modal-visible");
-    modal.classList.add("modal-hidden");
+    modal.classList.remove("flex", "modal-visible");
+    modal.classList.add("hidden", "modal-hidden");
+    modal.setAttribute("aria-hidden", "true");
     const catalogModal = document.getElementById("catalog-modal");
     const isCatalogModalOpen = catalogModal && catalogModal.classList.contains("modal-visible");
     if (!isCatalogModalOpen) {

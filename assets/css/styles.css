@@ -172,19 +172,24 @@ body {
 }
 
 /* ==========================================================================
-   VISOR INTERACTIVO DE CATÁLOGOS PDF (MODAL / FLIPBOOK)
+   VISOR INTERACTIVO DE CATÁLOGOS PDF Y MODAL DE PRESUPUESTO POR MARCA
    ========================================================================== */
-#catalog-modal {
+#catalog-modal,
+#brand-quote-modal {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-#catalog-modal.modal-hidden {
+.modal-hidden,
+#catalog-modal.modal-hidden,
+#brand-quote-modal.modal-hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-#catalog-modal.modal-visible {
+.modal-visible,
+#catalog-modal.modal-visible,
+#brand-quote-modal.modal-visible {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
