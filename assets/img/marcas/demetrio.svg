@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 265 68" fill="none">
+  <rect x="6" y="10" width="48" height="48" rx="11" fill="#005BBB"/>
+  <path d="M20 22H29C36 22 41 26.5 41 33C41 39.5 36 44 29 44H20V22Z" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="64" y="36" fill="#005BBB" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="900" font-size="22" letter-spacing="0.6">DEMETRIO</text>
+  <text x="64" y="52" fill="#0088CC" font-family="Plus Jakarta Sans, Arial, sans-serif" font-weight="800" font-size="10.5" letter-spacing="1.4">FONTANERÍA Y SUMINISTROS</text>
+</svg>

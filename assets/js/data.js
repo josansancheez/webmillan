@@ -1366,21 +1366,21 @@ window.MILLAN_DATA = {
       keywords: ["colotool", "herramientas", "alicatador", "llanas", "ventosas", "pladur", "almacen"]
     },
     {
-      id: "rofer-and-rodi",
-      name: "Rofer & Rodi (Demetrio)",
+      id: "demetrio",
+      name: "Demetrio",
       edition: "Suministros de Fontanería, Saneamiento, Riego y Construcción 2026",
       year: "2026",
       category: "Ferretería y Herramientas",
       sede: "Sede Almacén",
       featured: false,
-      logoUrl: "assets/img/marcas/rofer-rodi.svg",
-      logoMonogram: "ROFER & RODI",
+      logoUrl: "assets/img/marcas/demetrio.svg",
+      logoMonogram: "DEMETRIO",
       coverImage: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=800&q=80",
-      description: "Catálogo Demetrio Romero (Rofer & Rodi): tuberías, canalización, evacuación, valvulonería, accesorios de fontanería, piscinas y suministros de obra.",
+      description: "Catálogo Demetrio: tuberías, canalización, evacuación, valvulonería, accesorios de fontanería, piscinas y suministros de obra.",
       pagesCount: 196,
       fileSize: "21.5 MB",
       pdfUrl: "catalogos/catalogo-demo-millan.pdf",
-      keywords: ["rofer", "rodi", "demetrio", "fontaneria", "saneamiento", "tuberias", "almacen"]
+      keywords: ["demetrio", "fontaneria", "saneamiento", "tuberias", "almacen"]
     },
     {
       id: "lasur",
