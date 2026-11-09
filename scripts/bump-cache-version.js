@@ -15,6 +15,39 @@ if (fs.existsSync(demoCatalogFile)) {
 }
 const version = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 14);
 
+// Sincronizar favicon en raíz (/favicon.png y /favicon.ico) para navegadores y Google Search
+const faviconSrc = path.join(rootDir, 'assets', 'img', 'favicon.png');
+if (fs.existsSync(faviconSrc)) {
+  const buf = fs.readFileSync(faviconSrc);
+  const isPng = buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47;
+  const isJpg = buf[0] === 0xff && buf[1] === 0xd8;
+  const width = isPng ? buf.readUInt32BE(16) : 0;
+  const height = isPng ? buf.readUInt32BE(20) : 0;
+  console.log(`Favicon source: isPng=${isPng}, isJpg=${isJpg}, size=${buf.length}B, dims=${width}x${height}`);
+
+  // Copiar a /favicon.png en la raíz
+  fs.writeFileSync(path.join(rootDir, 'favicon.png'), buf);
+
+  // Generar /favicon.ico válido en la raíz y en assets/img/favicon.ico si es PNG
+  if (isPng) {
+    const icoHeader = Buffer.alloc(22);
+    icoHeader.writeUInt16LE(0, 0); // Reserved
+    icoHeader.writeUInt16LE(1, 2); // Type 1 = ICO
+    icoHeader.writeUInt16LE(1, 4); // 1 image
+    icoHeader.writeUInt8(width >= 256 ? 0 : width, 6);
+    icoHeader.writeUInt8(height >= 256 ? 0 : height, 7);
+    icoHeader.writeUInt8(0, 8); // Palette
+    icoHeader.writeUInt8(0, 9); // Reserved
+    icoHeader.writeUInt16LE(1, 10); // Color planes
+    icoHeader.writeUInt16LE(32, 12); // Bits per pixel
+    icoHeader.writeUInt32LE(buf.length, 14); // Image byte size
+    icoHeader.writeUInt32LE(22, 18); // Offset (6 + 16)
+    const icoBuf = Buffer.concat([icoHeader, buf]);
+    fs.writeFileSync(path.join(rootDir, 'favicon.ico'), icoBuf);
+    fs.writeFileSync(path.join(rootDir, 'assets', 'img', 'favicon.ico'), icoBuf);
+  }
+}
+
 const htmlFiles = fs.readdirSync(rootDir).filter((f) => f.endsWith('.html'));
 
 for (const file of htmlFiles) {
@@ -37,7 +70,7 @@ for (const file of htmlFiles) {
     );
   }
 
-  // 2. Actualizar ?v=... en assets/css/styles.css, assets/js/data.js y assets/js/main.js
+  // 2. Actualizar ?v=... en assets/css/styles.css, assets/js/data.js, assets/js/main.js y favicons
   html = html.replace(
     /href="assets\/css\/styles\.css(?:\?v=[^"]*)?"/g,
     `href="assets/css/styles.css?v=${version}"`
@@ -49,6 +82,12 @@ for (const file of htmlFiles) {
   html = html.replace(
     /src="assets\/js\/main\.js(?:\?v=[^"]*)?"/g,
     `src="assets/js/main.js?v=${version}"`
+  );
+
+  // Asegurar enlaces completos de favicon (ICO + PNG + Apple Touch Icon) con anti-caché ?v=...
+  html = html.replace(
+    /(?:[ \t]*<link\s+rel="(?:shortcut )?icon"[^>]*>\r?\n)+[ \t]*<link\s+rel="apple-touch-icon"[^>]*>/g,
+    `  <link rel="icon" type="image/x-icon" href="favicon.ico?v=${version}" />\n  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon.png?v=${version}" />\n  <link rel="shortcut icon" href="favicon.ico?v=${version}" />\n  <link rel="apple-touch-icon" href="assets/img/favicon.png?v=${version}" />`
   );
 
   fs.writeFileSync(fullPath, html, 'utf8');
