@@ -3544,6 +3544,87 @@ function initAnimatedCounters() {
       }
     });
   }
+
+  // Escritura realista con teclado (5 segundos con ritmo irregular) para la numeración de la tarjeta CaixaBank ("••••  ••••  ••••  2026")
+  const cardNumberEl = document.getElementById("caixabank-card-number");
+  if (cardNumberEl) {
+    // 16 pulsaciones con sus espacios de bloque y tiempos acumulados hasta 5000ms exactos:
+    // Bloque 1 rápido (0.54s) -> pausa leyendo tarjeta -> Bloque 2 lento (~1.46s) -> Bloque 3 ráfaga + duda -> Bloque 4 ("2026") hasta 5.00s
+    const typingSteps = [
+      { timeMs: 130, html: "•" },
+      { timeMs: 260, html: "••" },
+      { timeMs: 400, html: "•••" },
+      { timeMs: 540, html: "••••" },
+      { timeMs: 1380, html: "•••• &nbsp;•" },
+      { timeMs: 1860, html: "•••• &nbsp;••" },
+      { timeMs: 2380, html: "•••• &nbsp;•••" },
+      { timeMs: 2840, html: "•••• &nbsp;••••" },
+      { timeMs: 3220, html: "•••• &nbsp;•••• &nbsp;•" },
+      { timeMs: 3340, html: "•••• &nbsp;•••• &nbsp;••" },
+      { timeMs: 3860, html: "•••• &nbsp;•••• &nbsp;•••" },
+      { timeMs: 4010, html: "•••• &nbsp;•••• &nbsp;••••" },
+      { timeMs: 4360, html: "•••• &nbsp;•••• &nbsp;•••• &nbsp;2" },
+      { timeMs: 4630, html: "•••• &nbsp;•••• &nbsp;•••• &nbsp;20" },
+      { timeMs: 4840, html: "•••• &nbsp;•••• &nbsp;•••• &nbsp;202" },
+      { timeMs: 5000, html: "•••• &nbsp;•••• &nbsp;•••• &nbsp;2026" }
+    ];
+
+    let isCardTyping = false;
+    let activeTimers = [];
+
+    const runCardTypingAnimation = () => {
+      if (isCardTyping) return;
+      isCardTyping = true;
+      activeTimers.forEach(clearTimeout);
+      activeTimers = [];
+
+      const caretHTML = '<span class="card-typing-caret" aria-hidden="true"></span>';
+      cardNumberEl.innerHTML = caretHTML;
+
+      typingSteps.forEach((step) => {
+        const tid = setTimeout(() => {
+          cardNumberEl.innerHTML = `${step.html}${caretHTML}`;
+        }, step.timeMs);
+        activeTimers.push(tid);
+      });
+
+      // Al cumplirse los 5 segundos de escritura, ocultar el cursor tras un breve parpadeo final
+      const endTid = setTimeout(() => {
+        cardNumberEl.innerHTML = "•••• &nbsp;•••• &nbsp;•••• &nbsp;2026";
+        isCardTyping = false;
+      }, 5550);
+      activeTimers.push(endTid);
+    };
+
+    if ("IntersectionObserver" in window) {
+      // Estado vacío inicial con cursor esperando a que la tarjeta entre en pantalla
+      cardNumberEl.innerHTML = '<span class="card-typing-caret" aria-hidden="true"></span>';
+
+      const cardObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              runCardTypingAnimation();
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.45 }
+      );
+
+      cardObserver.observe(cardNumberEl);
+    } else {
+      runCardTypingAnimation();
+    }
+
+    // Permitir repetir la animación si el usuario hace clic sobre la tarjeta bancaria
+    const cardBox = cardNumberEl.closest(".rounded-3xl");
+    if (cardBox) {
+      cardBox.addEventListener("click", () => {
+        runCardTypingAnimation();
+      });
+    }
+  }
 }
 
 /* ==========================================================================
