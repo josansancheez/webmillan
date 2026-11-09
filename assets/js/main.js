@@ -1287,7 +1287,7 @@ function initBrandQuoteModal(catalogs) {
           </div>
 
           <p class="text-[11px] text-[#52525B] leading-relaxed">
-            Todos los campos marcados con <span class="text-red-600 font-bold">*</span> son obligatorios. Al enviar aceptas nuestra <a href="privacidad.html" target="_blank" class="underline font-semibold hover:text-[#111111]">Política de Privacidad</a>.
+            Todos los campos marcados con <span class="text-red-600 font-bold">*</span> son obligatorios. Al enviar aceptas nuestra <a href="politica-privacidad.html" target="_blank" class="underline font-semibold hover:text-[#111111]">Política de Privacidad</a>.
           </p>
 
           <!-- Mensaje de estado / feedback -->

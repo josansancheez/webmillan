@@ -5,6 +5,7 @@
 # ============================================================================
 
 DirectoryIndex index.html
+ErrorDocument 404 /index.html
 
 <IfModule mod_negotiation.c>
   Options -MultiViews
