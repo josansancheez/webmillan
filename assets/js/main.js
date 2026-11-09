@@ -3493,6 +3493,57 @@ function initAnimatedCounters() {
       }
     });
   }
+
+  // Caída y rebote del icono de ubicación (pin) dentro del cuadro de los botones "Cómo llegar" (Google Maps)
+  const triggerPinDropBounce = (pinEl) => {
+    if (!pinEl || pinEl.classList.contains("map-pin-drop-bounce")) return;
+    pinEl.classList.add("map-pin-drop-bounce");
+    setTimeout(() => {
+      pinEl.classList.remove("map-pin-drop-bounce");
+    }, 1100);
+  };
+
+  const mapPinIcons = Array.from(
+    document.querySelectorAll(
+      ".map-pin-icon, a.btn-primary-green svg, a.btn-primary-wood svg"
+    )
+  ).filter((svg) => {
+    if (svg.classList.contains("map-pin-icon")) return true;
+    const pathEl = svg.querySelector("path");
+    const dAttr = (pathEl && pathEl.getAttribute("d")) || "";
+    return dAttr.includes("M17.657 16.657");
+  });
+
+  if (mapPinIcons.length > 0) {
+    if ("IntersectionObserver" in window) {
+      const pinObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const pinEl = entry.target;
+              const delay = performance.now() < 550 ? 480 : 220;
+              setTimeout(() => triggerPinDropBounce(pinEl), delay);
+              obs.unobserve(pinEl);
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+
+      mapPinIcons.forEach((pinEl) => pinObserver.observe(pinEl));
+    } else {
+      setTimeout(() => mapPinIcons.forEach(triggerPinDropBounce), 500);
+    }
+
+    mapPinIcons.forEach((pinEl) => {
+      const btnParent = pinEl.closest("a, button");
+      if (btnParent) {
+        btnParent.addEventListener("mouseenter", () => {
+          triggerPinDropBounce(pinEl);
+        });
+      }
+    });
+  }
 }
 
 /* ==========================================================================
