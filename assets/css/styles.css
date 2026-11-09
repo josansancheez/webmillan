@@ -708,6 +708,65 @@ header nav[aria-label="Navegación principal"] a:not(.border-b-2):hover::after {
   display: block;
 }
 
+/* 7D. Animación en el botón de Enviar mensaje: el icono de email se desliza desde donde está hasta el final del cuadro del botón y luego aparece el mensaje por defecto */
+@keyframes millanMailSlideToEnd {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  14% {
+    transform: translate3d(-4px, 0, 0) scale(1.08) rotate(-4deg);
+    opacity: 1;
+  }
+  84% {
+    transform: translate3d(var(--mail-slide-x, 165px), 0, 0) scale(1.12) rotate(6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(calc(var(--mail-slide-x, 165px) + 20px), 0, 0) scale(0.9) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes millanBtnDefaultMsgReveal {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+#contact-submit-btn.is-sliding-mail,
+#brand-quote-submit-btn.is-sliding-mail {
+  pointer-events: none;
+}
+
+#contact-submit-btn.is-sliding-mail .btn-mail-icon,
+#brand-quote-submit-btn.is-sliding-mail .btn-mail-icon {
+  position: relative;
+  z-index: 2;
+  animation: millanMailSlideToEnd 0.68s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  filter: drop-shadow(-8px 0 6px rgba(255, 255, 255, 0.38));
+}
+
+#contact-submit-btn.is-sliding-mail .btn-mail-label,
+#brand-quote-submit-btn.is-sliding-mail .btn-mail-label {
+  opacity: 0;
+  transform: translate3d(10px, 0, 0);
+  transition: opacity 0.16s ease, transform 0.2s ease;
+}
+
+#contact-submit-btn.is-revealing-msg .btn-mail-label,
+#contact-submit-btn.is-revealing-msg .btn-mail-icon,
+#contact-submit-btn.is-revealing-msg #contact-btn-spinner,
+#brand-quote-submit-btn.is-revealing-msg .btn-mail-label,
+#brand-quote-submit-btn.is-revealing-msg .btn-mail-icon {
+  animation: millanBtnDefaultMsgReveal 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 /* 8. Animación limpia al filtrar tarjetas de marcas, galería o reseñas */
 @keyframes millanFilterCardIn {
   0% {

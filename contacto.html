@@ -64,7 +64,7 @@
     };
   </script>
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261109005430" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261109005853" />
 
   <!-- Datos Estructurados Schema.org (JSON-LD) con @graph para las 2 Sedes Locales -->
   <script type="application/ld+json">
@@ -271,7 +271,10 @@
             href="#formulario-contacto"
             class="hidden xl:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-[#3F3F46] bg-[#EDEDEF] hover:bg-[#E4E4E7] border border-[#DCDCE0] transition-colors whitespace-nowrap"
           >
-            <span>Enviar Mensaje</span>
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span>Enviar mensaje</span>
           </a>
           <a
             href="tel:+34956536104"
@@ -870,13 +873,23 @@
               </label>
             </div>
 
-            <!-- Botón de Envío con Spinner Anti-Duplicados -->
+            <!-- Botón de Envío con Icono de Email y Animación Anti-Duplicados -->
             <div class="mt-7">
               <button
                 id="contact-submit-btn"
                 type="submit"
-                class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-sm sm:text-base font-extrabold btn-primary-green shadow-md cursor-pointer"
+                class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-sm sm:text-base font-extrabold btn-primary-green shadow-md cursor-pointer"
               >
+                <svg
+                  id="contact-btn-mail-icon"
+                  class="btn-mail-icon w-5 h-5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
                 <svg
                   id="contact-btn-spinner"
                   class="hidden animate-spin h-5 w-5 text-white shrink-0"
@@ -887,7 +900,7 @@
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span id="contact-btn-text">Enviar Consulta Ahora</span>
+                <span id="contact-btn-text" class="btn-mail-label">Enviar mensaje</span>
               </button>
             </div>
 
@@ -1058,7 +1071,7 @@
     </div>
   </div>
 
-  <script src="assets/js/data.js?v=20261109005430"></script>
-  <script src="assets/js/main.js?v=20261109005430"></script>
+  <script src="assets/js/data.js?v=20261109005853"></script>
+  <script src="assets/js/main.js?v=20261109005853"></script>
 </body>
 </html>

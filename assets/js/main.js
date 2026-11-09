@@ -1235,10 +1235,10 @@ function initBrandQuoteModal(catalogs) {
               type="submit"
               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold btn-primary-green cursor-pointer"
             >
-              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="btn-mail-icon w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
-              <span>Enviar Solicitud de Presupuesto</span>
+              <span class="btn-mail-label">Enviar Solicitud de Presupuesto</span>
             </button>
           </div>
         </form>
@@ -1456,6 +1456,28 @@ function initBrandQuoteModal(catalogs) {
 
       isSubmitting = true;
       if (submitBtn) {
+        const iconEl = submitBtn.querySelector(".btn-mail-icon");
+        if (
+          iconEl &&
+          !(
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          )
+        ) {
+          const btnRect = submitBtn.getBoundingClientRect();
+          const iconRect = iconEl.getBoundingClientRect();
+          const slideDist = Math.max(
+            120,
+            Math.round(btnRect.right - iconRect.right - 12)
+          );
+          submitBtn.style.minWidth = `${Math.ceil(btnRect.width)}px`;
+          submitBtn.style.setProperty("--mail-slide-x", `${slideDist}px`);
+          submitBtn.classList.remove("is-revealing-msg");
+          submitBtn.classList.add("is-sliding-mail");
+          await new Promise((r) => setTimeout(r, 680));
+          submitBtn.classList.remove("is-sliding-mail");
+          submitBtn.classList.add("is-revealing-msg");
+        }
         submitBtn.disabled = true;
         submitBtn.setAttribute("aria-busy", "true");
         submitBtn.classList.add("opacity-75", "cursor-not-allowed", "pointer-events-none");
@@ -1464,7 +1486,7 @@ function initBrandQuoteModal(catalogs) {
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
           </svg>
-          <span>Enviando solicitud, espera por favor...</span>
+          <span class="btn-mail-label">Enviando solicitud, espera por favor...</span>
         `;
       }
 
@@ -2214,6 +2236,7 @@ function initContactFormAntiDuplicates() {
   if (!form) return;
 
   const submitBtn = document.getElementById("contact-submit-btn");
+  const btnMailIcon = document.getElementById("contact-btn-mail-icon");
   const btnText = document.getElementById("contact-btn-text");
   const btnSpinner = document.getElementById("contact-btn-spinner");
   const feedbackBox = document.getElementById("contact-form-feedback");
@@ -2221,6 +2244,41 @@ function initContactFormAntiDuplicates() {
   const idempotencyInput = document.getElementById("idempotency_key");
 
   let isSubmitting = false;
+
+  // Animación en el botón al enviar: desliza el icono de email desde donde está hasta el final del cuadro del botón
+  const playMailSlideAnimation = () =>
+    new Promise((resolve) => {
+      if (
+        !submitBtn ||
+        !btnMailIcon ||
+        (window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+      ) {
+        resolve();
+        return;
+      }
+
+      const btnRect = submitBtn.getBoundingClientRect();
+      const iconRect = btnMailIcon.getBoundingClientRect();
+      const slideDist = Math.max(
+        110,
+        Math.round(btnRect.right - iconRect.right - 12)
+      );
+
+      submitBtn.style.minWidth = `${Math.ceil(btnRect.width)}px`;
+      submitBtn.style.setProperty("--mail-slide-x", `${slideDist}px`);
+      btnMailIcon.classList.remove("hidden");
+      if (btnSpinner) btnSpinner.classList.add("hidden");
+
+      submitBtn.classList.remove("is-revealing-msg");
+      submitBtn.classList.add("is-sliding-mail");
+
+      setTimeout(() => {
+        submitBtn.classList.remove("is-sliding-mail");
+        submitBtn.classList.add("is-revealing-msg");
+        resolve();
+      }, 680);
+    });
 
   // Generar clave única de idempotencia en cliente para este intento de formulario
   const generateIdempotencyKey = () => {
@@ -2283,10 +2341,19 @@ function initContactFormAntiDuplicates() {
     submitBtn.classList.toggle("cursor-not-allowed", locked);
     submitBtn.classList.toggle("pointer-events-none", locked);
 
+    if (!locked) {
+      submitBtn.style.minWidth = "";
+      submitBtn.classList.remove("is-sliding-mail");
+      submitBtn.classList.add("is-revealing-msg");
+    }
+
+    if (btnMailIcon) {
+      btnMailIcon.classList.toggle("hidden", locked);
+    }
     if (btnText) {
       btnText.textContent = locked
         ? "Enviando mensaje, por favor espera..."
-        : "Enviar Consulta Ahora";
+        : "Enviar mensaje";
     }
     if (btnSpinner) {
       btnSpinner.classList.toggle("hidden", !locked);
@@ -2326,64 +2393,78 @@ function initContactFormAntiDuplicates() {
       return;
     }
 
-    lockButtonState(true);
-
+    isSubmitting = true;
     const formData = new FormData(form);
 
-    try {
-      const response = await fetch(form.getAttribute("action") || "enviar-correo.php", {
-        method: "POST",
-        body: formData,
-        credentials: "same-origin",
-        headers: {
-          "X-Requested-With": "XMLHttpRequest",
-          Accept: "application/json"
-        }
-      });
+    // 1. Ejecutar primero el deslizamiento del icono de email hasta el final del botón
+    const slidePromise = playMailSlideAnimation();
 
-      const result = await response.json();
+    // 2. Lanzar la petición en paralelo y mostrar a continuación el mensaje por defecto del botón
+    const fetchPromise = fetch(form.getAttribute("action") || "enviar-correo.php", {
+      method: "POST",
+      body: formData,
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        Accept: "application/json"
+      }
+    })
+      .then((res) => res.json())
+      .then((result) => ({ ok: true, result }))
+      .catch((error) => ({ ok: false, error }));
 
-      if (result && result.success) {
-        sessionStorage.setItem("millan_last_form_sent", String(Date.now()));
-        showFeedback(
-          "success",
-          result.title || "¡Mensaje enviado con éxito!",
-          result.message ||
-            "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
-        );
-        form.reset();
-        // Renovar token si el servidor devuelve uno nuevo para futuras consultas tras 60s
-        if (result.next_token && tokenInput) {
-          tokenInput.value = result.next_token;
-        }
-        if (idempotencyInput) {
-          idempotencyInput.value = generateIdempotencyKey();
-        }
-        // Mantener el botón deshabilitado durante 60 segundos con confirmación clara
-        if (btnText) {
-          btnText.textContent = "Mensaje enviado correctamente ✓";
-        }
-        if (btnSpinner) {
-          btnSpinner.classList.add("hidden");
-        }
-        setTimeout(() => {
-          lockButtonState(false);
-        }, 60000);
-      } else {
+    await slidePromise;
+    // Mostrar el mensaje por defecto de envío justo al terminar el deslizamiento del sobre
+    lockButtonState(true);
+
+    const outcome = await fetchPromise;
+
+    if (outcome.ok && outcome.result && outcome.result.success) {
+      const result = outcome.result;
+      sessionStorage.setItem("millan_last_form_sent", String(Date.now()));
+      showFeedback(
+        "success",
+        result.title || "¡Mensaje enviado con éxito!",
+        result.message ||
+          "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+      );
+      form.reset();
+      if (result.next_token && tokenInput) {
+        tokenInput.value = result.next_token;
+      }
+      if (idempotencyInput) {
+        idempotencyInput.value = generateIdempotencyKey();
+      }
+      if (btnMailIcon) {
+        btnMailIcon.classList.add("hidden");
+      }
+      if (btnText) {
+        btnText.textContent = "Mensaje enviado correctamente ✓";
+      }
+      if (btnSpinner) {
+        btnSpinner.classList.add("hidden");
+      }
+      setTimeout(() => {
+        lockButtonState(false);
+      }, 60000);
+    } else {
+      // Mantener visible brevemente el mensaje de envío antes de restaurar el botón por defecto
+      await new Promise((r) => setTimeout(r, 550));
+      if (outcome.ok) {
+        const result = outcome.result;
         showFeedback(
           "warning",
           "Atención en el envío",
           (result && result.message) ||
             "Por favor, revisa los campos del formulario o llámanos directamente al 956 53 61 04."
         );
-        lockButtonState(false);
+      } else {
+        showFeedback(
+          "warning",
+          "No se pudo completar el envío automático",
+          "Puedes llamarnos directamente al 956 53 61 04 o escribirnos a millan@millanchiclana.com."
+        );
       }
-    } catch (error) {
-      showFeedback(
-        "warning",
-        "No se pudo completar el envío automático",
-        "Puedes llamarnos directamente al 956 53 61 04 o escribirnos a millan@millanchiclana.com."
-      );
       lockButtonState(false);
     }
   });
