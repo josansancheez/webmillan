@@ -3372,11 +3372,16 @@ function initAnimatedCounters() {
             // En progress === 1 exacto, todos los contadores del grupo fijan su valor final en el mismo frame
             item.el.textContent = item.rawText;
 
-            // Si el contador tiene una estrella al lado (ej: "5.0 ★"), lanzar destello al terminar
+            // Si el contador tiene una estrella única al lado (ej: "5.0 ★"), lanzar destello al terminar (excluyendo las filas de 5 estrellas de las fichas)
             const parentStar =
               item.el.parentElement &&
               item.el.parentElement.querySelector("span.text-amber-500, span.text-amber-400");
-            if (parentStar) {
+            if (
+              parentStar &&
+              parentStar.id !== "rating-stars-exposicion" &&
+              parentStar.id !== "rating-stars-almacen" &&
+              (parentStar.textContent || "").trim() === "★"
+            ) {
               triggerStarSparkle(parentStar);
             }
           }
@@ -3447,8 +3452,14 @@ function initAnimatedCounters() {
   const allStarSpans = Array.from(
     document.querySelectorAll("a span, button span, p span, div > span")
   ).filter((span) => {
+    if (
+      span.id === "rating-stars-exposicion" ||
+      span.id === "rating-stars-almacen"
+    ) {
+      return false;
+    }
     const txt = (span.textContent || "").trim();
-    return (txt === "★" || txt === "★★★★★") && span.children.length === 0;
+    return txt === "★" && span.children.length === 0;
   });
 
   if (allStarSpans.length > 0) {
