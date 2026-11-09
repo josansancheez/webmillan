@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCleanUrlBar();
   initCacheFreshnessCheck();
   initPreloader();
+  initEntryAttentionAnimations();
   initMobileNavigation();
   initHeroCarousel();
   initCatalogsSystem();
@@ -19,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initCookieConsentBanner();
   initDesktopPhoneQrModal();
   initImageProtectionAndLightbox();
+  initAnimatedCounters();
+  initLiveStoreHoursStatus();
+  initChimneyPillsAndCard3D();
   initAppleScrollAnimations();
   initCurrentYear();
 });
@@ -154,6 +158,68 @@ function initPreloader() {
 }
 
 /* ==========================================================================
+   1B. ANIMACIONES DISCRETAS ÚNICAS AL ENTRAR EN LA WEB
+   (Vibración única del icono de teléfono en "Llamar Ahora" + pulso único en WhatsApp)
+   ========================================================================== */
+function initEntryAttentionAnimations() {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  const phoneSvgMarkup = `
+    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+    </svg>
+  `;
+
+  // Asegurar que todos los botones principales de llamada del Header tengan icono de teléfono
+  document.querySelectorAll('header a[href^="tel:"]').forEach((callBtn) => {
+    if (!callBtn.querySelector("svg")) {
+      callBtn.insertAdjacentHTML("afterbegin", phoneSvgMarkup);
+    }
+  });
+
+  // Ejecutar una única vez justo cuando se retira el preloader (~360ms tras cargar)
+  setTimeout(() => {
+    // 1. Vibración discreta única del icono de teléfono en los botones "Llamar Ahora"
+    const callButtons = document.querySelectorAll(
+      'header a[href^="tel:"], #hero-slider .hero-slide.active a[href^="tel:"]'
+    );
+    callButtons.forEach((btn) => {
+      const icon = btn.querySelector("svg");
+      if (icon) {
+        icon.classList.add("phone-vibrate-once");
+        setTimeout(() => icon.classList.remove("phone-vibrate-once"), 1150);
+      }
+      if (btn.classList.contains("btn-primary-green")) {
+        btn.classList.add("cta-entry-pulse-once");
+        setTimeout(() => btn.classList.remove("cta-entry-pulse-once"), 1250);
+      }
+    });
+
+    // 2. Pulso discreto único en el botón flotante de WhatsApp al entrar en la web
+    const whatsappBtn = document.querySelector(".whatsapp-float");
+    if (whatsappBtn) {
+      whatsappBtn.classList.add("whatsapp-entry-pulse-once");
+      setTimeout(() => whatsappBtn.classList.remove("whatsapp-entry-pulse-once"), 1350);
+    }
+  }, 360);
+
+  // Micro-interacción: si el usuario pasa el ratón por cualquier botón de teléfono más tarde, vibra 1 vez
+  document.querySelectorAll('a[href^="tel:"]').forEach((btn) => {
+    btn.addEventListener("mouseenter", () => {
+      const icon = btn.querySelector("svg");
+      if (!icon || icon.classList.contains("phone-vibrate-once")) return;
+      icon.classList.add("phone-vibrate-once");
+      setTimeout(() => icon.classList.remove("phone-vibrate-once"), 980);
+    });
+  });
+}
+
+/* ==========================================================================
    2. NAVEGACIÓN MÓVIL Y STICKY HEADER
    ========================================================================== */
 function initMobileNavigation() {
@@ -189,7 +255,7 @@ function initMobileNavigation() {
 }
 
 /* ==========================================================================
-   3. CARRUSEL HERO (TÁCTIL + AUTOMÁTICO)
+   3. CARRUSEL HERO (TÁCTIL + AUTOMÁTICO + BARRA DE PROGRESO EN INDICADORES)
    ========================================================================== */
 function initHeroCarousel() {
   const sliderContainer = document.getElementById("hero-slider");
@@ -206,6 +272,15 @@ function initHeroCarousel() {
 
   if (slides.length <= 1) return;
 
+  // Insertar barra de progreso visual dentro de cada dot del carrusel
+  dots.forEach((dot) => {
+    if (!dot.querySelector(".hero-dot-progress")) {
+      const bar = document.createElement("span");
+      bar.className = "hero-dot-progress";
+      dot.appendChild(bar);
+    }
+  });
+
   let currentIndex = 0;
   let intervalId = null;
   let isPaused = false;
@@ -219,9 +294,14 @@ function initHeroCarousel() {
       slide.setAttribute("aria-hidden", idx === currentIndex ? "false" : "true");
     });
     dots.forEach((dot, idx) => {
+      dot.classList.remove("is-active-dot", "is-paused-dot");
       if (idx === currentIndex) {
         dot.classList.add("w-8", "bg-white", "shadow-md");
         dot.classList.remove("w-2.5", "bg-white/45");
+        // Forzar reflow para reiniciar limpiamente la barra de progreso de 6s
+        void dot.offsetWidth;
+        dot.classList.add("is-active-dot");
+        if (isPaused) dot.classList.add("is-paused-dot");
       } else {
         dot.classList.remove("w-8", "bg-white", "shadow-md");
         dot.classList.add("w-2.5", "bg-white/45");
@@ -247,6 +327,11 @@ function initHeroCarousel() {
     pauseToggleBtn.classList.toggle("border-[#D4D4D8]", isPaused);
     pauseToggleBtn.classList.toggle("bg-black/40", !isPaused);
     pauseToggleBtn.classList.toggle("border-white/25", !isPaused);
+
+    const activeDot = dots[currentIndex];
+    if (activeDot) {
+      activeDot.classList.toggle("is-paused-dot", isPaused);
+    }
   };
 
   const startAutoPlay = () => {
@@ -754,6 +839,12 @@ function initCatalogsSystem() {
     }
 
     fullCatalogContainer.innerHTML = sectionsHtml.join("");
+
+    // Animar suavemente las tarjetas filtradas
+    fullCatalogContainer.querySelectorAll("article").forEach((card, idx) => {
+      card.classList.add("filter-animate-in");
+      card.style.animationDelay = `${Math.min(idx * 40, 320)}ms`;
+    });
 
     if (countBadge) {
       countBadge.textContent = `${filtered.length} ${filtered.length === 1 ? "catálogo disponible" : "catálogos disponibles"}`;
@@ -2102,10 +2193,16 @@ function initGalleryFilter() {
           : "px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-[#18181B] border border-[#E5E7EB] hover:border-[#52525B] transition-all cursor-pointer";
       });
 
-      galleryItems.forEach((card) => {
+      galleryItems.forEach((card, idx) => {
         const category = card.getAttribute("data-gallery-item");
         const visible = target === "all" || category === target;
         card.classList.toggle("hidden", !visible);
+        if (visible) {
+          card.classList.remove("filter-animate-in");
+          void card.offsetWidth;
+          card.classList.add("filter-animate-in");
+          card.style.animationDelay = `${Math.min(idx * 45, 270)}ms`;
+        }
       });
     });
   });
@@ -3053,6 +3150,273 @@ function initImageProtectionAndLightbox() {
 }
 
 /* ==========================================================================
+   11B. CONTADORES NUMÉRICOS ANIMADOS (COUNT-UP AL ENTRAR EN PANTALLA)
+   ========================================================================== */
+function initAnimatedCounters() {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  const animateNumericText = (el) => {
+    if (!el || el.dataset.counterDone === "1") return;
+    const rawText = (el.textContent || "").trim();
+
+    // Detectar patrones numéricos como "+1.500", "4.2", "5.0", "2 Sedes", "72 reseñas en Google"
+    const match = rawText.match(/^([+~]?)(\d+(?:[.,]\d+)?)(.*)$/);
+    if (!match) return;
+
+    const prefix = match[1] || "";
+    const numStr = match[2];
+    const suffix = match[3] || "";
+
+    // Distinguir si el punto es separador de miles (ej: 1.500) o decimal (ej: 4.2, 5.0)
+    const isThousandDot = /^\d{1,3}\.\d{3}$/.test(numStr);
+    const cleanNumber = isThousandDot
+      ? parseFloat(numStr.replace(/\./g, ""))
+      : parseFloat(numStr.replace(",", "."));
+
+    if (Number.isNaN(cleanNumber) || cleanNumber <= 0) return;
+
+    el.dataset.counterDone = "1";
+    const hasDecimal = !isThousandDot && (numStr.includes(".") || numStr.includes(","));
+    const decimalPlaces = hasDecimal ? (numStr.split(/[.,]/)[1] || "").length : 0;
+    const duration = cleanNumber > 100 ? 1500 : 1200;
+    const startTime = performance.now();
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      // Curva easeOutQuart
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const currentVal = cleanNumber * eased;
+
+      let formatted = "";
+      if (isThousandDot) {
+        formatted = Math.round(currentVal).toLocaleString("es-ES");
+      } else if (hasDecimal) {
+        formatted = currentVal.toFixed(decimalPlaces);
+      } else {
+        formatted = String(Math.round(currentVal));
+      }
+
+      el.textContent = `${prefix}${formatted}${suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = rawText;
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const candidates = Array.from(
+    document.querySelectorAll(
+      '[data-live-rating], [data-live-count], p.text-4xl.font-extrabold'
+    )
+  );
+
+  if (!candidates.length) return;
+
+  if ("IntersectionObserver" in window) {
+    const counterObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateNumericText(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    candidates.forEach((el) => counterObserver.observe(el));
+  } else {
+    candidates.forEach(animateNumericText);
+  }
+}
+
+/* ==========================================================================
+   11C. INDICADOR EN VIVO DE HORARIO ("ABIERTO AHORA" / "CERRADO AHORA")
+   ========================================================================== */
+function initLiveStoreHoursStatus() {
+  const computeStoreStatus = (sedeType) => {
+    try {
+      const nowSpain = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Europe/Madrid" })
+      );
+      const day = nowSpain.getDay(); // 0 Dom, 1-5 L-V, 6 Sáb
+      const minutes = nowSpain.getHours() * 60 + nowSpain.getMinutes();
+
+      if (sedeType === "exposicion") {
+        // L-V: 09:00-14:00 (540-840) y 17:00-20:00 (1020-1200) | Sáb: 10:00-13:00 (600-780)
+        if (day >= 1 && day <= 5) {
+          if (
+            (minutes >= 540 && minutes < 840) ||
+            (minutes >= 1020 && minutes < 1200)
+          ) {
+            return { open: true, label: "Abierto ahora" };
+          }
+          if (minutes < 540) return { open: false, label: "Abre hoy a las 09:00" };
+          if (minutes >= 840 && minutes < 1020)
+            return { open: false, label: "Abre a las 17:00" };
+        } else if (day === 6) {
+          if (minutes >= 600 && minutes < 780) {
+            return { open: true, label: "Abierto ahora" };
+          }
+          if (minutes < 600) return { open: false, label: "Abre hoy a las 10:00" };
+        }
+        return { open: false, label: "Cerrado ahora" };
+      }
+
+      // Almacén: L-V: 07:30-14:00 (450-840) y 15:30-18:30 (930-1110) | Sáb: 08:30-13:00 (510-780)
+      if (day >= 1 && day <= 5) {
+        if (
+          (minutes >= 450 && minutes < 840) ||
+          (minutes >= 930 && minutes < 1110)
+        ) {
+          return { open: true, label: "Abierto ahora" };
+        }
+        if (minutes < 450) return { open: false, label: "Abre hoy a las 07:30" };
+        if (minutes >= 840 && minutes < 930)
+          return { open: false, label: "Abre a las 15:30" };
+      } else if (day === 6) {
+        if (minutes >= 510 && minutes < 780) {
+          return { open: true, label: "Abierto ahora" };
+        }
+        if (minutes < 510) return { open: false, label: "Abre hoy a las 08:30" };
+      }
+      return { open: false, label: "Cerrado ahora" };
+    } catch (_) {
+      return null;
+    }
+  };
+
+  const createBadgeHTML = (status) => {
+    if (!status) return "";
+    if (status.open) {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-900 border border-emerald-300 shadow-2xs ml-auto">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>${status.label}</span>
+      </span>`;
+    }
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-[#F4F4F5] text-[#52525B] border border-[#D4D4D8] ml-auto">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#71717A]"></span>
+      <span>${status.label}</span>
+    </span>`;
+  };
+
+  const expoStatus = computeStoreStatus("exposicion");
+  const almacenStatus = computeStoreStatus("almacen");
+
+  // Insertar en la franja rápida de las 2 Sedes de index.html
+  const quickSedesSection = document.querySelector(
+    'section[aria-label="Resumen de nuestras dos sedes"]'
+  );
+  if (quickSedesSection) {
+    const cards = quickSedesSection.querySelectorAll(".grid > div");
+    if (cards[0] && expoStatus) {
+      const labelEl = cards[0].querySelector("span.text-xs.font-extrabold");
+      if (labelEl && !cards[0].querySelector("[data-live-hours-badge]")) {
+        labelEl.insertAdjacentHTML(
+          "afterend",
+          `<span data-live-hours-badge="exposicion" class="inline-block ml-2 align-middle">${createBadgeHTML(expoStatus)}</span>`
+        );
+      }
+    }
+    if (cards[1] && almacenStatus) {
+      const labelEl = cards[1].querySelector("span.text-xs.font-extrabold");
+      if (labelEl && !cards[1].querySelector("[data-live-hours-badge]")) {
+        labelEl.insertAdjacentHTML(
+          "afterend",
+          `<span data-live-hours-badge="almacen" class="inline-block ml-2 align-middle">${createBadgeHTML(almacenStatus)}</span>`
+        );
+      }
+    }
+  }
+
+  // Insertar en los bloques de horario de contacto.html
+  document.querySelectorAll("#sede-exposicion .border-l-4").forEach((box) => {
+    const headerRow = box.querySelector("div.flex.items-center");
+    if (headerRow && !headerRow.querySelector("[data-live-hours-badge]")) {
+      const wrap = document.createElement("span");
+      wrap.setAttribute("data-live-hours-badge", "exposicion");
+      wrap.className = "ml-auto";
+      wrap.innerHTML = createBadgeHTML(expoStatus);
+      headerRow.appendChild(wrap);
+    }
+  });
+
+  document.querySelectorAll("#sede-almacen .border-l-4").forEach((box) => {
+    const headerRow = box.querySelector("div.flex.items-center");
+    if (headerRow && !headerRow.querySelector("[data-live-hours-badge]")) {
+      const wrap = document.createElement("span");
+      wrap.setAttribute("data-live-hours-badge", "almacen");
+      wrap.className = "ml-auto";
+      wrap.innerHTML = createBadgeHTML(almacenStatus);
+      headerRow.appendChild(wrap);
+    }
+  });
+}
+
+/* ==========================================================================
+   11D. EFECTOS TEMÁTICOS EN CHIMENEAS Y TARJETA 3D CAIXABANK
+   ========================================================================== */
+function initChimneyPillsAndCard3D() {
+  // 1. Añadir resplandor cálido interactivo a las píldoras de tipos de chimeneas
+  document
+    .querySelectorAll(
+      '#hero-slider .hero-slide span.rounded-full, a[href="#tipos-chimeneas"]'
+    )
+    .forEach((pill) => {
+      const txt = pill.textContent || "";
+      if (
+        txt.includes("🔥") ||
+        txt.includes("🌿") ||
+        txt.includes("💧") ||
+        txt.includes("⚡") ||
+        txt.includes("✨")
+      ) {
+        pill.classList.add("chimney-pill-glow");
+      }
+    });
+
+  // 2. Inclinación 3D sutil en la tarjeta bancaria ilustrada de Financiación CaixaBank
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    return;
+  }
+
+  const caixaSection = document.getElementById("financiacion-caixabank");
+  if (!caixaSection) return;
+
+  const cardEl = caixaSection.querySelector(".lg\\:col-span-5 .relative.rounded-3xl");
+  if (!cardEl) return;
+
+  cardEl.classList.add("caixabank-card-3d");
+
+  cardEl.addEventListener("mousemove", (e) => {
+    const rect = cardEl.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    const rotateY = (x * 10).toFixed(2);
+    const rotateX = (-y * 10).toFixed(2);
+    cardEl.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+
+  cardEl.addEventListener("mouseleave", () => {
+    cardEl.style.transform =
+      "perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+  });
+}
+
+/* ==========================================================================
    12. COREOGRAFÍA DE SCROLL ESTILO APPLE (REVEAL 3D, ESCALA Y PARALAJE EN VIVO)
    ========================================================================== */
 function initAppleScrollAnimations() {
@@ -3162,7 +3526,7 @@ function initAppleScrollAnimations() {
     // Tarjetas individuales, figuras de galería, preguntas frecuentes y bloques de logotipos
     document
       .querySelectorAll(
-        "main article, main figure, main .faq-item, #exposicion-brands-logos-wall > div, #almacen-brands-logos-wall > div"
+        "main article, main figure, main .faq-item, #exposicion-brands-logos-wall > div, #warehouse-brands-logos-wall > button"
       )
       .forEach((el, idx) => {
         registerReveal(el, "apple-reveal-up", (idx % 3) * 75);
@@ -3171,16 +3535,17 @@ function initAppleScrollAnimations() {
 
   bindAllScrollTargets();
 
-  // Observar contenedores dinámicos (catálogos filtrados, muro de marcas) para aplicar la animación a nuevas tarjetas
+  // Observar contenedores dinámicos (catálogos filtrados, muro de marcas, reseñas) para aplicar la animación a nuevas tarjetas
   if ("MutationObserver" in window) {
     const dynObserver = new MutationObserver(() => {
       bindAllScrollTargets();
     });
     [
       "featured-catalogs-grid",
-      "full-catalog-grid",
+      "all-catalogs-grid",
       "exposicion-brands-logos-wall",
-      "almacen-brands-logos-wall"
+      "warehouse-brands-logos-wall",
+      "reviews-carousel-track"
     ].forEach((id) => {
       const container = document.getElementById(id);
       if (container) {
@@ -3202,11 +3567,11 @@ function initAppleScrollAnimations() {
     });
   });
 
-  // 4. Efecto continuo vinculado al scroll en tiempo real (Escala progresiva en grandes bloques + Paralaje Hero)
+  // 4. Efecto continuo vinculado al scroll en tiempo real (Escala progresiva en grandes bloques + Paralaje Hero + Estado Navbar)
   const stageSelectors = [
     "#montaje-chimeneas-obras-menores > div",
     "#financiacion-caixabank > div",
-    "#exposicion > div.mt-10",
+    "#categorias-productos > div.mt-10",
     "#sede-exposicion",
     "#sede-almacen"
   ];
@@ -3215,15 +3580,16 @@ function initAppleScrollAnimations() {
   );
   stageEls.forEach((el) => el.classList.add("apple-scroll-stage"));
 
-  const heroImages = Array.from(
-    document.querySelectorAll("[data-carousel-slide] img")
-  );
-
   let ticking = false;
   const updateContinuousScrollEffects = () => {
     ticking = false;
     const scrollY = window.scrollY || window.pageYOffset || 0;
     const vh = window.innerHeight || 800;
+
+    // Estado compacto/sombra del Navbar sticky al hacer scroll
+    if (headerEl) {
+      headerEl.classList.toggle("header-scrolled", scrollY > 36);
+    }
 
     // Actualizar barra de progreso superior
     if (progressBarEl) {
@@ -3235,20 +3601,10 @@ function initAppleScrollAnimations() {
       progressBarEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
     }
 
-    // Paralaje suave en el Hero principal mientras está visible
-    if (heroImages.length && scrollY < vh * 1.1) {
-      const yOffset = Math.round(scrollY * 0.16);
-      const scaleVal = (1 + Math.min(0.08, (scrollY / vh) * 0.08)).toFixed(4);
-      heroImages.forEach((img) => {
-        img.style.transform = `translate3d(0, ${yOffset}px, 0) scale(${scaleVal})`;
-      });
-    }
-
     // Escala progresiva estilo ventana de Apple para los grandes contenedores destacados
     stageEls.forEach((stage) => {
       const rect = stage.getBoundingClientRect();
       if (rect.top < vh && rect.bottom > 0) {
-        // Progreso desde que asoma por abajo (0) hasta que llega al tercio inferior/central (1)
         const enterProgress = Math.min(
           1,
           Math.max(0, (vh - rect.top) / (vh * 0.65))
