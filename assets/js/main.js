@@ -731,14 +731,17 @@ function initCatalogsSystem() {
       })
       .join("");
 
-    exposicionLogosWall.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-brand-logo-jump]");
-      if (!btn) return;
-      handleBrandLogoJump(
-        btn.getAttribute("data-brand-logo-jump") || "",
-        btn.getAttribute("data-brand-card-target") || ""
-      );
-    });
+    if (exposicionLogosWall.dataset.jumpBound !== "1") {
+      exposicionLogosWall.dataset.jumpBound = "1";
+      exposicionLogosWall.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-brand-logo-jump]");
+        if (!btn) return;
+        handleBrandLogoJump(
+          btn.getAttribute("data-brand-logo-jump") || "",
+          btn.getAttribute("data-brand-card-target") || ""
+        );
+      });
+    }
   }
 
   // Renderizar mosaico de logotipos de marcas del Almacén (#warehouse-brands-logos-wall)
@@ -771,26 +774,32 @@ function initCatalogsSystem() {
       )
       .join("");
 
-    warehouseLogosWall.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-brand-logo-jump]");
-      if (!btn) return;
-      handleBrandLogoJump(
-        btn.getAttribute("data-brand-logo-jump") || "",
-        btn.getAttribute("data-brand-card-target") || ""
-      );
-    });
+    if (warehouseLogosWall.dataset.jumpBound !== "1") {
+      warehouseLogosWall.dataset.jumpBound = "1";
+      warehouseLogosWall.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-brand-logo-jump]");
+        if (!btn) return;
+        handleBrandLogoJump(
+          btn.getAttribute("data-brand-logo-jump") || "",
+          btn.getAttribute("data-brand-card-target") || ""
+        );
+      });
+    }
   }
 
   // Inicializar desplegables de marcas por sede en Inicio (index.html)
   document.querySelectorAll("[data-brands-collapsible]").forEach((box) => {
+    if (box.dataset.collapsibleBound === "1") return;
+    box.dataset.collapsibleBound = "1";
+
     const trigger = box.querySelector("[data-brands-collapsible-trigger]");
     const body = box.querySelector("[data-brands-collapsible-body]");
     const label = box.querySelector("[data-brands-collapsible-label]");
     const icon = box.querySelector("[data-brands-collapsible-icon]");
     if (!trigger || !body) return;
 
-    trigger.addEventListener("click", () => {
-      const isCurrentlyOpen = trigger.getAttribute("aria-expanded") === "true";
+    const toggleCollapsible = () => {
+      const isCurrentlyOpen = !body.classList.contains("hidden");
       const nextOpen = !isCurrentlyOpen;
       trigger.setAttribute("aria-expanded", nextOpen ? "true" : "false");
       body.classList.toggle("hidden", !nextOpen);
@@ -805,12 +814,28 @@ function initCatalogsSystem() {
       }
 
       if (nextOpen) {
+        body.querySelectorAll(".apple-reveal").forEach((el) => {
+          el.classList.add("is-inview");
+        });
         requestAnimationFrame(() => {
           body.querySelectorAll(".apple-reveal").forEach((el) => {
             el.classList.add("is-inview");
           });
         });
       }
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleCollapsible();
+    });
+
+    // Permitir también que hacer clic en el borde/relleno de la tarjeta cabecera despliegue el bloque
+    box.addEventListener("click", (e) => {
+      if (e.target.closest("[data-brands-collapsible-body]")) return;
+      if (e.target.closest("a")) return;
+      toggleCollapsible();
     });
   });
 
@@ -3904,6 +3929,11 @@ function initAppleScrollAnimations() {
 
   const registerReveal = (el, variant = "apple-reveal-up", delayMs = 0) => {
     if (!el || el.dataset.appleBound === "1") return;
+    // No ocultar elementos que están dentro de paneles desplegables cerrados ([data-brands-collapsible-body])
+    if (el.closest("[data-brands-collapsible-body]")) {
+      el.dataset.appleBound = "1";
+      return;
+    }
     el.dataset.appleBound = "1";
     el.classList.add("apple-reveal", variant);
     if (delayMs > 0) {
