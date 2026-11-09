@@ -1183,10 +1183,43 @@ function initBrandQuoteModal(catalogs) {
 
   const generateTokens = () => {
     const nowSec = Math.floor(Date.now() / 1000);
-    if (tokenInput) tokenInput.value = btoa(String(nowSec));
     if (idempotencyInput) {
       const rand = Math.random().toString(36).substring(2, 12);
       idempotencyInput.value = `bq_${nowSec}_${rand}`;
+    }
+    fetch("enviar-correo.php?action=token", {
+      method: "GET",
+      credentials: "same-origin",
+      headers: { Accept: "application/json" }
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.form_token && tokenInput) {
+          tokenInput.value = data.form_token;
+        }
+      })
+      .catch(() => {
+        if (tokenInput && !tokenInput.value) {
+          tokenInput.value = btoa(String(nowSec));
+        }
+      });
+  };
+
+  let isSubmitting = false;
+  let cooldownTimer = null;
+  const defaultBtnHTML = submitBtn ? submitBtn.innerHTML : "";
+
+  const resetSubmitButton = () => {
+    if (cooldownTimer) {
+      clearTimeout(cooldownTimer);
+      cooldownTimer = null;
+    }
+    isSubmitting = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.setAttribute("aria-busy", "false");
+      submitBtn.classList.remove("opacity-75", "cursor-not-allowed", "pointer-events-none");
+      submitBtn.innerHTML = defaultBtnHTML;
     }
   };
 
@@ -1204,6 +1237,7 @@ function initBrandQuoteModal(catalogs) {
       feedbackEl.textContent = "";
     }
 
+    resetSubmitButton();
     generateTokens();
 
     modal.classList.remove("hidden", "modal-hidden");
@@ -1251,11 +1285,36 @@ function initBrandQuoteModal(catalogs) {
   });
 
   if (form) {
-    let isSubmitting = false;
+    const showFeedback = (msg, isError) => {
+      if (!feedbackEl) return;
+      feedbackEl.className = isError
+        ? "rounded-xl p-3.5 text-xs sm:text-sm font-semibold bg-red-50 border border-red-300 text-red-900"
+        : "rounded-xl p-3.5 text-xs sm:text-sm font-semibold bg-emerald-50 border border-emerald-300 text-emerald-900";
+      feedbackEl.textContent = msg;
+    };
+
+    if (submitBtn) {
+      submitBtn.addEventListener("click", (e) => {
+        if (isSubmitting) {
+          e.preventDefault();
+          e.stopPropagation();
+          showFeedback(
+            "Estamos enviando tu solicitud. Con cobertura lenta (3G/datos) puede tardar unos segundos; no es necesario pulsar de nuevo.",
+            false
+          );
+        }
+      });
+    }
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      if (isSubmitting) return;
+      if (isSubmitting) {
+        showFeedback(
+          "Estamos enviando tu solicitud. Por favor espera unos segundos sin volver a pulsar.",
+          false
+        );
+        return;
+      }
 
       if (lockedInput) lockedInput.value = currentLockedValue;
       if (sedeHiddenInput) sedeHiddenInput.value = currentLockedValue;
@@ -1265,14 +1324,6 @@ function initBrandQuoteModal(catalogs) {
       const email = (document.getElementById("bq-email")?.value || "").trim();
       const asunto = (document.getElementById("bq-asunto")?.value || "").trim();
       const mensaje = (document.getElementById("bq-mensaje")?.value || "").trim();
-
-      const showFeedback = (msg, isError) => {
-        if (!feedbackEl) return;
-        feedbackEl.className = isError
-          ? "rounded-xl p-3.5 text-xs sm:text-sm font-semibold bg-red-50 border border-red-300 text-red-900"
-          : "rounded-xl p-3.5 text-xs sm:text-sm font-semibold bg-emerald-50 border border-emerald-300 text-emerald-900";
-        feedbackEl.textContent = msg;
-      };
 
       if (!nombre || !telefono || !email || !asunto || !mensaje) {
         showFeedback("Por favor, completa todos los campos obligatorios (Nombre, Teléfono, Correo, Asunto y Mensaje).", true);
@@ -1291,11 +1342,41 @@ function initBrandQuoteModal(catalogs) {
         return;
       }
 
+      // Evitar reenvíos duplicados de la misma solicitud o en ventana de 60s
+      const payloadFingerprint = `${email.toLowerCase()}|${phoneDigits}|${asunto.toLowerCase()}|${currentLockedValue.toLowerCase()}|${mensaje.toLowerCase()}`;
+      const lastFingerprint = sessionStorage.getItem("millan_last_bq_fingerprint") || "";
+      const lastSentTime = Number(sessionStorage.getItem("millan_last_bq_sent") || 0);
+      const now = Date.now();
+
+      if (payloadFingerprint === lastFingerprint && now - lastSentTime < 600000) {
+        showFeedback(
+          "¡Tu solicitud de presupuesto ya ha sido enviada! Hemos registrado tu mensaje correctamente y te responderemos muy pronto.",
+          false
+        );
+        return;
+      }
+
+      if (now - lastSentTime < 60000) {
+        const remaining = Math.ceil((60000 - (now - lastSentTime)) / 1000);
+        showFeedback(
+          `Hemos recibido tu solicitud correctamente. Si deseas pedir otro presupuesto distinto, espera ${remaining} segundos.`,
+          false
+        );
+        return;
+      }
+
       isSubmitting = true;
-      const originalBtnHTML = submitBtn ? submitBtn.innerHTML : "";
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span>Enviando solicitud...</span>`;
+        submitBtn.setAttribute("aria-busy", "true");
+        submitBtn.classList.add("opacity-75", "cursor-not-allowed", "pointer-events-none");
+        submitBtn.innerHTML = `
+          <svg class="w-4 h-4 animate-spin shrink-0" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          <span>Enviando solicitud, espera por favor...</span>
+        `;
       }
 
       try {
@@ -1306,6 +1387,7 @@ function initBrandQuoteModal(catalogs) {
         const response = await fetch(form.getAttribute("action") || "enviar-correo.php", {
           method: "POST",
           body: formData,
+          credentials: "same-origin",
           headers: {
             Accept: "application/json",
             "X-Requested-With": "XMLHttpRequest"
@@ -1315,6 +1397,9 @@ function initBrandQuoteModal(catalogs) {
         const result = await response.json().catch(() => null);
 
         if (response.ok && result && result.success) {
+          sessionStorage.setItem("millan_last_bq_sent", String(Date.now()));
+          sessionStorage.setItem("millan_last_bq_fingerprint", payloadFingerprint);
+
           showFeedback(
             result.message || "¡Solicitud enviada correctamente! Nuestro equipo te responderá con tu presupuesto lo antes posible.",
             false
@@ -1322,26 +1407,32 @@ function initBrandQuoteModal(catalogs) {
           form.reset();
           if (lockedInput) lockedInput.value = currentLockedValue;
           if (sedeHiddenInput) sedeHiddenInput.value = currentLockedValue;
-          generateTokens();
+          if (result.next_token && tokenInput) {
+            tokenInput.value = result.next_token;
+          } else {
+            generateTokens();
+          }
+
+          if (submitBtn) {
+            submitBtn.innerHTML = `<span>Solicitud enviada correctamente ✓</span>`;
+          }
+          cooldownTimer = setTimeout(() => {
+            resetSubmitButton();
+          }, 60000);
         } else {
           showFeedback(
             (result && result.message) || "No se pudo enviar la solicitud en este momento. También puedes llamarnos al 956 53 61 04.",
             true
           );
-          generateTokens();
+          resetSubmitButton();
         }
       } catch (err) {
+        // Mantenemos el mismo idempotency_key por si la petición sí llegó al servidor con 3G lento y el usuario pulsa reintentar
         showFeedback(
-          "Error de conexión al enviar el formulario. Por favor, inténtalo de nuevo o llámanos al 956 53 61 04.",
+          "Error de conexión al enviar el formulario. Si tienes poca cobertura, espera unos segundos antes de reintentar o llámanos al 956 53 61 04.",
           true
         );
-        generateTokens();
-      } finally {
-        isSubmitting = false;
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHTML;
-        }
+        resetSubmitButton();
       }
     });
   }
@@ -2095,6 +2186,7 @@ function initContactFormAntiDuplicates() {
     submitBtn.setAttribute("aria-busy", locked ? "true" : "false");
     submitBtn.classList.toggle("opacity-75", locked);
     submitBtn.classList.toggle("cursor-not-allowed", locked);
+    submitBtn.classList.toggle("pointer-events-none", locked);
 
     if (btnText) {
       btnText.textContent = locked
@@ -2105,6 +2197,20 @@ function initContactFormAntiDuplicates() {
       btnSpinner.classList.toggle("hidden", !locked);
     }
   };
+
+  if (submitBtn) {
+    submitBtn.addEventListener("click", (e) => {
+      if (isSubmitting) {
+        e.preventDefault();
+        e.stopPropagation();
+        showFeedback(
+          "success",
+          "Enviando tu consulta...",
+          "Con cobertura lenta (3G/datos) puede tardar unos segundos. No es necesario pulsar el botón de nuevo."
+        );
+      }
+    });
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

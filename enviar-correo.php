@@ -26,11 +26,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Configuraciones principales del destinatario y tiempos de bloqueo
+// Configuraciones principales del destinatario, remitente web y tiempos de bloqueo
 const RECIPIENT_EMAIL      = 'millan@millanchiclana.com';
+const SENDER_WEB_EMAIL     = 'no-responder@millanchiclana.com';
 const COMPANY_LEGAL_NAME   = 'Millán Servicios Montajes e Interiorismos S.L.';
 const COMPANY_BRAND_NAME   = 'Millán Chiclana';
-const COOLDOWN_SECONDS     = 60; // Mínimo 60 segundos entre envíos por sesión/IP
+const COOLDOWN_SECONDS     = 60;  // Mínimo 60 segundos entre envíos por sesión/IP
+const DEDUP_TTL_SECONDS    = 600; // 10 minutos de bloqueo global para el mismo mensaje exacto (redes 3G/reintentos)
 
 // Inicializar estructuras de sesión si no existen
 if (!isset($_SESSION['processed_keys']) || !is_array($_SESSION['processed_keys'])) {
@@ -177,9 +179,58 @@ if (!$privacidad) {
 $now = time();
 $clientIp = (string)($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
 $ipHash = hash('sha256', 'millan_ip_salt_' . $clientIp);
-$payloadHash = hash('sha256', mb_strtolower($email . '|' . $telefono . '|' . $asunto . '|' . $mensaje));
+$payloadHash = hash(
+    'sha256',
+    mb_strtolower($email . '|' . $telefono . '|' . $asunto . '|' . $marcaPresupuesto . '|' . $mensaje)
+);
 
-// 6.1. ¿Se ha procesado ya exactamente este mismo mensaje o clave de idempotencia?
+// 6.0. Bloqueo atómico global por contenido e idempotency_key (protege ante múltiples clics en 3G o cambios de antena/IP)
+$globalDedupFile = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'millan_global_dedup.lock';
+$gfp = @fopen($globalDedupFile, 'c+');
+if ($gfp !== false) {
+    if (flock($gfp, LOCK_EX)) {
+        $rawGlobal = stream_get_contents($gfp);
+        $globalRecords = $rawGlobal ? json_decode($rawGlobal, true) : [];
+        if (!is_array($globalRecords)) {
+            $globalRecords = [];
+        }
+        // Limpiar registros antiguos (> DEDUP_TTL_SECONDS)
+        foreach ($globalRecords as $k => $ts) {
+            if (($now - (int)$ts) > DEDUP_TTL_SECONDS) {
+                unset($globalRecords[$k]);
+            }
+        }
+        $keyFingerprints = ['hash_' . $payloadHash];
+        if ($idempotencyKey !== '') {
+            $keyFingerprints[] = 'idem_' . hash('sha256', $idempotencyKey);
+        }
+        foreach ($keyFingerprints as $fpKey) {
+            if (isset($globalRecords[$fpKey])) {
+                flock($gfp, LOCK_UN);
+                fclose($gfp);
+                echo json_encode([
+                    'success'             => true,
+                    'duplicate_prevented' => true,
+                    'title'               => '¡Tu consulta ya ha sido enviada!',
+                    'message'             => 'Hemos recibido tu mensaje correctamente en el primer envío. Nuestro equipo te responderá muy pronto.',
+                    'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
+                ]);
+                exit;
+            }
+        }
+        foreach ($keyFingerprints as $fpKey) {
+            $globalRecords[$fpKey] = $now;
+        }
+        ftruncate($gfp, 0);
+        rewind($gfp);
+        fwrite($gfp, json_encode($globalRecords));
+        fflush($gfp);
+        flock($gfp, LOCK_UN);
+    }
+    fclose($gfp);
+}
+
+// 6.1. ¿Se ha procesado ya exactamente este mismo mensaje o clave de idempotencia en la sesión?
 if (
     ($idempotencyKey !== '' && in_array($idempotencyKey, $_SESSION['processed_keys'], true)) ||
     in_array($payloadHash, $_SESSION['processed_hashes'], true)
@@ -316,24 +367,35 @@ $htmlBody = '
               <div style="background:#F9FAFB;padding:16px;border-radius:8px;border:1px solid #E5E7EB;white-space:pre-line;line-height:1.6;">' . nl2br(htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8')) . '</div>
             </td>
           </tr>
+          <tr>
+            <td colspan="2" style="padding-top:18px;">
+              <a href="mailto:' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '?subject=' . rawurlencode('Re: ' . $asunto . ' - Millán Chiclana') . '" style="display:inline-block;background:#111111;color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;padding:10px 18px;border-radius:8px;">
+                Responder directamente a ' . htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8') . ' (' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . ')
+              </a>
+            </td>
+          </tr>
         </table>
       </td>
     </tr>
     <tr>
       <td style="background:#F3F4F6;padding:14px 24px;font-size:12px;color:#52525B;">
-        Enviado el ' . $fechaHora . ' · Protección Anti-Duplicados Activa (ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ') · RGPD Aceptado
+        Enviado el ' . $fechaHora . ' · Al pulsar "Responder" en tu gestor de correo se responderá directamente a <strong>' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '</strong> · Protección Anti-Duplicados Activa (ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ')
       </td>
     </tr>
   </table>
 </body>
 </html>';
 
+$encodedSenderName = '=?UTF-8?B?' . base64_encode('Web Millán Chiclana') . '?=';
+$encodedReplyName  = '=?UTF-8?B?' . base64_encode($nombre) . '?=';
+
 $headers = [
     'MIME-Version: 1.0',
     'Content-type: text/html; charset=UTF-8',
-    'From: Web Millan Chiclana <no-responder@millanchiclana.com>',
-    'Reply-To: ' . $nombre . ' <' . $email . '>',
-    'X-Mailer: MillanChiclana-AntiDupMailer/1.0',
+    'From: ' . $encodedSenderName . ' <' . SENDER_WEB_EMAIL . '>',
+    'Reply-To: ' . $encodedReplyName . ' <' . $email . '>',
+    'Return-Path: ' . SENDER_WEB_EMAIL,
+    'X-Mailer: MillanChiclana-AntiDupMailer/2.0',
 ];
 
 // Envío del correo
