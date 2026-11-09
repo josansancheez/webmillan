@@ -28,7 +28,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Configuraciones principales del destinatario, remitente web y tiempos de bloqueo
 const RECIPIENT_EMAIL      = 'millan@millanchiclana.com';
-const SENDER_WEB_EMAIL     = 'no-responder@millanchiclana.com';
+const SENDER_WEB_EMAIL     = 'web@millanchiclana.com';
 const COMPANY_LEGAL_NAME   = 'Millán Servicios Montajes e Interiorismos S.L.';
 const COMPANY_BRAND_NAME   = 'Millán Chiclana';
 const COOLDOWN_SECONDS     = 60;  // Mínimo 60 segundos entre envíos por sesión/IP
@@ -367,19 +367,12 @@ $htmlBody = '
               <div style="background:#F9FAFB;padding:16px;border-radius:8px;border:1px solid #E5E7EB;white-space:pre-line;line-height:1.6;">' . nl2br(htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8')) . '</div>
             </td>
           </tr>
-          <tr>
-            <td colspan="2" style="padding-top:18px;">
-              <a href="mailto:' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '?subject=' . rawurlencode('Re: ' . $asunto . ' - Millán Chiclana') . '" style="display:inline-block;background:#111111;color:#FFFFFF;text-decoration:none;font-weight:bold;font-size:13px;padding:10px 18px;border-radius:8px;">
-                Responder directamente a ' . htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8') . ' (' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . ')
-              </a>
-            </td>
-          </tr>
         </table>
       </td>
     </tr>
     <tr>
       <td style="background:#F3F4F6;padding:14px 24px;font-size:12px;color:#52525B;">
-        Enviado el ' . $fechaHora . ' · Al pulsar "Responder" en tu gestor de correo se responderá directamente a <strong>' . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . '</strong> · Protección Anti-Duplicados Activa (ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ')
+        Enviado el ' . $fechaHora . ' · Protección Anti-Duplicados Activa (ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ') · RGPD Aceptado
       </td>
     </tr>
   </table>
