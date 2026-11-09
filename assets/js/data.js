@@ -2266,7 +2266,7 @@ window.MILLAN_DATA = {
     {
       id: "faq-4",
       category: "Presupuestos y Catálogos",
-      question: "¿Cómo puedo pedir un presupuesto para mi reforma o consultar un producto de los catálogos PDF?",
+      question: "¿Cómo puedo pedir un presupuesto para mi reforma o consultar un producto de los catálogos?",
       answer: "Puedes consultar todos nuestros catálogos desde la sección 'Marcas y Catálogos' de esta web, anotar la marca o colección que te gusta y llamarnos directamente por teléfono, enviarnos un mensaje desde el formulario de contacto o visitarnos en el Polígono Pelagatos. Te preparamos tu presupuesto personalizado sin compromiso."
     },
     {
