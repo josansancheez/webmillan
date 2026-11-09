@@ -391,8 +391,19 @@ $headers = [
     'X-Mailer: MillanChiclana-AntiDupMailer/2.0',
 ];
 
-// Envío del correo
+// Envío del correo (con fallback automático si el servidor requiere buzón físico existente)
 $mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, implode("\r\n", $headers));
+if (!$mailSent) {
+    $fallbackHeaders = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        'From: ' . $encodedSenderName . ' <' . RECIPIENT_EMAIL . '>',
+        'Reply-To: ' . $encodedReplyName . ' <' . $email . '>',
+        'Return-Path: ' . RECIPIENT_EMAIL,
+        'X-Mailer: MillanChiclana-AntiDupMailer/2.0',
+    ];
+    $mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, implode("\r\n", $fallbackHeaders));
+}
 
 // Actualizar estado de sesión e invalidar/rotar token para impedir duplicados posteriores
 $_SESSION['last_submit_time'] = $now;
