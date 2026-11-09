@@ -286,6 +286,47 @@ function initHeroCarousel() {
   let isPaused = false;
   let touchStartX = 0;
   let touchEndX = 0;
+  let slideAnimTimer = null;
+
+  // Lanzar las animaciones de los iconos/emojis de los botones cada vez que entra una diapositiva del carrusel
+  const triggerSlideButtonAnimations = (activeSlide) => {
+    if (
+      !activeSlide ||
+      (window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ) {
+      return;
+    }
+
+    // 1. Iconos de ubicación / búsqueda de mapa ("Cómo llegar a la Exposición", "Ubicación y Horario del Almacén"): caen y rebotan
+    activeSlide
+      .querySelectorAll(".map-pin-icon, a svg")
+      .forEach((svg) => {
+        const dAttr = svg.querySelector("path")?.getAttribute("d") || "";
+        if (svg.classList.contains("map-pin-icon") || dAttr.includes("M17.657 16.657")) {
+          svg.classList.remove("map-pin-drop-bounce");
+          void svg.offsetWidth;
+          svg.classList.add("map-pin-drop-bounce");
+          setTimeout(() => svg.classList.remove("map-pin-drop-bounce"), 1100);
+        }
+      });
+
+    // 2. Iconos de teléfono ("Llamar Ahora", "Tel. Almacén"): vibración de llamada
+    activeSlide.querySelectorAll('a[href^="tel:"] svg').forEach((svg) => {
+      svg.classList.remove("phone-vibrate-once");
+      void svg.offsetWidth;
+      svg.classList.add("phone-vibrate-once");
+      setTimeout(() => svg.classList.remove("phone-vibrate-once"), 1050);
+    });
+
+    // 3. Iconos de correo/presupuesto ("Solicitar Presupuesto"): gesto de sobre
+    activeSlide.querySelectorAll(".hero-mail-icon").forEach((svg) => {
+      svg.classList.remove("hero-mail-pop-once");
+      void svg.offsetWidth;
+      svg.classList.add("hero-mail-pop-once");
+      setTimeout(() => svg.classList.remove("hero-mail-pop-once"), 900);
+    });
+  };
 
   const showSlide = (index) => {
     currentIndex = (index + slides.length) % slides.length;
@@ -307,6 +348,12 @@ function initHeroCarousel() {
         dot.classList.add("w-2.5", "bg-white/45");
       }
     });
+
+    // Ejecutar las animaciones de los iconos de la diapositiva entrante justo cuando aparecen sus botones
+    if (slideAnimTimer) clearTimeout(slideAnimTimer);
+    slideAnimTimer = setTimeout(() => {
+      triggerSlideButtonAnimations(slides[currentIndex]);
+    }, 380);
   };
 
   const updatePauseUI = () => {

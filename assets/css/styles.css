@@ -826,6 +826,90 @@ header nav[aria-label="Navegación principal"] a:not(.border-b-2):hover::after {
   animation: millanCardCaretBlink 0.75s infinite;
 }
 
+/* 7G. Animación de llama viva (fuego en movimiento) en la diapositiva de Chimeneas y en iconos de botones del carrusel */
+@keyframes millanFireFlicker {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1, 1) rotate(0deg);
+    filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.7));
+  }
+  20% {
+    transform: translate3d(-0.5px, -1.5px, 0) scale(0.95, 1.14) rotate(-5deg);
+    filter: drop-shadow(0 0 9px rgba(251, 146, 60, 0.95)) brightness(1.15);
+  }
+  42% {
+    transform: translate3d(1px, -0.5px, 0) scale(1.08, 0.94) rotate(4deg);
+    filter: drop-shadow(0 0 5px rgba(234, 88, 12, 0.85));
+  }
+  65% {
+    transform: translate3d(-0.5px, -2px, 0) scale(0.96, 1.18) rotate(-3deg);
+    filter: drop-shadow(0 0 11px rgba(253, 186, 116, 1)) brightness(1.22);
+  }
+  84% {
+    transform: translate3d(0.5px, -1px, 0) scale(1.05, 1.04) rotate(5deg);
+    filter: drop-shadow(0 0 7px rgba(249, 115, 22, 0.9));
+  }
+}
+
+@keyframes millanFireBurstOnce {
+  0% {
+    transform: translate3d(0, 6px, 0) scale(0.7, 0.7) rotate(-10deg);
+    filter: drop-shadow(0 0 0 rgba(249, 115, 22, 0));
+  }
+  35% {
+    transform: translate3d(0, -4px, 0) scale(1.28, 1.35) rotate(8deg);
+    filter: drop-shadow(0 0 14px rgba(251, 146, 60, 1)) brightness(1.3);
+  }
+  65% {
+    transform: translate3d(0, -1px, 0) scale(0.94, 1.16) rotate(-6deg);
+    filter: drop-shadow(0 0 9px rgba(249, 115, 22, 0.9));
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1, 1) rotate(0deg);
+    filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.75));
+  }
+}
+
+.hero-fire-emoji,
+.hero-fire-icon {
+  display: inline-block;
+  transform-origin: center bottom;
+}
+
+.hero-slide.active .hero-fire-emoji,
+.hero-slide.active .hero-fire-icon {
+  animation: millanFireFlicker 1.35s ease-in-out infinite !important;
+}
+
+.hero-fire-icon {
+  color: #FDBA74;
+}
+
+.hero-fire-burst {
+  animation: millanFireBurstOnce 0.95s cubic-bezier(0.22, 1, 0.36, 1) 1 both !important;
+}
+
+@keyframes millanHeroMailPop {
+  0% {
+    transform: translate3d(-10px, 0, 0) scale(0.88) rotate(-8deg);
+    opacity: 0.4;
+  }
+  45% {
+    transform: translate3d(4px, -2px, 0) scale(1.18) rotate(6deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translate3d(-2px, 0, 0) scale(0.97) rotate(-2deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.hero-mail-pop-once {
+  animation: millanHeroMailPop 0.85s cubic-bezier(0.22, 1, 0.36, 1) 1 both !important;
+}
+
 /* 8. Animación limpia al filtrar tarjetas de marcas, galería o reseñas */
 @keyframes millanFilterCardIn {
   0% {
