@@ -3724,16 +3724,26 @@ function initLiveStoreHoursStatus() {
           ) {
             return { open: true, label: "Abierto ahora" };
           }
-          if (minutes < 540) return { open: false, label: "Abre hoy a las 09:00" };
-          if (minutes >= 840 && minutes < 1020)
-            return { open: false, label: "Abre a las 17:00" };
+          if (minutes < 540) {
+            return { open: false, label: "Cerrado, próxima apertura a las 09:00" };
+          }
+          if (minutes >= 840 && minutes < 1020) {
+            return { open: false, label: "Cerrado, próxima apertura a las 17:00" };
+          }
+          if (day === 5) {
+            return { open: false, label: "Cerrado, próxima apertura mañana a las 10:00" };
+          }
+          return { open: false, label: "Cerrado, próxima apertura mañana a las 09:00" };
         } else if (day === 6) {
           if (minutes >= 600 && minutes < 780) {
             return { open: true, label: "Abierto ahora" };
           }
-          if (minutes < 600) return { open: false, label: "Abre hoy a las 10:00" };
+          if (minutes < 600) {
+            return { open: false, label: "Cerrado, próxima apertura a las 10:00" };
+          }
+          return { open: false, label: "Cerrado, próxima apertura el Lunes a las 09:00" };
         }
-        return { open: false, label: "Cerrado ahora" };
+        return { open: false, label: "Cerrado, próxima apertura el Lunes a las 09:00" };
       }
 
       // Almacén: L-V: 07:30-14:00 (450-840) y 15:30-18:30 (930-1110) | Sáb: 08:30-13:00 (510-780)
@@ -3744,16 +3754,26 @@ function initLiveStoreHoursStatus() {
         ) {
           return { open: true, label: "Abierto ahora" };
         }
-        if (minutes < 450) return { open: false, label: "Abre hoy a las 07:30" };
-        if (minutes >= 840 && minutes < 930)
-          return { open: false, label: "Abre a las 15:30" };
+        if (minutes < 450) {
+          return { open: false, label: "Cerrado, próxima apertura a las 07:30" };
+        }
+        if (minutes >= 840 && minutes < 930) {
+          return { open: false, label: "Cerrado, próxima apertura a las 15:30" };
+        }
+        if (day === 5) {
+          return { open: false, label: "Cerrado, próxima apertura mañana a las 08:30" };
+        }
+        return { open: false, label: "Cerrado, próxima apertura mañana a las 07:30" };
       } else if (day === 6) {
         if (minutes >= 510 && minutes < 780) {
           return { open: true, label: "Abierto ahora" };
         }
-        if (minutes < 510) return { open: false, label: "Abre hoy a las 08:30" };
+        if (minutes < 510) {
+          return { open: false, label: "Cerrado, próxima apertura a las 08:30" };
+        }
+        return { open: false, label: "Cerrado, próxima apertura el Lunes a las 07:30" };
       }
-      return { open: false, label: "Cerrado ahora" };
+      return { open: false, label: "Cerrado, próxima apertura el Lunes a las 07:30" };
     } catch (_) {
       return null;
     }
