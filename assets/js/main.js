@@ -3704,9 +3704,130 @@ function initAnimatedCounters() {
 }
 
 /* ==========================================================================
-   11C. INDICADOR EN VIVO DE HORARIO ("ABIERTO AHORA" / "CERRADO AHORA")
+   11C. INDICADOR EN VIVO DE HORARIO ("ABIERTO AHORA" / "CERRADO AHORA" + FESTIVOS)
    ========================================================================== */
 function initLiveStoreHoursStatus() {
+  const DAY_NAMES = [
+    "Domingo",
+    "Lunes",
+    "Martes",
+    "Miércoles",
+    "Jueves",
+    "Viernes",
+    "Sábado",
+  ];
+
+  // Festivos fijos (Nacionales, Autonómicos Andalucía y Locales Chiclana de la Frontera)
+  const FIXED_HOLIDAYS = {
+    "1-1": "Año Nuevo",
+    "1-6": "Día de Reyes",
+    "2-28": "Día de Andalucía",
+    "5-1": "Fiesta del Trabajo",
+    "6-13": "San Antonio",
+    "8-15": "Asunción de la Virgen",
+    "9-8": "Virgen de los Remedios",
+    "10-12": "Fiesta Nacional",
+    "11-1": "Todos los Santos",
+    "12-6": "Día de la Constitución",
+    "12-8": "Inmaculada Concepción",
+    "12-25": "Navidad",
+  };
+
+  // Cálculo astronómico de Domingo de Pascua (Algoritmo de Meeus/Jones/Butcher)
+  const getEasterSunday = (year) => {
+    const a = year % 19;
+    const b = Math.floor(year / 100);
+    const c = year % 100;
+    const d = Math.floor(b / 4);
+    const e = b % 4;
+    const f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3);
+    const h = (19 * a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4);
+    const k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7;
+    const m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const month = Math.floor((h + l - 7 * m + 114) / 31);
+    const day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(year, month - 1, day);
+  };
+
+  const isSameDay = (d1, d2) =>
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+
+  // Comprueba si una fecha exacta es festivo oficial o lunes trasladado de domingo festivo
+  const getHolidayInfo = (dateObj) => {
+    const year = dateObj.getFullYear();
+    const month = dateObj.getMonth() + 1;
+    const date = dateObj.getDate();
+    const fixedKey = `${month}-${date}`;
+
+    if (FIXED_HOLIDAYS[fixedKey]) {
+      return { type: "holiday", name: FIXED_HOLIDAYS[fixedKey] };
+    }
+
+    // Jueves Santo (-3 días) y Viernes Santo (-2 días) respecto a Domingo de Resurrección
+    const easter = getEasterSunday(year);
+    const MaundyThursday = new Date(easter);
+    MaundyThursday.setDate(easter.getDate() - 3);
+    const GoodFriday = new Date(easter);
+    GoodFriday.setDate(easter.getDate() - 2);
+
+    if (isSameDay(dateObj, MaundyThursday)) {
+      return { type: "holiday", name: "Jueves Santo" };
+    }
+    if (isSameDay(dateObj, GoodFriday)) {
+      return { type: "holiday", name: "Viernes Santo" };
+    }
+
+    // Si es Lunes, comprobar si ayer (Domingo) fue uno de los festivos fijos trasladables
+    if (dateObj.getDay() === 1) {
+      const yesterday = new Date(year, dateObj.getMonth(), date - 1);
+      const yKey = `${yesterday.getMonth() + 1}-${yesterday.getDate()}`;
+      if (FIXED_HOLIDAYS[yKey]) {
+        return { type: "transferred", name: FIXED_HOLIDAYS[yKey] };
+      }
+    }
+
+    return null;
+  };
+
+  const getMorningOpenTime = (sedeType, dayOfWeek) => {
+    if (dayOfWeek === 0) return null;
+    if (sedeType === "exposicion") {
+      return dayOfWeek === 6 ? "10:00" : "09:00";
+    }
+    return dayOfWeek === 6 ? "08:30" : "07:30";
+  };
+
+  // Busca el próximo día laborable de apertura a partir del día siguiente
+  const buildNextDayOpeningLabel = (sedeType, nowSpain, prefix, forceWeekdayName = false) => {
+    for (let offset = 1; offset <= 7; offset++) {
+      const candidate = new Date(
+        nowSpain.getFullYear(),
+        nowSpain.getMonth(),
+        nowSpain.getDate() + offset
+      );
+      const cDay = candidate.getDay();
+      if (cDay === 0) continue; // Domingo cerrado
+      const cHoliday = getHolidayInfo(candidate);
+      if (cHoliday && (cHoliday.type === "holiday" || cHoliday.type === "transferred")) {
+        continue; // Saltar festivos o lunes trasladados para dar la próxima apertura segura
+      }
+      const openTime = getMorningOpenTime(sedeType, cDay);
+      if (!openTime) continue;
+
+      if (offset === 1 && !forceWeekdayName) {
+        return `${prefix}, próxima apertura mañana a las ${openTime}`;
+      }
+      return `${prefix}, próxima apertura el ${DAY_NAMES[cDay]} a las ${openTime}`;
+    }
+    const fallbackTime = sedeType === "exposicion" ? "09:00" : "07:30";
+    return `${prefix}, próxima apertura a las ${fallbackTime}`;
+  };
+
   const computeStoreStatus = (sedeType) => {
     try {
       const nowSpain = new Date(
@@ -3714,6 +3835,34 @@ function initLiveStoreHoursStatus() {
       );
       const day = nowSpain.getDay(); // 0 Dom, 1-5 L-V, 6 Sáb
       const minutes = nowSpain.getHours() * 60 + nowSpain.getMinutes();
+      const todayHoliday = getHolidayInfo(nowSpain);
+
+      // 1. Si hoy es festivo oficial (ej: Miércoles 1 de Enero -> abre el Jueves)
+      if (todayHoliday && todayHoliday.type === "holiday") {
+        return {
+          open: false,
+          label: buildNextDayOpeningLabel(
+            sedeType,
+            nowSpain,
+            "Cerrado por festivo",
+            true
+          ),
+        };
+      }
+
+      // 2. Si hoy es Lunes siguiente a un festivo que cayó en Domingo ("posiblemente cerrado por festivo")
+      if (todayHoliday && todayHoliday.type === "transferred") {
+        return {
+          open: false,
+          maybeHoliday: true,
+          label: buildNextDayOpeningLabel(
+            sedeType,
+            nowSpain,
+            "Posiblemente cerrado por festivo",
+            true
+          ),
+        };
+      }
 
       if (sedeType === "exposicion") {
         // L-V: 09:00-14:00 (540-840) y 17:00-20:00 (1020-1200) | Sáb: 10:00-13:00 (600-780)
@@ -3730,10 +3879,10 @@ function initLiveStoreHoursStatus() {
           if (minutes >= 840 && minutes < 1020) {
             return { open: false, label: "Cerrado, próxima apertura a las 17:00" };
           }
-          if (day === 5) {
-            return { open: false, label: "Cerrado, próxima apertura mañana a las 10:00" };
-          }
-          return { open: false, label: "Cerrado, próxima apertura mañana a las 09:00" };
+          return {
+            open: false,
+            label: buildNextDayOpeningLabel("exposicion", nowSpain, "Cerrado", false),
+          };
         } else if (day === 6) {
           if (minutes >= 600 && minutes < 780) {
             return { open: true, label: "Abierto ahora" };
@@ -3741,9 +3890,15 @@ function initLiveStoreHoursStatus() {
           if (minutes < 600) {
             return { open: false, label: "Cerrado, próxima apertura a las 10:00" };
           }
-          return { open: false, label: "Cerrado, próxima apertura el Lunes a las 09:00" };
+          return {
+            open: false,
+            label: buildNextDayOpeningLabel("exposicion", nowSpain, "Cerrado", true),
+          };
         }
-        return { open: false, label: "Cerrado, próxima apertura el Lunes a las 09:00" };
+        return {
+          open: false,
+          label: buildNextDayOpeningLabel("exposicion", nowSpain, "Cerrado", true),
+        };
       }
 
       // Almacén: L-V: 07:30-14:00 (450-840) y 15:30-18:30 (930-1110) | Sáb: 08:30-13:00 (510-780)
@@ -3760,10 +3915,10 @@ function initLiveStoreHoursStatus() {
         if (minutes >= 840 && minutes < 930) {
           return { open: false, label: "Cerrado, próxima apertura a las 15:30" };
         }
-        if (day === 5) {
-          return { open: false, label: "Cerrado, próxima apertura mañana a las 08:30" };
-        }
-        return { open: false, label: "Cerrado, próxima apertura mañana a las 07:30" };
+        return {
+          open: false,
+          label: buildNextDayOpeningLabel("almacen", nowSpain, "Cerrado", false),
+        };
       } else if (day === 6) {
         if (minutes >= 510 && minutes < 780) {
           return { open: true, label: "Abierto ahora" };
@@ -3771,9 +3926,15 @@ function initLiveStoreHoursStatus() {
         if (minutes < 510) {
           return { open: false, label: "Cerrado, próxima apertura a las 08:30" };
         }
-        return { open: false, label: "Cerrado, próxima apertura el Lunes a las 07:30" };
+        return {
+          open: false,
+          label: buildNextDayOpeningLabel("almacen", nowSpain, "Cerrado", true),
+        };
       }
-      return { open: false, label: "Cerrado, próxima apertura el Lunes a las 07:30" };
+      return {
+        open: false,
+        label: buildNextDayOpeningLabel("almacen", nowSpain, "Cerrado", true),
+      };
     } catch (_) {
       return null;
     }
@@ -3784,6 +3945,12 @@ function initLiveStoreHoursStatus() {
     if (status.open) {
       return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-emerald-50 text-emerald-900 border border-emerald-300 shadow-2xs ml-auto">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>${status.label}</span>
+      </span>`;
+    }
+    if (status.maybeHoliday) {
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-900 border border-amber-300 ml-auto">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
         <span>${status.label}</span>
       </span>`;
     }
