@@ -2740,6 +2740,7 @@ function initDesktopPhoneQrModal() {
       key: "exposicion",
       label: "Sede Exposición",
       sublabel: "Azulejos, Baños, Grifería y Chimeneas · N23",
+      schedule: "Horario: Lunes a Viernes 09:00–14:00 y 17:00–20:00 · Sábados 10:00–13:00",
       formatted: "956 53 61 04",
       telUri: "tel:+34956536104",
       badgeClass: "bg-[#334155] text-white"
@@ -2748,6 +2749,7 @@ function initDesktopPhoneQrModal() {
       key: "almacen",
       label: "Sede Almacén",
       sublabel: "Materiales de Construcción y Obra Gruesa · N16",
+      schedule: "Horario: Lunes a Viernes 07:30–14:00 y 15:30–18:30 · Sábados 08:30–13:00",
       formatted: "956 53 03 61",
       telUri: "tel:+34956530361",
       badgeClass: "bg-[#111111] text-white"
@@ -2847,8 +2849,8 @@ function initDesktopPhoneQrModal() {
             <p class="text-xs sm:text-sm font-semibold text-[#18181B] mt-3.5 max-w-xs leading-snug">
               Escanea este QR con la cámara de tu móvil para llamar del tirón sin marcar el número
             </p>
-            <p class="text-[11px] text-[#52525B] mt-1">
-              Horario: Lunes a Viernes 8:00–14:00 y 16:00–19:30 · Sábados 9:00–13:00
+            <p id="phone-qr-schedule" class="text-[11px] text-[#52525B] mt-1">
+              Horario: Lunes a Viernes 09:00–14:00 y 17:00–20:00 · Sábados 10:00–13:00
             </p>
           </div>
 
@@ -2873,6 +2875,7 @@ function initDesktopPhoneQrModal() {
   const tabBtns = modalEl.querySelectorAll("[data-phone-qr-tab]");
   const subtitleEl = document.getElementById("phone-qr-sede-subtitle");
   const numberEl = document.getElementById("phone-qr-number-display");
+  const scheduleEl = document.getElementById("phone-qr-schedule");
   const qrContainer = document.getElementById("phone-qr-svg-container");
   const directCallLink = document.getElementById("phone-qr-direct-call-link");
   const copyBtn = document.getElementById("phone-qr-copy-btn");
@@ -2893,6 +2896,7 @@ function initDesktopPhoneQrModal() {
 
     if (subtitleEl) subtitleEl.textContent = info.sublabel;
     if (numberEl) numberEl.textContent = info.formatted;
+    if (scheduleEl) scheduleEl.textContent = info.schedule;
     if (qrContainer) qrContainer.innerHTML = generateQRCodeSVG(info.telUri);
     if (directCallLink) directCallLink.setAttribute("href", info.telUri);
     if (copyText) copyText.textContent = "Copiar";
