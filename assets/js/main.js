@@ -457,11 +457,7 @@ function initCatalogsSystem() {
     const hasCatalog = Boolean(externalCatalogUrl || hasPdfCatalog);
 
     const catalogMetaHTML = externalCatalogUrl
-      ? `<span class="inline-flex items-center gap-1 font-medium text-[#18181B]">
-          <svg class="w-4 h-4 text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-          Catálogo Web Oficial
-        </span>
-        <span>Apertura en pestaña</span>`
+      ? ""
       : hasPdfCatalog
         ? `<span class="inline-flex items-center gap-1 font-medium">
             <svg class="w-4 h-4 text-[#111111]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -480,7 +476,7 @@ function initCatalogsSystem() {
           target="_blank"
           rel="noopener noreferrer"
           class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-primary-green cursor-pointer text-center"
-          title="Abrir catálogo web oficial de ${escapeHTML(item.name)} en una nueva pestaña"
+          title="Abrir catálogo de ${escapeHTML(item.name)} en una nueva pestaña"
         >
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
@@ -572,9 +568,11 @@ function initCatalogsSystem() {
           </div>
 
           <div class="pt-3 border-t border-[#E5E7EB]">
-            <div class="flex items-center justify-between text-xs text-[#52525B] mb-3">
-              ${catalogMetaHTML}
-            </div>
+            ${
+              catalogMetaHTML
+                ? `<div class="flex items-center justify-between text-xs text-[#52525B] mb-3">${catalogMetaHTML}</div>`
+                : ""
+            }
 
             <!-- Botones de Acción (Tamaños iguales) -->
             <div class="grid grid-cols-2 gap-2.5 items-stretch">
@@ -583,10 +581,10 @@ function initCatalogsSystem() {
               <button
                 type="button"
                 data-open-brand-quote="${escapeHTML(item.id)}"
-                class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#F9FAFB] hover:bg-[#F3F4F6] text-[#18181B] border border-[#D1D5DB] hover:border-[#18181B] transition-colors cursor-pointer text-center"
+                class="w-full h-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold btn-secondary-quote bg-[#F9FAFB] text-[#18181B] border border-[#D1D5DB] cursor-pointer text-center"
                 title="Pedir presupuesto de ${escapeHTML(item.name)}"
               >
-                <svg class="w-4 h-4 text-[#18181B] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
                 <span>Pedir Presupuesto</span>
@@ -3150,7 +3148,7 @@ function initImageProtectionAndLightbox() {
 }
 
 /* ==========================================================================
-   11B. CONTADORES NUMÉRICOS ANIMADOS (COUNT-UP AL ENTRAR EN PANTALLA)
+   11B. CONTADORES NUMÉRICOS SINCRONIZADOS Y DESTELLO DE ESTRELLAS (★)
    ========================================================================== */
 function initAnimatedCounters() {
   if (
@@ -3160,83 +3158,248 @@ function initAnimatedCounters() {
     return;
   }
 
-  const animateNumericText = (el) => {
-    if (!el || el.dataset.counterDone === "1") return;
-    const rawText = (el.textContent || "").trim();
+  // Duración única exacta para que todos los contadores terminen en el mismo instante
+  const DURATION_MS = 1600;
 
-    // Detectar patrones numéricos como "+1.500", "4.2", "5.0", "2 Sedes", "72 reseñas en Google"
+  // Preparar metadatos de un elemento contador
+  const parseCounterElement = (el) => {
+    if (!el || el.dataset.counterPrepared === "1") return null;
+    // Si el elemento contenedor ya tiene dentro un sub-contador específico ([data-live-rating]), no sobreescribir el padre
+    if (
+      el.matches("p.text-4xl.font-extrabold") &&
+      el.querySelector("[data-live-rating], [data-live-count]")
+    ) {
+      return null;
+    }
+
+    const rawText = (el.textContent || "").trim();
     const match = rawText.match(/^([+~]?)(\d+(?:[.,]\d+)?)(.*)$/);
-    if (!match) return;
+    if (!match) return null;
 
     const prefix = match[1] || "";
     const numStr = match[2];
     const suffix = match[3] || "";
 
-    // Distinguir si el punto es separador de miles (ej: 1.500) o decimal (ej: 4.2, 5.0)
     const isThousandDot = /^\d{1,3}\.\d{3}$/.test(numStr);
     const cleanNumber = isThousandDot
       ? parseFloat(numStr.replace(/\./g, ""))
       : parseFloat(numStr.replace(",", "."));
 
-    if (Number.isNaN(cleanNumber) || cleanNumber <= 0) return;
+    if (Number.isNaN(cleanNumber) || cleanNumber <= 0) return null;
 
-    el.dataset.counterDone = "1";
-    const hasDecimal = !isThousandDot && (numStr.includes(".") || numStr.includes(","));
-    const decimalPlaces = hasDecimal ? (numStr.split(/[.,]/)[1] || "").length : 0;
-    const duration = cleanNumber > 100 ? 1500 : 1200;
-    const startTime = performance.now();
+    const hasDecimal =
+      !isThousandDot && (numStr.includes(".") || numStr.includes(","));
+    const decimalPlaces = hasDecimal
+      ? (numStr.split(/[.,]/)[1] || "").length
+      : 0;
+    const isSmallInteger = !hasDecimal && !isThousandDot && cleanNumber <= 10;
 
-    const step = (now) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / duration);
-      // Curva easeOutQuart
-      const eased = 1 - Math.pow(1 - progress, 4);
-      const currentVal = cleanNumber * eased;
+    el.dataset.counterPrepared = "1";
 
-      let formatted = "";
-      if (isThousandDot) {
-        formatted = Math.round(currentVal).toLocaleString("es-ES");
-      } else if (hasDecimal) {
-        formatted = currentVal.toFixed(decimalPlaces);
-      } else {
-        formatted = String(Math.round(currentVal));
+    // Para números pequeños como "2 Sedes", construir rodillo vertical (odómetro)
+    // para que tenga movimiento continuo y fluido durante los 1600ms completos
+    let odometerTrack = null;
+    let odometerTotalSteps = 0;
+
+    if (isSmallInteger) {
+      const targetInt = Math.round(cleanNumber);
+      const sequence = [];
+      const cycles = 3;
+      for (let c = 0; c < cycles; c++) {
+        for (let n = 0; n <= targetInt; n++) {
+          sequence.push(n);
+        }
       }
+      odometerTotalSteps = sequence.length - 1;
 
-      el.textContent = `${prefix}${formatted}${suffix}`;
+      el.innerHTML = `${escapeHTML(prefix)}<span class="counter-odometer-window"><span class="counter-odometer-track">${sequence
+        .map((n) => `<span>${n}</span>`)
+        .join("")}</span></span>${escapeHTML(suffix)}`;
+      odometerTrack = el.querySelector(".counter-odometer-track");
+    } else {
+      // Estado inicial en 0 para que no parpadee el valor final antes de empezar
+      const zeroFormatted = isThousandDot
+        ? "0"
+        : hasDecimal
+          ? (0).toFixed(decimalPlaces)
+          : "0";
+      el.textContent = `${prefix}${zeroFormatted}${suffix}`;
+    }
 
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        el.textContent = rawText;
-      }
+    return {
+      el,
+      rawText,
+      prefix,
+      suffix,
+      cleanNumber,
+      isThousandDot,
+      hasDecimal,
+      decimalPlaces,
+      isSmallInteger,
+      odometerTrack,
+      odometerTotalSteps
     };
-
-    requestAnimationFrame(step);
   };
 
-  const candidates = Array.from(
+  // Ejecutar un grupo de contadores sincronizados con el mismo startTime y DURATION_MS
+  const runCounterGroup = (items) => {
+    if (!items || !items.length) return;
+
+    // Si la página acaba de cargar y el preloader aún se está desvaneciendo, esperar a que sea visible
+    const initialDelay = performance.now() < 550 ? 400 : 0;
+
+    setTimeout(() => {
+      const startTime = performance.now();
+
+      const stepGroup = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, Math.max(0, elapsed / DURATION_MS));
+        // Curva suave calibrada para que TODOS los números sigan cambiando hasta progress === 1
+        const eased = 1 - Math.pow(1 - progress, 1.65);
+
+        items.forEach((item) => {
+          if (progress < 1) {
+            if (item.isSmallInteger && item.odometerTrack) {
+              const offsetEm = eased * item.odometerTotalSteps * 1.15;
+              item.odometerTrack.style.transform = `translate3d(0, -${offsetEm.toFixed(4)}em, 0)`;
+            } else if (item.isThousandDot) {
+              // Usar Math.floor durante progress < 1 para que alcance el número final exacto en progress === 1
+              const val = Math.min(
+                item.cleanNumber - 1,
+                Math.floor(item.cleanNumber * eased)
+              );
+              item.el.textContent = `${item.prefix}${Math.max(0, val).toLocaleString("es-ES")}${item.suffix}`;
+            } else if (item.hasDecimal) {
+              const factor = Math.pow(10, item.decimalPlaces);
+              const totalTicks = Math.round(item.cleanNumber * factor);
+              const currentTick = Math.min(
+                totalTicks - 1,
+                Math.floor(totalTicks * eased)
+              );
+              const formatted = (Math.max(0, currentTick) / factor).toFixed(
+                item.decimalPlaces
+              );
+              item.el.textContent = `${item.prefix}${formatted}${item.suffix}`;
+            } else {
+              const val = Math.min(
+                item.cleanNumber - 1,
+                Math.floor(item.cleanNumber * eased)
+              );
+              item.el.textContent = `${item.prefix}${Math.max(0, val)}${item.suffix}`;
+            }
+          } else {
+            // En progress === 1 exacto, todos los contadores del grupo fijan su valor final en el mismo frame
+            item.el.textContent = item.rawText;
+
+            // Si el contador tiene una estrella al lado (ej: "5.0 ★"), lanzar destello al terminar
+            const parentStar =
+              item.el.parentElement &&
+              item.el.parentElement.querySelector("span.text-amber-500, span.text-amber-400");
+            if (parentStar) {
+              triggerStarSparkle(parentStar);
+            }
+          }
+        });
+
+        if (progress < 1) {
+          requestAnimationFrame(stepGroup);
+        }
+      };
+
+      requestAnimationFrame(stepGroup);
+    }, initialDelay);
+  };
+
+  // Agrupar contadores por sección para que todos los de una misma vista arranquen y terminen a la vez
+  const rawCandidates = Array.from(
     document.querySelectorAll(
       '[data-live-rating], [data-live-count], p.text-4xl.font-extrabold'
     )
   );
 
-  if (!candidates.length) return;
+  const sectionGroups = new Map();
+  rawCandidates.forEach((el) => {
+    const parsed = parseCounterElement(el);
+    if (!parsed) return;
+    const groupKey = el.closest("section, header, footer") || document.body;
+    if (!sectionGroups.has(groupKey)) {
+      sectionGroups.set(groupKey, []);
+    }
+    sectionGroups.get(groupKey).push(parsed);
+  });
 
-  if ("IntersectionObserver" in window) {
-    const counterObserver = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateNumericText(entry.target);
-            obs.unobserve(entry.target);
-          }
+  if (sectionGroups.size > 0) {
+    if ("IntersectionObserver" in window) {
+      const groupObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const groupItems = sectionGroups.get(entry.target);
+              if (groupItems) {
+                runCounterGroup(groupItems);
+                sectionGroups.delete(entry.target);
+              }
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      sectionGroups.forEach((_, sectionEl) => {
+        groupObserver.observe(sectionEl);
+      });
+    } else {
+      sectionGroups.forEach((groupItems) => runCounterGroup(groupItems));
+    }
+  }
+
+  // Destello discreto en el emoji de estrella (★) de los botones "Dejar reseña" y distintivos cuando aparecen en pantalla
+  function triggerStarSparkle(starEl) {
+    if (!starEl || starEl.classList.contains("star-sparkle-once")) return;
+    starEl.classList.add("star-sparkle-once");
+    setTimeout(() => {
+      starEl.classList.remove("star-sparkle-once");
+    }, 1200);
+  }
+
+  const allStarSpans = Array.from(
+    document.querySelectorAll("a span, button span, p span, div > span")
+  ).filter((span) => {
+    const txt = (span.textContent || "").trim();
+    return (txt === "★" || txt === "★★★★★") && span.children.length === 0;
+  });
+
+  if (allStarSpans.length > 0) {
+    if ("IntersectionObserver" in window) {
+      const starObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const starEl = entry.target;
+              const delay = performance.now() < 550 ? 480 : 220;
+              setTimeout(() => triggerStarSparkle(starEl), delay);
+              obs.unobserve(starEl);
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+
+      allStarSpans.forEach((starEl) => starObserver.observe(starEl));
+    } else {
+      setTimeout(() => allStarSpans.forEach(triggerStarSparkle), 500);
+    }
+
+    // También hacer destellar la estrella al pasar el ratón por cualquier botón de "Dejar reseña"
+    allStarSpans.forEach((starEl) => {
+      const clickableParent = starEl.closest("a, button");
+      if (clickableParent) {
+        clickableParent.addEventListener("mouseenter", () => {
+          triggerStarSparkle(starEl);
         });
-      },
-      { threshold: 0.25 }
-    );
-    candidates.forEach((el) => counterObserver.observe(el));
-  } else {
-    candidates.forEach(animateNumericText);
+      }
+    });
   }
 }
 

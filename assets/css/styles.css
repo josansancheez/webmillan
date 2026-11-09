@@ -582,7 +582,9 @@ header nav[aria-label="Navegación principal"] a:not(.border-b-2):hover::after {
 
 .card-hover a svg:last-child,
 .btn-primary-green svg:last-child,
-.btn-primary-wood svg:last-child {
+.btn-primary-wood svg:last-child,
+.btn-secondary-quote svg:first-child,
+[data-open-brand-quote] svg:first-child {
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -590,15 +592,42 @@ header nav[aria-label="Navegación principal"] a:not(.border-b-2):hover::after {
   transform: translateX(4px);
 }
 
-/* 7. Efecto destello diagonal (Shine) en botones principales */
+/* 7. Movimiento de elevación y efecto destello diagonal (Shine) en botones principales y en Pedir Presupuesto */
+.btn-secondary-quote,
+[data-open-brand-quote] {
+  background-color: #F9FAFB;
+  color: #18181B;
+  border: 1px solid #D1D5DB;
+  transition: all 0.25s ease;
+}
+
+.btn-secondary-quote:hover,
+[data-open-brand-quote]:hover {
+  background-color: #18181B !important;
+  color: #FFFFFF !important;
+  border-color: #111111 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -5px rgba(17, 17, 17, 0.28);
+}
+
+.btn-secondary-quote:hover svg,
+[data-open-brand-quote]:hover svg {
+  color: #FFFFFF !important;
+  transform: translateY(-1px) scale(1.06);
+}
+
 .btn-primary-green,
-.btn-primary-wood {
+.btn-primary-wood,
+.btn-secondary-quote,
+[data-open-brand-quote] {
   position: relative;
   overflow: hidden;
 }
 
 .btn-primary-green::after,
-.btn-primary-wood::after {
+.btn-primary-wood::after,
+.btn-secondary-quote::after,
+[data-open-brand-quote]::after {
   content: "";
   position: absolute;
   top: -50%;
@@ -608,7 +637,7 @@ header nav[aria-label="Navegación principal"] a:not(.border-b-2):hover::after {
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.22) 50%,
     rgba(255, 255, 255, 0) 100%
   );
   transform: rotate(25deg);
@@ -617,8 +646,66 @@ header nav[aria-label="Navegación principal"] a:not(.border-b-2):hover::after {
 }
 
 .btn-primary-green:hover::after,
-.btn-primary-wood:hover::after {
+.btn-primary-wood:hover::after,
+.btn-secondary-quote:hover::after,
+[data-open-brand-quote]:hover::after {
   left: 125%;
+}
+
+/* 7B. Destello dorado único para la estrella (★) en botones de "Dejar reseña" al aparecer */
+@keyframes millanStarSparkleOnce {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(251, 191, 36, 0));
+  }
+  20% {
+    transform: scale(1.45) rotate(-18deg);
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.95)) brightness(1.35);
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.95), 0 0 22px rgba(245, 158, 11, 0.75);
+  }
+  45% {
+    transform: scale(1.22) rotate(16deg);
+    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75)) brightness(1.2);
+  }
+  70% {
+    transform: scale(1.38) rotate(-8deg);
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.95)) brightness(1.35);
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.9);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(251, 191, 36, 0));
+    text-shadow: none;
+  }
+}
+
+.star-sparkle-once {
+  display: inline-block;
+  transform-origin: center center;
+  animation: millanStarSparkleOnce 1.15s cubic-bezier(0.22, 1, 0.36, 1) 1 both;
+}
+
+/* 7C. Odómetro vertical sincronizado para contadores numéricos */
+.counter-odometer-window {
+  display: inline-flex;
+  overflow: hidden;
+  height: 1.15em;
+  line-height: 1.15em;
+  vertical-align: bottom;
+  position: relative;
+}
+
+.counter-odometer-track {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.counter-odometer-track > span {
+  height: 1.15em;
+  line-height: 1.15em;
+  display: block;
 }
 
 /* 8. Animación limpia al filtrar tarjetas de marcas, galería o reseñas */
