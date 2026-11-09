@@ -314,7 +314,8 @@ window.MILLAN_DATA = {
           "description": "Elegancia italiana en gres porcelánico y revestimiento cerámico con colecciones inspiradas en mármoles clásicos, travertinos y maderas nobles.",
           "pagesCount": 172,
           "fileSize": "18.9 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://vallelungacer.it/en",
+          "pdfUrl": "https://vallelungacer.it/en",
           "keywords": [
                 "vallelunga",
                 "ceramica",
@@ -504,7 +505,8 @@ window.MILLAN_DATA = {
           "description": "Especialistas en soluciones técnicas en gres extruido: peldaños de escalera de una pieza, bordes skimmer e infinity para piscinas y suelos exteriores C3.",
           "pagesCount": 168,
           "fileSize": "18.6 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.exagres.es",
+          "pdfUrl": "https://www.exagres.es",
           "keywords": [
                 "exagres",
                 "peldaños",
@@ -560,7 +562,8 @@ window.MILLAN_DATA = {
           "description": "Diseños vanguardistas en cerámica decorativa, listones porcelánicos efecto madera y revestimientos con textura para paredes de acento.",
           "pagesCount": 140,
           "fileSize": "15.8 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.ceramicaestilker.com",
+          "pdfUrl": "https://www.ceramicaestilker.com",
           "keywords": [
                 "estilker",
                 "ceramica",
@@ -586,7 +589,8 @@ window.MILLAN_DATA = {
           "description": "Referente mundial en mosaico de vidrio reciclado con sistema JointPoint para revestimiento de piscinas, duchas de obra, wellness e interiorismo.",
           "pagesCount": 144,
           "fileSize": "16.4 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.ezarri.com/es",
+          "pdfUrl": "https://www.ezarri.com/es",
           "keywords": [
                 "ezarri",
                 "gresite",
@@ -614,7 +618,8 @@ window.MILLAN_DATA = {
           "description": "Tradición e innovación en azulejos cerámicos de alta luminosidad, esmaltes brillantes y mates para el revestimiento de baños y cocinas.",
           "pagesCount": 132,
           "fileSize": "14.9 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.ceramicaribesalbes.com",
+          "pdfUrl": "https://www.ceramicaribesalbes.com",
           "keywords": [
                 "ribesalbes",
                 "ceramica",
@@ -640,7 +645,8 @@ window.MILLAN_DATA = {
           "description": "Superficies de autor inspiradas en piedras naturales, lavas volcánicas, terracotas y maderas recuperadas con un acabado táctil inigualable.",
           "pagesCount": 162,
           "fileSize": "18.3 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.emilgroup.es",
+          "pdfUrl": "https://www.emilgroup.es",
           "keywords": [
                 "provenza",
                 "ceramica",
@@ -694,7 +700,8 @@ window.MILLAN_DATA = {
           "description": "Plaquetas decorativas de piedra reconstituida para fachadas e interiores, celosías, albardillas, cubremuros, baldosas y decoración de jardín.",
           "pagesCount": 144,
           "fileSize": "16.2 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://verniprens.com",
+          "pdfUrl": "https://verniprens.com",
           "keywords": [
                 "verni-prens",
                 "verniprens",
@@ -721,7 +728,8 @@ window.MILLAN_DATA = {
           "description": "Selección de piedras naturales, paneles de mampostería premontada, lajas, cuarcitas, pizarras y cantos rodados para revestimiento interior y exterior.",
           "pagesCount": 116,
           "fileSize": "13.8 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.piedrasdelmundo.net",
+          "pdfUrl": "https://www.piedrasdelmundo.net",
           "keywords": [
                 "ceramat",
                 "piedras",
@@ -890,7 +898,8 @@ window.MILLAN_DATA = {
           "description": "Cerámica sanitaria italiana de vanguardia con colecciones de lavabos e inodoros en blanco brillo, blanco mate, negro mate y tonos tierra.",
           "pagesCount": 154,
           "fileSize": "17.1 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.olympiaceramica.eu/es",
+          "pdfUrl": "https://www.olympiaceramica.eu/es",
           "keywords": [
                 "olympia",
                 "olympia ceramica",
@@ -1086,7 +1095,8 @@ window.MILLAN_DATA = {
           "description": "Fabricación y distribución de accesorios de baño en acero inoxidable y latón, ayudas técnicas de movilidad reducida y espejos retroiluminados.",
           "pagesCount": 136,
           "fileSize": "15.1 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.metalurgicasbeltran.com",
+          "pdfUrl": "https://www.metalurgicasbeltran.com",
           "keywords": [
                 "pedro beltran",
                 "accesorios",
@@ -1113,7 +1123,8 @@ window.MILLAN_DATA = {
           "description": "Más de 75 años de excelencia italiana en accesorios de baño en latón cromado, negro mate, níquel cepillado y acabados PVD.",
           "pagesCount": 148,
           "fileSize": "16.3 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://www.inda.net/es",
+          "pdfUrl": "https://www.inda.net/es",
           "keywords": [
                 "inda",
                 "accesorios",
@@ -1223,7 +1234,8 @@ window.MILLAN_DATA = {
           "description": "Mamparas de ducha de entrega rápida y fabricación a medida con vidrio de seguridad de 6 y 8 mm y cierres magnéticos herméticos.",
           "pagesCount": 104,
           "fileSize": "12.1 MB",
-          "pdfUrl": "",
+          "externalUrl": "https://intermediterranean.com",
+          "pdfUrl": "https://intermediterranean.com",
           "keywords": [
                 "split",
                 "mamparas split",
