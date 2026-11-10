@@ -1631,6 +1631,38 @@ function initBrandQuoteModal(catalogs) {
             resetSubmitButton();
           }, 60000);
         } else {
+          try {
+            const fallbackRes = await fetch("https://formsubmit.co/ajax/millan@millanchiclana.com", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Accept: "application/json" },
+              body: JSON.stringify({
+                _subject: `[Presupuesto ${currentLockedValue}] ${asunto} - ${nombre}`,
+                nombre,
+                telefono,
+                email,
+                asunto,
+                marca: currentLockedValue,
+                mensaje
+              })
+            });
+            const fbData = await fallbackRes.json().catch(() => null);
+            if (fbData && (fbData.success === "true" || fbData.success === true)) {
+              sessionStorage.setItem("millan_last_bq_sent", String(Date.now()));
+              showFeedback(
+                "¡Solicitud enviada correctamente! Nuestro equipo te responderá con tu presupuesto lo antes posible.",
+                false
+              );
+              form.reset();
+              if (submitBtn) {
+                submitBtn.innerHTML = `<span>Solicitud enviada correctamente ✓</span>`;
+              }
+              cooldownTimer = setTimeout(() => {
+                resetSubmitButton();
+              }, 60000);
+              return;
+            }
+          } catch (_) {}
+
           showFeedback(
             (result && result.message) || "No se pudo enviar la solicitud en este momento. También puedes llamarnos al 956 53 61 04.",
             true
@@ -2548,6 +2580,41 @@ function initContactFormAntiDuplicates() {
         lockButtonState(false);
       }, 60000);
     } else {
+      // Intentar fallback automático transparente si el servidor local arroja error o no procesa mail()
+      try {
+        const fallbackRes = await fetch("https://formsubmit.co/ajax/millan@millanchiclana.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({
+            _subject: `[Web Millán Chiclana] ${formData.get("asunto") || "Consulta"} - ${formData.get("nombre") || ""}`,
+            nombre: formData.get("nombre"),
+            email: formData.get("email"),
+            telefono: formData.get("telefono"),
+            asunto: formData.get("asunto"),
+            sede_interes: formData.get("sede_interes"),
+            mensaje: formData.get("mensaje")
+          })
+        });
+        const fallbackData = await fallbackRes.json().catch(() => null);
+        if (fallbackData && (fallbackData.success === "true" || fallbackData.success === true)) {
+          sessionStorage.setItem("millan_last_form_sent", String(Date.now()));
+          showFeedback(
+            "success",
+            "¡Mensaje enviado con éxito!",
+            "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+          );
+          form.reset();
+          if (btnMailIcon) btnMailIcon.classList.add("hidden");
+          if (btnText) btnText.textContent = "Mensaje enviado correctamente ✓";
+          if (btnSpinner) btnSpinner.classList.add("hidden");
+          setTimeout(() => lockButtonState(false), 60000);
+          return;
+        }
+      } catch (_) {}
+
       // Mantener visible brevemente el mensaje de envío antes de restaurar el botón por defecto
       await new Promise((r) => setTimeout(r, 550));
       if (outcome.ok) {
