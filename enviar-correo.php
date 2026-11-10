@@ -7,9 +7,9 @@
  * ============================================================================
  */
 
-// Silenciar warnings en salida directa para garantizar formato JSON limpio
-@error_reporting(0);
-@ini_set('display_errors', '0');
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
 // Cabeceras HTTP siempre JSON
 header('Content-Type: application/json; charset=UTF-8');
