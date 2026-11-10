@@ -30,20 +30,48 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ==========================================================================
    0A. LIMPIEZA AUTOMÁTICA DE URL EN NAVEGADOR (OCULTAR .HTML E /INDEX.HTML)
    ========================================================================== */
+let cleanUrlBarChecked = false;
 function initCleanUrlBar() {
+  if (cleanUrlBarChecked) return;
+  cleanUrlBarChecked = true;
   if (window.location.protocol !== "http:" && window.location.protocol !== "https:") return;
   const { pathname, search, hash } = window.location;
-  let cleanPath = pathname;
-  if (cleanPath.endsWith("/index.html") || cleanPath === "/index") {
-    cleanPath = cleanPath.replace(/\/index(?:\.html)?$/, "/");
-  } else if (cleanPath.endsWith(".html")) {
-    cleanPath = cleanPath.slice(0, -5);
+  if (pathname.endsWith("/index.html") || pathname === "/index") {
+    const cleanRoot = pathname.replace(/\/index(?:\.html)?$/, "/");
+    if (cleanRoot !== pathname && window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", `${cleanRoot}${search}${hash}`);
+    }
+    return;
   }
-  if (cleanPath !== pathname && window.history && window.history.replaceState) {
-    window.history.replaceState(null, "", `${cleanPath}${search}${hash}`);
+  if (pathname.endsWith(".html") && window.history && window.history.replaceState) {
+    const cleanPath = pathname.slice(0, -5);
+    fetch(cleanPath, { method: "HEAD", cache: "no-store" })
+      .then((res) => {
+        if (res.ok) {
+          window.history.replaceState(null, "", `${cleanPath}${window.location.search}${window.location.hash}`);
+        }
+      })
+      .catch(() => {});
   }
 }
 initCleanUrlBar();
+
+async function parseServerJsonResponse(res) {
+  const rawText = await res.text();
+  if (!rawText) return null;
+  try {
+    return JSON.parse(rawText);
+  } catch (_) {
+    const start = rawText.indexOf("{");
+    const end = rawText.lastIndexOf("}");
+    if (start !== -1 && end > start) {
+      try {
+        return JSON.parse(rawText.slice(start, end + 1));
+      } catch (__) {}
+    }
+    return null;
+  }
+}
 
 /* ==========================================================================
    0. CONTROL DE CACHÉ Y ACTUALIZACIÓN AUTOMÁTICA AL ENTRAR EN LA WEB
@@ -1353,7 +1381,7 @@ function initBrandQuoteModal(catalogs) {
       credentials: "same-origin",
       headers: { Accept: "application/json" }
     })
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => (res.ok ? parseServerJsonResponse(res) : null))
       .then((data) => {
         if (data && data.form_token && tokenInput) {
           tokenInput.value = data.form_token;
@@ -1577,9 +1605,9 @@ function initBrandQuoteModal(catalogs) {
           }
         });
 
-        const result = await response.json().catch(() => null);
+        const result = await parseServerJsonResponse(response);
 
-        if (response.ok && result && result.success) {
+        if (result && result.success) {
           sessionStorage.setItem("millan_last_bq_sent", String(Date.now()));
           sessionStorage.setItem("millan_last_bq_fingerprint", payloadFingerprint);
 
@@ -2370,7 +2398,7 @@ function initContactFormAntiDuplicates() {
     credentials: "same-origin",
     headers: { Accept: "application/json" }
   })
-    .then((res) => (res.ok ? res.json() : null))
+    .then((res) => (res.ok ? parseServerJsonResponse(res) : null))
     .then((data) => {
       if (data && data.form_token && tokenInput) {
         tokenInput.value = data.form_token;
@@ -2481,8 +2509,8 @@ function initContactFormAntiDuplicates() {
         Accept: "application/json"
       }
     })
-      .then((res) => res.json())
-      .then((result) => ({ ok: true, result }))
+      .then((res) => parseServerJsonResponse(res))
+      .then((result) => ({ ok: Boolean(result), result }))
       .catch((error) => ({ ok: false, error }));
 
     await slidePromise;

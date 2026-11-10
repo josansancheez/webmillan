@@ -1,318 +1,450 @@
 <?php
 /**
  * ============================================================================
- * MILLÁN CHICLANA - Millán Servicios e Interiorismo S.L.
+ * MILLÁN CHICLANA - Millán Servicios Montajes e Interiorismos S.L.
  * Backend de Formulario de Contacto con Protección Anti-Duplicados e Idempotencia
+ * Compatible universalmente con PHP 5.3 - PHP 8.4+ (Hostalia / Apache / FPM)
  * Archivo: enviar-correo.php
  * ============================================================================
  */
 
-declare(strict_types=1);
+@ob_start();
+@error_reporting(0);
+@ini_set('display_errors', '0');
 
-// Configuración de cabeceras de seguridad y JSON
-header('Content-Type: application/json; charset=UTF-8');
-header('X-Content-Type-Options: nosniff');
-header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+// Configuraciones principales del destinatario y remitente corporativo real
+// IMPORTANTE (Hostalia / serviciodecorreo.es): El remitente From y Return-Path
+// debe ser el buzón real existente en el dominio (millan@millanchiclana.com)
+// para superar la validación SPF/autenticación del servidor de correo.
+define('RECIPIENT_EMAIL', 'millan@millanchiclana.com');
+define('SENDER_WEB_EMAIL', 'millan@millanchiclana.com');
+define('COMPANY_LEGAL_NAME', 'Millán Servicios Montajes e Interiorismos S.L.');
+define('COMPANY_BRAND_NAME', 'Millán Chiclana');
+define('COOLDOWN_SECONDS', 60);   // Mínimo 60 segundos entre envíos por sesión/IP
+define('DEDUP_TTL_SECONDS', 600); // 10 minutos de bloqueo global para el mismo mensaje exacto
 
-// Iniciar sesión segura para control de token e idempotencia
-if (session_status() === PHP_SESSION_NONE) {
-    session_set_cookie_params([
-        'lifetime' => 3600,
-        'path'     => '/',
-        'secure'   => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
-        'httponly' => true,
-        'samesite' => 'Lax',
-    ]);
-    session_start();
+@date_default_timezone_set('Europe/Madrid');
+
+$GLOBALS['MILLAN_RESPONSE_SENT'] = false;
+
+/**
+ * Envía siempre una respuesta JSON limpia vaciando cualquier buffer previo
+ */
+function millan_send_json($payload, $statusCode)
+{
+    $GLOBALS['MILLAN_RESPONSE_SENT'] = true;
+    while (@ob_get_level() > 0) {
+        @ob_end_clean();
+    }
+    if (!headers_sent()) {
+        if ($statusCode !== 200) {
+            if (function_exists('http_response_code')) {
+                @http_response_code($statusCode);
+            } else {
+                @header('HTTP/1.1 ' . (int)$statusCode . ' Error');
+            }
+        }
+        @header('Content-Type: application/json; charset=UTF-8');
+        @header('X-Content-Type-Options: nosniff');
+        @header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+        @header('Pragma: no-cache');
+    }
+    echo json_encode($payload);
+    exit;
 }
 
-// Configuraciones principales del destinatario, remitente web y tiempos de bloqueo
-const RECIPIENT_EMAIL      = 'millan@millanchiclana.com';
-const SENDER_WEB_EMAIL     = 'web@millanchiclana.com';
-const COMPANY_LEGAL_NAME   = 'Millán Servicios Montajes e Interiorismos S.L.';
-const COMPANY_BRAND_NAME   = 'Millán Chiclana';
-const COOLDOWN_SECONDS     = 60;  // Mínimo 60 segundos entre envíos por sesión/IP
-const DEDUP_TTL_SECONDS    = 600; // 10 minutos de bloqueo global para el mismo mensaje exacto (redes 3G/reintentos)
+/**
+ * Captura de seguridad ante cualquier error fatal inesperado del servidor PHP
+ */
+function millan_shutdown_handler()
+{
+    if (!empty($GLOBALS['MILLAN_RESPONSE_SENT'])) {
+        return;
+    }
+    $err = @error_get_last();
+    if ($err && isset($err['type']) && in_array((int)$err['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR), true)) {
+        millan_send_json(array(
+            'success' => false,
+            'message' => 'Error interno en el servidor al procesar la solicitud.',
+        ), 500);
+    }
+}
+@register_shutdown_function('millan_shutdown_handler');
+
+/**
+ * Funciones auxiliares compatibles con cualquier versión de PHP (5.3 a 8.4+)
+ * y sin depender de extensiones opcionales como mbstring.
+ */
+function millan_generate_token()
+{
+    if (function_exists('random_bytes')) {
+        try {
+            return bin2hex(random_bytes(32));
+        } catch (Exception $e) {
+            // Fallback si CSPRNG falla
+        }
+    }
+    if (function_exists('openssl_random_pseudo_bytes')) {
+        $bytes = @openssl_random_pseudo_bytes(32);
+        if ($bytes !== false) {
+            return bin2hex($bytes);
+        }
+    }
+    return hash('sha256', uniqid((string)mt_rand(), true) . microtime(true));
+}
+
+function millan_hash_equals($known, $user)
+{
+    $known = (string)$known;
+    $user  = (string)$user;
+    if (function_exists('hash_equals')) {
+        return hash_equals($known, $user);
+    }
+    if (strlen($known) !== strlen($user)) {
+        return false;
+    }
+    $res = 0;
+    $len = strlen($known);
+    for ($i = 0; $i < $len; $i++) {
+        $res |= ord($known[$i]) ^ ord($user[$i]);
+    }
+    return $res === 0;
+}
+
+function millan_strlen($str)
+{
+    $str = (string)$str;
+    if (function_exists('mb_strlen')) {
+        return (int)@mb_strlen($str, 'UTF-8');
+    }
+    $decoded = @preg_replace('/[\x80-\xBF]/', '', $str);
+    return strlen($decoded !== null ? $decoded : $str);
+}
+
+function millan_strtolower($str)
+{
+    $str = (string)$str;
+    if (function_exists('mb_strtolower')) {
+        return (string)@mb_strtolower($str, 'UTF-8');
+    }
+    return strtolower($str);
+}
+
+function millan_clean_single_line($value)
+{
+    $value = (string)$value;
+    return str_replace(
+        array("\r", "\n", "%0a", "%0d", "%0A", "%0D", "Content-Type:", "content-type:", "bcc:", "cc:", "to:"),
+        '',
+        $value
+    );
+}
+
+function millan_smtp_read($fp)
+{
+    $data = '';
+    while ($str = @fgets($fp, 515)) {
+        $data .= $str;
+        if (substr($str, 3, 1) === ' ') {
+            break;
+        }
+    }
+    return $data;
+}
+
+/**
+ * Envío SMTP directo (127.0.0.1:25 o mx.serviciodecorreo.es:25)
+ * por si mail() está deshabilitado o restringido en php.ini
+ */
+function millan_send_smtp_socket($smtpHost, $smtpPort, $to, $from, $replyTo, $subject, $htmlBody)
+{
+    $fp = @fsockopen($smtpHost, (int)$smtpPort, $errno, $errstr, 5);
+    if (!$fp) {
+        return false;
+    }
+    @stream_set_timeout($fp, 5);
+
+    $greeting = millan_smtp_read($fp);
+    if (strpos($greeting, '220') !== 0) {
+        @fclose($fp);
+        return false;
+    }
+
+    $heloHost = isset($_SERVER['HTTP_HOST']) ? preg_replace('/[^a-zA-Z0-9.-]/', '', (string)$_SERVER['HTTP_HOST']) : 'millanchiclana.com';
+    if ($heloHost === '') {
+        $heloHost = 'millanchiclana.com';
+    }
+
+    @fwrite($fp, 'EHLO ' . $heloHost . "\r\n");
+    $ehlo = millan_smtp_read($fp);
+    if (strpos($ehlo, '250') !== 0) {
+        @fwrite($fp, 'HELO ' . $heloHost . "\r\n");
+        if (strpos(millan_smtp_read($fp), '250') !== 0) {
+            @fclose($fp);
+            return false;
+        }
+    }
+
+    @fwrite($fp, 'MAIL FROM:<' . $from . ">\r\n");
+    if (strpos(millan_smtp_read($fp), '250') !== 0) {
+        @fclose($fp);
+        return false;
+    }
+
+    @fwrite($fp, 'RCPT TO:<' . $to . ">\r\n");
+    $rcpt = millan_smtp_read($fp);
+    if (strpos($rcpt, '250') !== 0 && strpos($rcpt, '251') !== 0) {
+        @fclose($fp);
+        return false;
+    }
+
+    @fwrite($fp, "DATA\r\n");
+    if (strpos(millan_smtp_read($fp), '354') !== 0) {
+        @fclose($fp);
+        return false;
+    }
+
+    $msg  = 'Date: ' . date('r') . "\r\n";
+    $msg .= 'To: <' . $to . ">\r\n";
+    $msg .= 'From: Millan Chiclana Web <' . $from . ">\r\n";
+    $msg .= 'Reply-To: <' . $replyTo . ">\r\n";
+    $msg .= 'Subject: ' . $subject . "\r\n";
+    $msg .= 'Message-ID: <' . md5(uniqid((string)mt_rand(), true)) . '@millanchiclana.com>' . "\r\n";
+    $msg .= "MIME-Version: 1.0\r\n";
+    $msg .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $msg .= "Content-Transfer-Encoding: base64\r\n";
+    $msg .= "X-Mailer: MillanChiclana-Mailer/3.0\r\n\r\n";
+    $msg .= chunk_split(base64_encode($htmlBody)) . "\r\n.\r\n";
+
+    @fwrite($fp, $msg);
+    $dataResp = millan_smtp_read($fp);
+    @fwrite($fp, "QUIT\r\n");
+    @fclose($fp);
+
+    return (strpos($dataResp, '250') === 0);
+}
+
+// Iniciar sesión segura compatible con PHP 5.3, 5.6, 7.0, 7.2, 7.4 y 8.x
+$isSecure = (!empty($_SERVER['HTTPS']) && strtolower((string)$_SERVER['HTTPS']) !== 'off')
+    || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
+    || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string)$_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
+
+$sessionNotStarted = function_exists('session_status')
+    ? (session_status() === PHP_SESSION_NONE)
+    : (session_id() === '');
+
+if ($sessionNotStarted) {
+    if (defined('PHP_VERSION_ID') && PHP_VERSION_ID >= 70300) {
+        @session_set_cookie_params(array(
+            'lifetime' => 3600,
+            'path'     => '/',
+            'secure'   => $isSecure,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ));
+    } else {
+        @session_set_cookie_params(3600, '/', '', $isSecure, true);
+    }
+    @session_start();
+}
 
 // Inicializar estructuras de sesión si no existen
 if (!isset($_SESSION['processed_keys']) || !is_array($_SESSION['processed_keys'])) {
-    $_SESSION['processed_keys'] = [];
+    $_SESSION['processed_keys'] = array();
 }
 if (!isset($_SESSION['processed_hashes']) || !is_array($_SESSION['processed_hashes'])) {
-    $_SESSION['processed_hashes'] = [];
+    $_SESSION['processed_hashes'] = array();
 }
+
+$requestMethod = isset($_SERVER['REQUEST_METHOD']) ? strtoupper((string)$_SERVER['REQUEST_METHOD']) : 'GET';
+$actionParam   = isset($_GET['action']) ? (string)$_GET['action'] : '';
 
 /**
  * 1. ENDPOINT GET PARA GENERAR TOKEN ÚNICO DE SESIÓN (?action=token)
  */
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && ($_GET['action'] ?? '') === 'token') {
+if ($requestMethod === 'GET' && $actionParam === 'token') {
     if (empty($_SESSION['form_token'])) {
-        $_SESSION['form_token'] = bin2hex(random_bytes(32));
+        $_SESSION['form_token'] = millan_generate_token();
     }
-    echo json_encode([
+    millan_send_json(array(
         'success'    => true,
         'form_token' => $_SESSION['form_token'],
-    ]);
-    exit;
+    ), 200);
 }
 
 /**
  * 2. SOLO PERMITIR PETICIONES POST PARA EL ENVÍO DEL FORMULARIO
  */
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode([
+if ($requestMethod !== 'POST') {
+    millan_send_json(array(
         'success' => false,
         'message' => 'Método no permitido. Utiliza el formulario de contacto oficial.',
-    ]);
-    exit;
+    ), 405);
 }
 
 /**
  * 3. FILTRO ANTI-SPAM HONEYPOT
- * Si el campo oculto `website_hp` trae contenido, es un bot automatizado.
- * Devolvemos éxito silencioso sin enviar ningún correo.
  */
-$honeypot = trim((string)($_POST['website_hp'] ?? ''));
+$honeypot = isset($_POST['website_hp']) ? trim((string)$_POST['website_hp']) : '';
 if ($honeypot !== '') {
-    echo json_encode([
+    millan_send_json(array(
         'success' => true,
         'title'   => '¡Mensaje recibido!',
         'message' => 'Gracias por contactar con Millán Chiclana.',
-    ]);
-    exit;
+    ), 200);
 }
 
 /**
  * 4. RECOGIDA Y SANEAMIENTO DE CAMPOS DEL FORMULARIO
  */
-$nombre           = trim(strip_tags((string)($_POST['nombre'] ?? '')));
-$email            = filter_var(trim((string)($_POST['email'] ?? '')), FILTER_SANITIZE_EMAIL);
-$telefono         = trim(strip_tags((string)($_POST['telefono'] ?? '')));
-$asunto           = trim(strip_tags((string)($_POST['asunto'] ?? '')));
-$marcaPresupuesto = trim(strip_tags((string)($_POST['marca_presupuesto'] ?? '')));
-$sedeInteres      = trim(strip_tags((string)($_POST['sede_interes'] ?? ($marcaPresupuesto !== '' ? $marcaPresupuesto : 'Consulta General'))));
-$mensaje          = trim(strip_tags((string)($_POST['mensaje'] ?? '')));
-$privacidad       = isset($_POST['privacidad']) && ($_POST['privacidad'] === '1' || $_POST['privacidad'] === 'on');
-$formToken        = trim((string)($_POST['form_token'] ?? ''));
-$idempotencyKey   = trim((string)($_POST['idempotency_key'] ?? ''));
+$rawNombre        = isset($_POST['nombre']) ? (string)$_POST['nombre'] : '';
+$rawEmail         = isset($_POST['email']) ? (string)$_POST['email'] : '';
+$rawTelefono      = isset($_POST['telefono']) ? (string)$_POST['telefono'] : '';
+$rawAsunto        = isset($_POST['asunto']) ? (string)$_POST['asunto'] : '';
+$rawMarca         = isset($_POST['marca_presupuesto']) ? (string)$_POST['marca_presupuesto'] : '';
+$rawSede          = isset($_POST['sede_interes']) ? (string)$_POST['sede_interes'] : '';
+$rawMensaje       = isset($_POST['mensaje']) ? (string)$_POST['mensaje'] : '';
+$rawPrivacidad    = isset($_POST['privacidad']) ? (string)$_POST['privacidad'] : '';
+$formToken        = isset($_POST['form_token']) ? trim((string)$_POST['form_token']) : '';
+$idempotencyKey   = isset($_POST['idempotency_key']) ? trim((string)$_POST['idempotency_key']) : '';
 
-// Prevenir inyección de cabeceras de correo en campos de una línea
-$cleanSingleLine = static function (string $value): string {
-    return str_replace(["\r", "\n", "%0a", "%0d", "Content-Type:", "bcc:", "cc:", "to:"], '', $value);
-};
-
-$nombre           = $cleanSingleLine($nombre);
-$email            = $cleanSingleLine($email);
-$telefono         = $cleanSingleLine($telefono);
-$asunto           = $cleanSingleLine($asunto);
-$marcaPresupuesto = $cleanSingleLine($marcaPresupuesto);
-$sedeInteres      = $cleanSingleLine($sedeInteres);
+$nombre           = millan_clean_single_line(trim(strip_tags($rawNombre)));
+$email            = millan_clean_single_line(filter_var(trim($rawEmail), FILTER_SANITIZE_EMAIL));
+$telefono         = millan_clean_single_line(trim(strip_tags($rawTelefono)));
+$asunto           = millan_clean_single_line(trim(strip_tags($rawAsunto)));
+$marcaPresupuesto = millan_clean_single_line(trim(strip_tags($rawMarca)));
+$sedeDefault      = ($marcaPresupuesto !== '') ? $marcaPresupuesto : 'Consulta General';
+$sedeInteres      = millan_clean_single_line(trim(strip_tags($rawSede !== '' ? $rawSede : $sedeDefault)));
+$mensaje          = trim(strip_tags($rawMensaje));
+$privacidad       = ($rawPrivacidad === '1' || $rawPrivacidad === 'on' || $rawPrivacidad === 'true');
 
 /**
  * 5. VALIDACIÓN DE CAMPOS OBLIGATORIOS
  */
-if (mb_strlen($nombre) < 2) {
-    http_response_code(422);
-    echo json_encode([
+if (millan_strlen($nombre) < 2) {
+    millan_send_json(array(
         'success' => false,
         'message' => 'Por favor, introduce tu nombre completo.',
-    ]);
-    exit;
+    ), 422);
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(422);
-    echo json_encode([
+    millan_send_json(array(
         'success' => false,
         'message' => 'Por favor, introduce una dirección de correo electrónico válida.',
-    ]);
-    exit;
+    ), 422);
 }
 
-if (!preg_match('/^[0-9+\s()-]{9,20}$/', $telefono)) {
-    http_response_code(422);
-    echo json_encode([
+if (!preg_match('/^[0-9+\s().-]{9,20}$/', $telefono)) {
+    millan_send_json(array(
         'success' => false,
         'message' => 'Por favor, indica un número de teléfono válido (mínimo 9 dígitos).',
-    ]);
-    exit;
+    ), 422);
 }
 
 if ($asunto === '') {
-    http_response_code(422);
-    echo json_encode([
+    millan_send_json(array(
         'success' => false,
         'message' => 'Por favor, selecciona o escribe el asunto de tu consulta.',
-    ]);
-    exit;
+    ), 422);
 }
 
-if (mb_strlen($mensaje) < 2) {
-    http_response_code(422);
-    echo json_encode([
+if (millan_strlen($mensaje) < 2) {
+    millan_send_json(array(
         'success' => false,
         'message' => 'Por favor, escribe el mensaje de tu consulta.',
-    ]);
-    exit;
+    ), 422);
 }
 
 if (!$privacidad) {
-    http_response_code(422);
-    echo json_encode([
+    millan_send_json(array(
         'success' => false,
         'message' => 'Debes aceptar la Política de Privacidad para poder enviar tu consulta.',
-    ]);
-    exit;
+    ), 422);
 }
 
 /**
  * 6. CONTROL DE IDEMPOTENCIA Y ANTI-DUPLICADOS (CONEXIONES MÓVILES LENTAS)
- * Si el usuario en el móvil pulsa varias veces o el navegador reintenta la petición:
- *  - Comprobamos el hash del contenido enviado.
- *  - Comprobamos la clave de idempotencia (`idempotency_key`).
- *  - Comprobamos el token único de sesión (`$_SESSION['form_token']`).
- *  - Comprobamos la ventana de 60 segundos por Sesión y por IP.
- * Si se detecta reintento duplicado, NO se vuelve a enviar el correo, pero se
- * devuelve confirmación amigable al usuario.
  */
 $now = time();
-$clientIp = (string)($_SERVER['REMOTE_ADDR'] ?? '0.0.0.0');
+$clientIp = isset($_SERVER['REMOTE_ADDR']) ? (string)$_SERVER['REMOTE_ADDR'] : '0.0.0.0';
 $ipHash = hash('sha256', 'millan_ip_salt_' . $clientIp);
 $payloadHash = hash(
     'sha256',
-    mb_strtolower($email . '|' . $telefono . '|' . $asunto . '|' . $marcaPresupuesto . '|' . $mensaje)
+    millan_strtolower($email . '|' . $telefono . '|' . $asunto . '|' . $marcaPresupuesto . '|' . $mensaje)
 );
-
-// 6.0. Bloqueo atómico global por contenido e idempotency_key (protege ante múltiples clics en 3G o cambios de antena/IP)
-$globalDedupFile = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'millan_global_dedup.lock';
-$gfp = @fopen($globalDedupFile, 'c+');
-if ($gfp !== false) {
-    if (flock($gfp, LOCK_EX)) {
-        $rawGlobal = stream_get_contents($gfp);
-        $globalRecords = $rawGlobal ? json_decode($rawGlobal, true) : [];
-        if (!is_array($globalRecords)) {
-            $globalRecords = [];
-        }
-        // Limpiar registros antiguos (> DEDUP_TTL_SECONDS)
-        foreach ($globalRecords as $k => $ts) {
-            if (($now - (int)$ts) > DEDUP_TTL_SECONDS) {
-                unset($globalRecords[$k]);
-            }
-        }
-        $keyFingerprints = ['hash_' . $payloadHash];
-        if ($idempotencyKey !== '') {
-            $keyFingerprints[] = 'idem_' . hash('sha256', $idempotencyKey);
-        }
-        foreach ($keyFingerprints as $fpKey) {
-            if (isset($globalRecords[$fpKey])) {
-                flock($gfp, LOCK_UN);
-                fclose($gfp);
-                echo json_encode([
-                    'success'             => true,
-                    'duplicate_prevented' => true,
-                    'title'               => '¡Tu consulta ya ha sido enviada!',
-                    'message'             => 'Hemos recibido tu mensaje correctamente en el primer envío. Nuestro equipo te responderá muy pronto.',
-                    'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
-                ]);
-                exit;
-            }
-        }
-        foreach ($keyFingerprints as $fpKey) {
-            $globalRecords[$fpKey] = $now;
-        }
-        ftruncate($gfp, 0);
-        rewind($gfp);
-        fwrite($gfp, json_encode($globalRecords));
-        fflush($gfp);
-        flock($gfp, LOCK_UN);
-    }
-    fclose($gfp);
-}
+$currentNextToken = !empty($_SESSION['form_token']) ? $_SESSION['form_token'] : millan_generate_token();
 
 // 6.1. ¿Se ha procesado ya exactamente este mismo mensaje o clave de idempotencia en la sesión?
 if (
     ($idempotencyKey !== '' && in_array($idempotencyKey, $_SESSION['processed_keys'], true)) ||
     in_array($payloadHash, $_SESSION['processed_hashes'], true)
 ) {
-    echo json_encode([
+    millan_send_json(array(
         'success'             => true,
         'duplicate_prevented' => true,
         'title'               => '¡Tu consulta ya ha sido enviada!',
         'message'             => 'Hemos recibido tu mensaje correctamente. Nuestro equipo te responderá muy pronto.',
-        'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
-    ]);
-    exit;
+        'next_token'          => $currentNextToken,
+    ), 200);
 }
 
 // 6.2. Control de ventana de 60 segundos en la misma sesión PHP
-$lastSessionSubmit = (int)($_SESSION['last_submit_time'] ?? 0);
+$lastSessionSubmit = isset($_SESSION['last_submit_time']) ? (int)$_SESSION['last_submit_time'] : 0;
 if (($now - $lastSessionSubmit) < COOLDOWN_SECONDS) {
-    echo json_encode([
+    millan_send_json(array(
         'success'             => true,
         'duplicate_prevented' => true,
         'title'               => 'Mensaje enviado correctamente',
         'message'             => 'Tu solicitud ya ha sido recibida por nuestro equipo. Te responderemos lo antes posible.',
-        'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
-    ]);
-    exit;
+        'next_token'          => $currentNextToken,
+    ), 200);
 }
 
-// 6.3. Control de ventana de 60 segundos por IP en archivo temporal con bloqueo exclusivo (flock)
-$rateLimitFile = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'millan_rl_' . substr($ipHash, 0, 24) . '.lock';
-$fp = @fopen($rateLimitFile, 'c+');
-if ($fp !== false) {
-    if (flock($fp, LOCK_EX)) {
-        $content = stream_get_contents($fp);
-        $data = $content ? json_decode($content, true) : null;
-        if (is_array($data)) {
-            $lastIpTime = (int)($data['timestamp'] ?? 0);
-            $lastIpPayload = (string)($data['payload_hash'] ?? '');
-            if (($now - $lastIpTime) < COOLDOWN_SECONDS || $lastIpPayload === $payloadHash) {
-                flock($fp, LOCK_UN);
-                fclose($fp);
-                echo json_encode([
-                    'success'             => true,
-                    'duplicate_prevented' => true,
-                    'title'               => '¡Solicitud recibida!',
-                    'message'             => 'Tu consulta ya ha sido registrada en Millán Chiclana. Te responderemos a la mayor brevedad.',
-                    'next_token'          => $_SESSION['form_token'] ?? bin2hex(random_bytes(32)),
-                ]);
-                exit;
+// 6.3. Comprobación en archivo global de deduplicación
+$tempDir = @sys_get_temp_dir();
+$globalDedupFile = ($tempDir ? rtrim($tempDir, '/\\') : '/tmp') . DIRECTORY_SEPARATOR . 'millan_global_dedup.lock';
+$gfp = @fopen($globalDedupFile, 'c+');
+if ($gfp !== false) {
+    if (@flock($gfp, LOCK_EX)) {
+        $rawGlobal = @stream_get_contents($gfp);
+        $globalRecords = $rawGlobal ? @json_decode($rawGlobal, true) : array();
+        if (!is_array($globalRecords)) {
+            $globalRecords = array();
+        }
+        foreach ($globalRecords as $k => $ts) {
+            if (($now - (int)$ts) > DEDUP_TTL_SECONDS) {
+                unset($globalRecords[$k]);
             }
         }
-        // Registrar el envío actual en el archivo de bloqueo antes de disparar mail()
-        ftruncate($fp, 0);
-        rewind($fp);
-        fwrite($fp, json_encode([
-            'timestamp'    => $now,
-            'payload_hash' => $payloadHash,
-        ]));
-        fflush($fp);
-        flock($fp, LOCK_UN);
+        $keyFingerprints = array('hash_' . $payloadHash);
+        if ($idempotencyKey !== '') {
+            $keyFingerprints[] = 'idem_' . hash('sha256', $idempotencyKey);
+        }
+        foreach ($keyFingerprints as $fpKey) {
+            if (isset($globalRecords[$fpKey])) {
+                @flock($gfp, LOCK_UN);
+                @fclose($gfp);
+                millan_send_json(array(
+                    'success'             => true,
+                    'duplicate_prevented' => true,
+                    'title'               => '¡Tu consulta ya ha sido enviada!',
+                    'message'             => 'Hemos recibido tu mensaje correctamente en el primer envío. Nuestro equipo te responderá muy pronto.',
+                    'next_token'          => $currentNextToken,
+                ), 200);
+            }
+        }
+        @flock($gfp, LOCK_UN);
     }
-    fclose($fp);
-}
-
-// 6.4. Validar token de sesión si estaba presente en la sesión activa
-if (!empty($_SESSION['form_token']) && $formToken !== '' && !hash_equals($_SESSION['form_token'], $formToken)) {
-    // Si el token ya rotó por un primer clic en curso, significa que ya se procesó el primer envío
-    echo json_encode([
-        'success'             => true,
-        'duplicate_prevented' => true,
-        'title'               => '¡Consulta registrada correctamente!',
-        'message'             => 'Tu mensaje ya se había enviado en el primer intento. Nuestro equipo de Millán Chiclana te responderá a la mayor brevedad.',
-        'next_token'          => $_SESSION['form_token'],
-    ]);
-    exit;
+    @fclose($gfp);
 }
 
 /**
- * 7. CONSTRUCCIÓN Y ENVÍO DEL CORREO ELECTRÓNICO ÚNICO
+ * 7. CONSTRUCCIÓN Y ENVÍO DEL CORREO ELECTRÓNICO A millan@millanchiclana.com
  */
-$subjectPrefix = $marcaPresupuesto !== '' ? "[Presupuesto $marcaPresupuesto]" : "[Web Millán Chiclana]";
-$emailSubject = '=?UTF-8?B?' . base64_encode("$subjectPrefix $asunto - $nombre") . '?=';
-$fechaHora = date('d/m/Y H:i:s');
+$subjectPrefix = ($marcaPresupuesto !== '') ? "[Presupuesto $marcaPresupuesto]" : "[Web Millán Chiclana]";
+$emailSubject  = '=?UTF-8?B?' . base64_encode($subjectPrefix . ' ' . $asunto . ' - ' . $nombre) . '?=';
+$fechaHora     = date('d/m/Y H:i:s');
 
 $marcaRowHtml = '';
 if ($marcaPresupuesto !== '') {
@@ -323,8 +455,7 @@ if ($marcaPresupuesto !== '') {
           </tr>';
 }
 
-$htmlBody = '
-<!DOCTYPE html>
+$htmlBody = '<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -372,52 +503,97 @@ $htmlBody = '
     </tr>
     <tr>
       <td style="background:#F3F4F6;padding:14px 24px;font-size:12px;color:#52525B;">
-        Enviado el ' . $fechaHora . ' · Protección Anti-Duplicados Activa (ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ') · RGPD Aceptado
+        Enviado el ' . $fechaHora . ' · ID: ' . htmlspecialchars(substr($payloadHash, 0, 10), ENT_QUOTES, 'UTF-8') . ' · RGPD Aceptado
       </td>
     </tr>
   </table>
 </body>
 </html>';
 
-$encodedSenderName = '=?UTF-8?B?' . base64_encode('Web Millán Chiclana') . '?=';
-$encodedReplyName  = '=?UTF-8?B?' . base64_encode($nombre) . '?=';
+// Configurar sendmail_from con el buzón corporativo real del dominio
+@ini_set('sendmail_from', SENDER_WEB_EMAIL);
 
-$headers = [
+$headers = array(
     'MIME-Version: 1.0',
-    'Content-type: text/html; charset=UTF-8',
-    'From: ' . $encodedSenderName . ' <' . SENDER_WEB_EMAIL . '>',
-    'Reply-To: ' . $encodedReplyName . ' <' . $email . '>',
+    'Content-Type: text/html; charset=UTF-8',
+    'From: Millan Chiclana Web <' . SENDER_WEB_EMAIL . '>',
+    'Reply-To: ' . $email,
     'Return-Path: ' . SENDER_WEB_EMAIL,
-    'X-Mailer: MillanChiclana-AntiDupMailer/2.0',
-];
+    'X-Mailer: PHP/' . phpversion(),
+);
 
-// Envío del correo (con fallback automático si el servidor requiere buzón físico existente)
-$mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, implode("\r\n", $headers));
-if (!$mailSent) {
-    $fallbackHeaders = [
-        'MIME-Version: 1.0',
-        'Content-type: text/html; charset=UTF-8',
-        'From: ' . $encodedSenderName . ' <' . RECIPIENT_EMAIL . '>',
-        'Reply-To: ' . $encodedReplyName . ' <' . $email . '>',
-        'Return-Path: ' . RECIPIENT_EMAIL,
-        'X-Mailer: MillanChiclana-AntiDupMailer/2.0',
-    ];
-    $mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, implode("\r\n", $fallbackHeaders));
+$mailSent = false;
+
+if (function_exists('mail')) {
+    // Intento 1: con parámetro -f para forzar Return-Path (requerido por muchos servidores Hostalia/Apache)
+    $mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, implode("\r\n", $headers), '-f' . SENDER_WEB_EMAIL);
+
+    // Intento 2: sin quinto parámetro (por si safe_mode o restricciones de hosting rechazan -f)
+    if (!$mailSent) {
+        $mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, implode("\r\n", $headers));
+    }
+
+    // Intento 3: con saltos de línea LF (\n) para agentes MTA Linux (Postfix/Sendmail antiguos)
+    if (!$mailSent) {
+        $simpleHeaders = "MIME-Version: 1.0\n"
+            . "Content-Type: text/html; charset=UTF-8\n"
+            . "From: " . SENDER_WEB_EMAIL . "\n"
+            . "Reply-To: " . $email;
+        $mailSent = @mail(RECIPIENT_EMAIL, $emailSubject, $htmlBody, $simpleHeaders);
+    }
 }
 
-// Actualizar estado de sesión e invalidar/rotar token para impedir duplicados posteriores
+// Intento 4: SMTP local directo (127.0.0.1:25) si mail() está desactivado o devolvió false
+if (!$mailSent) {
+    $mailSent = millan_send_smtp_socket('127.0.0.1', 25, RECIPIENT_EMAIL, SENDER_WEB_EMAIL, $email, $emailSubject, $htmlBody);
+}
+
+// Intento 5: Servidor MX directo del dominio (mx.serviciodecorreo.es:25 - Hostalia autoriza la IP del hosting por SPF)
+if (!$mailSent) {
+    $mailSent = millan_send_smtp_socket('mx.serviciodecorreo.es', 25, RECIPIENT_EMAIL, SENDER_WEB_EMAIL, $email, $emailSubject, $htmlBody);
+}
+
+if (!$mailSent) {
+    millan_send_json(array(
+        'success'   => false,
+        'mail_sent' => false,
+        'message'   => 'El servidor de correo no pudo procesar el envío en este momento.',
+    ), 500);
+}
+
+// Registrar en bloqueo global y sesión SOLO tras envío exitoso
+$gfpWrite = @fopen($globalDedupFile, 'c+');
+if ($gfpWrite !== false) {
+    if (@flock($gfpWrite, LOCK_EX)) {
+        $rawGlobal = @stream_get_contents($gfpWrite);
+        $globalRecords = $rawGlobal ? @json_decode($rawGlobal, true) : array();
+        if (!is_array($globalRecords)) {
+            $globalRecords = array();
+        }
+        $globalRecords['hash_' . $payloadHash] = $now;
+        if ($idempotencyKey !== '') {
+            $globalRecords['idem_' . hash('sha256', $idempotencyKey)] = $now;
+        }
+        @ftruncate($gfpWrite, 0);
+        @rewind($gfpWrite);
+        @fwrite($gfpWrite, json_encode($globalRecords));
+        @fflush($gfpWrite);
+        @flock($gfpWrite, LOCK_UN);
+    }
+    @fclose($gfpWrite);
+}
+
 $_SESSION['last_submit_time'] = $now;
-$_SESSION['form_token'] = bin2hex(random_bytes(32));
+$_SESSION['form_token'] = millan_generate_token();
 if ($idempotencyKey !== '') {
     $_SESSION['processed_keys'][] = $idempotencyKey;
 }
 $_SESSION['processed_hashes'][] = $payloadHash;
 
-echo json_encode([
+millan_send_json(array(
     'success'    => true,
-    'mail_sent'  => $mailSent,
+    'mail_sent'  => true,
     'title'      => '¡Consulta enviada correctamente!',
     'message'    => 'Gracias por contactar con Millán Chiclana. Hemos registrado tu mensaje y nuestro equipo de ' . $sedeInteres . ' te responderá lo antes posible.',
     'next_token' => $_SESSION['form_token'],
-]);
-exit;
+), 200);
