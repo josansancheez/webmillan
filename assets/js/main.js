@@ -2506,6 +2506,14 @@ function initContactFormAntiDuplicates() {
     feedbackBox.classList.remove("hidden");
   };
 
+  if (window.location.search && window.location.search.includes("enviado=1")) {
+    showFeedback(
+      "success",
+      "¡Consulta enviada con éxito!",
+      "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+    );
+  }
+
   const lockButtonState = (locked) => {
     isSubmitting = locked;
     if (!submitBtn) return;
@@ -2677,7 +2685,8 @@ function initContactFormAntiDuplicates() {
         lockButtonState(false);
       }, 60000);
     } else {
-      // Intentar fallback automático transparente si el servidor local arroja error o no procesa mail()
+      // Fallback garantizado: si el servidor local de Arsys tiene PHP bloqueado,
+      // enviamos directamente el formulario a FormSubmit sin mostrar jamás error al usuario
       try {
         const fallbackRes = await fetch("https://formsubmit.co/ajax/millan@millanchiclana.com", {
           method: "POST",
@@ -2712,21 +2721,14 @@ function initContactFormAntiDuplicates() {
         }
       } catch (_) {}
 
-      // Mantener visible brevemente el mensaje de envío antes de restaurar el botón por defecto
-      await new Promise((r) => setTimeout(r, 550));
-      if (outcome.result && outcome.result.message) {
-        showFeedback(
-          "warning",
-          "Atención en el formulario",
-          outcome.result.message
-        );
-      } else {
-        showFeedback(
-          "warning",
-          "No se pudo completar el envío automático",
-          "Puedes llamarnos directamente al 956 53 61 04 o escribirnos a millan@millanchiclana.com."
-        );
+      // Envío directo POST transparente si el servidor local está caído
+      if (form) {
+        form.action = "https://formsubmit.co/millan@millanchiclana.com";
+        form.method = "POST";
+        form.submit();
+        return;
       }
+
       lockButtonState(false);
     }
   });

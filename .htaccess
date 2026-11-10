@@ -7,13 +7,13 @@
 DirectoryIndex index.html
 ErrorDocument 404 /index.html
 
-<IfModule mod_negotiation.c>
-  Options -MultiViews
-</IfModule>
+# <IfModule mod_negotiation.c>
+#   Options -MultiViews
+# </IfModule>
 
 <IfModule mod_headers.c>
   # HTML, datos JSON y XML: no almacenar nunca copia obsoleta, consultar siempre al servidor
-  <FilesMatch "\.(html|htm|php|json|xml)$">
+  <FilesMatch "\.(html|htm|json|xml)$">
     Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
     Header set Pragma "no-cache"
     Header set Expires "0"
