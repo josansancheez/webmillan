@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initReviewsCarousel();
   initFaqAccordion();
   initGalleryFilter();
+  setupPhoneInputRestrictions();
   initContactFormAntiDuplicates();
   initCookieConsentBanner();
   initDesktopPhoneQrModal();
@@ -55,6 +56,42 @@ function initCleanUrlBar() {
   }
 }
 initCleanUrlBar();
+
+function setupPhoneInputRestrictions() {
+  const attachFilter = (input) => {
+    if (!input || input.dataset.phoneRestricted === "1") return;
+    input.dataset.phoneRestricted = "1";
+    input.setAttribute("inputmode", "tel");
+    input.setAttribute("maxlength", "20");
+    input.setAttribute("pattern", "^(\\+?[0-9\\s().-]{9,20})$");
+
+    input.addEventListener("input", (e) => {
+      const orig = e.target.value;
+      // Filtra cualquier letra o carácter no permitido en teléfonos
+      let clean = orig.replace(/[^0-9+\s().-]/g, "");
+      if (clean.indexOf("+") > 0) {
+        clean = clean.charAt(0) + clean.slice(1).replace(/\+/g, "");
+      }
+      if (orig !== clean) {
+        e.target.value = clean;
+      }
+      input.classList.remove("border-red-500", "ring-2", "ring-red-500");
+    });
+
+    input.addEventListener("paste", () => {
+      setTimeout(() => {
+        const orig = input.value;
+        let clean = orig.replace(/[^0-9+\s().-]/g, "");
+        if (clean.indexOf("+") > 0) {
+          clean = clean.charAt(0) + clean.slice(1).replace(/\+/g, "");
+        }
+        input.value = clean;
+      }, 0);
+    });
+  };
+
+  document.querySelectorAll('input[type="tel"], #telefono, #bq-telefono').forEach(attachFilter);
+}
 
 async function parseServerJsonResponse(res) {
   const rawText = await res.text();
@@ -1428,6 +1465,7 @@ function initBrandQuoteModal(catalogs) {
 
     resetSubmitButton();
     generateTokens();
+    setupPhoneInputRestrictions();
 
     modal.classList.remove("hidden", "modal-hidden");
     modal.classList.add("flex", "modal-visible");
@@ -1526,8 +1564,13 @@ function initBrandQuoteModal(catalogs) {
       }
 
       const phoneDigits = telefono.replace(/\D/g, "");
-      if (phoneDigits.length < 9) {
-        showFeedback("Por favor, introduce un número de teléfono válido (mínimo 9 dígitos).", true);
+      if (/[a-zA-Z]/.test(telefono) || phoneDigits.length < 9 || phoneDigits.length > 16) {
+        showFeedback("Por favor, introduce un número de teléfono válido (solo números, mínimo 9 dígitos, opcional prefijo + o paréntesis). No se permiten letras.", true);
+        const telEl = document.getElementById("bq-telefono");
+        if (telEl) {
+          telEl.focus();
+          telEl.classList.add("border-red-500", "ring-2", "ring-red-500");
+        }
         return;
       }
 
@@ -2512,6 +2555,60 @@ function initContactFormAntiDuplicates() {
     // Bloqueo inmediato ante doble clic o mala cobertura móvil
     if (isSubmitting) return;
 
+    // Validación estricta en el cliente de todos los campos obligatorios
+    const nombre = (document.getElementById("nombre")?.value || "").trim();
+    const telInput = document.getElementById("telefono");
+    const telefono = (telInput?.value || "").trim();
+    const email = (document.getElementById("email")?.value || "").trim();
+    const asunto = (document.getElementById("asunto")?.value || "").trim();
+    const mensaje = (document.getElementById("mensaje")?.value || "").trim();
+    const privacidad = document.getElementById("privacidad")?.checked;
+
+    if (nombre.length < 2) {
+      showFeedback("warning", "Nombre requerido", "Por favor, introduce tu nombre completo.");
+      document.getElementById("nombre")?.focus();
+      return;
+    }
+
+    const telDigits = telefono.replace(/\D/g, "");
+    if (/[a-zA-Z]/.test(telefono) || telDigits.length < 9 || telDigits.length > 16) {
+      showFeedback(
+        "warning",
+        "Teléfono de contacto no válido",
+        "El teléfono debe ser un número con al menos 9 dígitos (solo números, opcional prefijo + o paréntesis). No se permiten letras."
+      );
+      if (telInput) {
+        telInput.focus();
+        telInput.classList.add("border-red-500", "ring-2", "ring-red-500");
+      }
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showFeedback("warning", "Correo no válido", "Por favor, introduce un correo electrónico válido.");
+      document.getElementById("email")?.focus();
+      return;
+    }
+
+    if (asunto.length < 2) {
+      showFeedback("warning", "Asunto requerido", "Por favor, introduce el asunto de tu consulta.");
+      document.getElementById("asunto")?.focus();
+      return;
+    }
+
+    if (mensaje.length < 2) {
+      showFeedback("warning", "Mensaje requerido", "Por favor, escribe el mensaje de tu consulta.");
+      document.getElementById("mensaje")?.focus();
+      return;
+    }
+
+    if (!privacidad) {
+      showFeedback("warning", "Aceptación requerida", "Debes aceptar la Política de Privacidad para poder enviar tu consulta.");
+      document.getElementById("privacidad")?.focus();
+      return;
+    }
+
     // Comprobación de enfriamiento de 60s en el navegador para evitar reenvíos accidentales
     const lastSentTime = Number(sessionStorage.getItem("millan_last_form_sent") || 0);
     const now = Date.now();
@@ -2617,13 +2714,11 @@ function initContactFormAntiDuplicates() {
 
       // Mantener visible brevemente el mensaje de envío antes de restaurar el botón por defecto
       await new Promise((r) => setTimeout(r, 550));
-      if (outcome.ok) {
-        const result = outcome.result;
+      if (outcome.result && outcome.result.message) {
         showFeedback(
           "warning",
-          "Atención en el envío",
-          (result && result.message) ||
-            "Por favor, revisa los campos del formulario o llámanos directamente al 956 53 61 04."
+          "Atención en el formulario",
+          outcome.result.message
         );
       } else {
         showFeedback(
