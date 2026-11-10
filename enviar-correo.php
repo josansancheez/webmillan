@@ -2,22 +2,20 @@
 /**
  * ============================================================================
  * MILLÁN CHICLANA - Millán Servicios Montajes e Interiorismos S.L.
- * Backend de Formulario de Contacto - Optimizado para Arsys (PHP 8.4)
+ * Backend de Formulario de Contacto - Compatible PHP 5.4 - 8.4 (Arsys)
  * Archivo: enviar-correo.php
  * ============================================================================
  */
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+@ini_set('display_errors', '1');
+@ini_set('display_startup_errors', '1');
+@error_reporting(E_ALL);
 
-// Cabeceras HTTP siempre JSON
 header('Content-Type: application/json; charset=UTF-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
 
-// Definición de remitente y destinatario autorizados en Arsys
 define('DESTINATARIO_EMAIL', 'millan@millanchiclana.com');
 define('REMITENTE_WEB',      'millan@millanchiclana.com');
 define('NOMBRE_EMPRESA',     'Millán Chiclana');
@@ -25,13 +23,11 @@ define('RAZON_SOCIAL',       'Millán Servicios Montajes e Interiorismos S.L.');
 
 @date_default_timezone_set('Europe/Madrid');
 
-// Helper para generar tokens seguros sin depender de /dev/urandom ni extensiones
-function millan_generar_token(): string {
+function millan_generar_token() {
     return md5(uniqid((string)mt_rand(), true) . microtime(true));
 }
 
-// Helper para envío directo SMTP local a Postfix/Sendmail de Arsys si mail() estuviera restringido
-function millan_enviar_smtp_local(string $to, string $from, string $replyTo, string $subject, string $htmlBody): bool {
+function millan_enviar_smtp_local($to, $from, $replyTo, $subject, $htmlBody) {
     $fp = @fsockopen('127.0.0.1', 25, $errno, $errstr, 2);
     if (!$fp) {
         return false;
@@ -70,7 +66,7 @@ function millan_enviar_smtp_local(string $to, string $from, string $replyTo, str
     $sendResp = @fgets($fp, 512);
     @fwrite($fp, "QUIT\r\n");
     @fclose($fp);
-    return is_string($sendResp) && substr($sendResp, 0, 3) === '250';
+    return (is_string($sendResp) && substr($sendResp, 0, 3) === '250');
 }
 
 try {
@@ -78,79 +74,80 @@ try {
 
     // 1. Endpoint GET: responde siempre con token y estado 200
     if ($requestMethod === 'GET') {
-        echo json_encode([
+        echo json_encode(array(
             'success'    => true,
             'form_token' => millan_generar_token(),
-        ]);
+            'php_version'=> phpversion()
+        ));
         exit;
     }
 
-    // 2. Comprobar método POST (si no es POST, avisar limpiamente sin romper Apache)
+    // 2. Comprobar método POST
     if ($requestMethod !== 'POST') {
-        echo json_encode([
+        echo json_encode(array(
             'success' => false,
             'message' => 'Método no permitido. Utiliza el formulario oficial.',
-        ]);
+        ));
         exit;
     }
 
     // 3. Filtro Anti-Spam Honeypot silencioso
-    $honeypot = trim((string)($_POST['website_hp'] ?? ''));
+    $honeypot = isset($_POST['website_hp']) ? trim((string)$_POST['website_hp']) : '';
     if ($honeypot !== '') {
-        echo json_encode([
+        echo json_encode(array(
             'success' => true,
             'title'   => '¡Mensaje recibido!',
             'message' => 'Gracias por contactar con Millán Chiclana.',
-        ]);
+        ));
         exit;
     }
 
     // 4. Limpieza y validación de campos obligatorios
-    $cleanSingle = static function (string $val): string {
-        return str_replace(["\r", "\n", "%0a", "%0d", "%0A", "%0D", "Content-Type:", "bcc:", "cc:", "to:"], '', $val);
+    $cleanSingle = function ($val) {
+        return str_replace(array("\r", "\n", "%0a", "%0d", "%0A", "%0D", "Content-Type:", "bcc:", "cc:", "to:"), '', (string)$val);
     };
 
-    $nombre           = $cleanSingle(trim(strip_tags((string)($_POST['nombre'] ?? ''))));
-    $email            = $cleanSingle(trim(strip_tags((string)($_POST['email'] ?? ''))));
-    $telefono         = $cleanSingle(trim(strip_tags((string)($_POST['telefono'] ?? ''))));
-    $asunto           = $cleanSingle(trim(strip_tags((string)($_POST['asunto'] ?? ''))));
-    $marcaPresupuesto = $cleanSingle(trim(strip_tags((string)($_POST['marca_presupuesto'] ?? ''))));
-    $sedeInteres      = $cleanSingle(trim(strip_tags((string)($_POST['sede_interes'] ?? ($marcaPresupuesto !== '' ? $marcaPresupuesto : 'Consulta General')))));
-    $mensaje          = trim(strip_tags((string)($_POST['mensaje'] ?? '')));
-    $privacidad       = isset($_POST['privacidad']) && in_array((string)$_POST['privacidad'], ['1', 'on', 'true'], true);
+    $nombre           = $cleanSingle(trim(strip_tags(isset($_POST['nombre']) ? (string)$_POST['nombre'] : '')));
+    $email            = $cleanSingle(trim(strip_tags(isset($_POST['email']) ? (string)$_POST['email'] : '')));
+    $telefono         = $cleanSingle(trim(strip_tags(isset($_POST['telefono']) ? (string)$_POST['telefono'] : '')));
+    $asunto           = $cleanSingle(trim(strip_tags(isset($_POST['asunto']) ? (string)$_POST['asunto'] : '')));
+    $marcaPresupuesto = $cleanSingle(trim(strip_tags(isset($_POST['marca_presupuesto']) ? (string)$_POST['marca_presupuesto'] : '')));
+    $sedeInteres      = $cleanSingle(trim(strip_tags(isset($_POST['sede_interes']) ? (string)$_POST['sede_interes'] : ($marcaPresupuesto !== '' ? $marcaPresupuesto : 'Consulta General'))));
+    $mensaje          = trim(strip_tags(isset($_POST['mensaje']) ? (string)$_POST['mensaje'] : ''));
+    $privacidad       = isset($_POST['privacidad']) && in_array((string)$_POST['privacidad'], array('1', 'on', 'true'), true);
 
     if (strlen($nombre) < 2) {
-        echo json_encode(['success' => false, 'message' => 'Por favor, introduce tu nombre completo.']);
+        echo json_encode(array('success' => false, 'message' => 'Por favor, introduce tu nombre completo.'));
         exit;
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['success' => false, 'message' => 'Por favor, introduce un correo electrónico válido.']);
+        echo json_encode(array('success' => false, 'message' => 'Por favor, introduce un correo electrónico válido.'));
         exit;
     }
 
     // Validación estricta de teléfono: solo números, mínimo 9 dígitos, opcional prefijo + o paréntesis. No permite letras.
     $phoneDigits = preg_replace('/\D/', '', $telefono);
     if (preg_match('/[a-zA-Z]/', $telefono) || strlen($phoneDigits) < 9 || strlen($phoneDigits) > 16) {
-        echo json_encode([
+        echo json_encode(array(
             'success' => false,
             'message' => 'Por favor, introduce un número de teléfono válido (solo números, mínimo 9 dígitos, opcional prefijo + o paréntesis). No se permiten letras.'
-        ]);
+        ));
         exit;
     }
 
     if ($asunto === '') {
-        echo json_encode(['success' => false, 'message' => 'Por favor, introduce el asunto de la consulta.']);
+        echo json_encode(array('success' => false, 'message' => 'Por favor, introduce el asunto de la consulta.'));
         exit;
     }
 
     if (strlen($mensaje) < 2) {
-        echo json_encode(['success' => false, 'message' => 'Por favor, escribe el mensaje de tu consulta.']);
+        echo json_encode(array('success' => false, 'message' => 'Por favor, escribe el mensaje de tu consulta.'));
         exit;
     }
 
     if (!$privacidad) {
-        echo json_encode(['success' => false, 'message' => 'Debes aceptar la Política de Privacidad para continuar.']);
+        echo json_encode(array('success' => false, 'message' => 'Debes aceptar la Política de Privacidad para continuar.'));
         exit;
     }
 
@@ -250,48 +247,32 @@ try {
         $enviado = millan_enviar_smtp_local(DESTINATARIO_EMAIL, REMITENTE_WEB, $email, $subjectEncoded, $cuerpoHtml);
     }
 
-    // Intento D: Redundancia externa vía FormSubmit
-    if (!$enviado) {
-        $postData = http_build_query([
-            '_subject'     => $asuntoCompleto,
-            'nombre'       => $nombre,
-            'email'        => $email,
-            'telefono'     => $telefono,
-            'asunto'       => $asunto,
-            'sede_interes' => $sedeInteres,
-            'mensaje'      => $mensaje,
-            '_replyto'     => $email,
-        ]);
-        $opts = [
-            'http' => [
-                'method'        => 'POST',
-                'header'        => "Content-Type: application/x-www-form-urlencoded\r\nReferer: https://millanchiclana.com/contacto\r\n",
-                'content'       => $postData,
-                'timeout'       => 5,
-                'ignore_errors' => true,
-            ]
-        ];
-        $ctx = @stream_context_create($opts);
-        $res = @file_get_contents('https://formsubmit.co/millan@millanchiclana.com', false, $ctx);
-        if ($res !== false) {
-            $enviado = true;
-        }
-    }
+    // Guardar copia local de respaldo de la consulta para garantizar que ningún lead se pierda jamás
+    $leadBackup = array(
+        'fecha'     => $fechaEnvio,
+        'nombre'    => $nombre,
+        'email'     => $email,
+        'telefono'  => $telefono,
+        'asunto'    => $asunto,
+        'sede'      => $sedeInteres,
+        'mensaje'   => $mensaje,
+        'mail_sent' => $enviado
+    );
+    @file_put_contents(dirname(__FILE__) . '/consultas_recientes.log', json_encode($leadBackup) . "\n", FILE_APPEND | LOCK_EX);
 
     // RESPUESTA SIEMPRE HTTP 200 EN JSON: Garantiza que el cliente reciba el mensaje
-    echo json_encode([
+    echo json_encode(array(
         'success'    => true,
         'mail_sent'  => $enviado,
         'title'      => '¡Consulta enviada correctamente!',
         'message'    => 'Gracias por contactar con Millán Chiclana. Hemos recibido tu mensaje y nuestro equipo de ' . $sedeInteres . ' te responderá lo antes posible.',
         'next_token' => millan_generar_token(),
-    ]);
+    ));
 
-} catch (Throwable $e) {
-    // Jamás emitir código 500 para evitar que Apache suPHP sustituya el JSON por un documento vacío
-    echo json_encode([
+} catch (Exception $e) {
+    echo json_encode(array(
         'success' => false,
-        'message' => 'No se pudo procesar el formulario en este momento. Por favor, llámanos directamente al 956 53 61 04.'
-    ]);
+        'message' => 'Error: ' . $e->getMessage()
+    ));
 }
 exit;
