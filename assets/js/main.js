@@ -3078,32 +3078,23 @@ function initDesktopPhoneQrModal() {
               <div id="phone-qr-svg-container" class="w-full h-full"></div>
             </div>
             <p class="text-xs sm:text-sm font-semibold text-[#18181B] mt-3.5 max-w-xs leading-snug">
-              Escanee este código QR con la cámara de su teléfono móvil para llamar directamente sin necesidad de marcar el número
+              Escanee este código QR con la cámara de su teléfono móvil para llamar directamente
             </p>
             <p id="phone-qr-schedule" class="text-[11px] text-[#52525B] mt-1">
               Horario: Lunes a Viernes 09:00–14:00 y 17:00–20:00 · Sábados 10:00–13:00
             </p>
           </div>
 
-          <!-- Botón de llamada directa desde el dispositivo + WhatsApp directo -->
-          <div class="pt-2 border-t border-[#E5E7EB] space-y-2">
+          <!-- Botón de llamada directa desde el dispositivo -->
+          <div class="pt-2 border-t border-[#E5E7EB]">
             <a
               id="phone-qr-direct-call-link"
               href="tel:+34956536104"
               data-direct-tel="true"
-              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#111111] hover:bg-[#27272A] text-white transition-colors cursor-pointer shadow-sm"
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs font-bold bg-[#111111] hover:bg-[#27272A] text-white transition-colors cursor-pointer shadow-sm"
             >
               <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               <span>Llamar directamente desde este dispositivo</span>
-            </a>
-            <a
-              href="https://wa.me/34628115585?text=Hola%2C%20quisiera%20hacer%20una%20consulta%20a%20Mill%C3%A1n%20Chiclana"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#18181B] border border-[#E5E7EB] transition-colors cursor-pointer"
-            >
-              <svg class="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-              <span>O escribir por WhatsApp (+34 628 11 55 85)</span>
             </a>
           </div>
         </div>
