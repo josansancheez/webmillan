@@ -119,7 +119,7 @@ async function syncAll() {
       rating: Number(rawRating).toFixed(1),
       totalReviews: Number(rawCount),
       googleMapsDirectionsUrl: sede.mapsShortUrl,
-      googleReviewUrl: sede.mapsShortUrl,
+      googleReviewUrl: sede.reviewsUrl || sede.mapsShortUrl,
       writeReviewUrl: sede.writeReviewUrl
     };
 
