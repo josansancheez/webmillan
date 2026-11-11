@@ -41,6 +41,9 @@ FileETag MTime Size
   RewriteEngine On
   RewriteBase /
 
+  # Excluir explícitamente scripts PHP de cualquier reescritura
+  RewriteRule \.php$ - [L]
+
   # 1. Redirigir www.millanchiclana.com -> millanchiclana.com (301 Permanente)
   RewriteCond %{HTTP_HOST} ^www\.millanchiclana\.com$ [NC]
   RewriteRule ^(.*)$ https://millanchiclana.com/$1 [L,R=301]
@@ -59,6 +62,12 @@ FileETag MTime Size
   RewriteCond %{REQUEST_FILENAME}.html -f
   RewriteRule ^(.+?)/?$ $1.html [L]
 </IfModule>
+
+<FilesMatch "\.php$">
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</FilesMatch>
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml

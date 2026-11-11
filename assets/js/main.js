@@ -1680,6 +1680,8 @@ function initBrandQuoteModal(catalogs) {
               headers: { "Content-Type": "application/json", Accept: "application/json" },
               body: JSON.stringify({
                 _subject: `[Presupuesto ${currentLockedValue}] ${asunto} - ${nombre}`,
+                _template: "table",
+                _replyto: email,
                 nombre,
                 telefono,
                 email,
@@ -2561,18 +2563,20 @@ function initContactFormAntiDuplicates() {
     });
   }
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
     // 1. Validación estricta en el cliente de todos los campos obligatorios
     const nombre = (document.getElementById("nombre")?.value || "").trim();
     const telInput = document.getElementById("telefono");
     const telefono = (telInput?.value || "").trim();
     const email = (document.getElementById("email")?.value || "").trim();
     const asunto = (document.getElementById("asunto")?.value || "").trim();
+    const sede = (document.getElementById("sede_interes")?.value || "Sede Exposición").trim();
     const mensaje = (document.getElementById("mensaje")?.value || "").trim();
     const privacidad = document.getElementById("privacidad")?.checked;
 
     if (nombre.length < 2) {
-      e.preventDefault();
       showFeedback("warning", "Nombre requerido", "Por favor, introduce tu nombre completo.");
       document.getElementById("nombre")?.focus();
       return;
@@ -2580,7 +2584,6 @@ function initContactFormAntiDuplicates() {
 
     const telDigits = telefono.replace(/\D/g, "");
     if (/[a-zA-Z]/.test(telefono) || telDigits.length < 9 || telDigits.length > 16) {
-      e.preventDefault();
       showFeedback(
         "warning",
         "Teléfono de contacto no válido",
@@ -2595,42 +2598,147 @@ function initContactFormAntiDuplicates() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      e.preventDefault();
       showFeedback("warning", "Correo no válido", "Por favor, introduce un correo electrónico válido.");
       document.getElementById("email")?.focus();
       return;
     }
 
     if (asunto.length < 2) {
-      e.preventDefault();
       showFeedback("warning", "Asunto requerido", "Por favor, introduce el asunto de tu consulta.");
       document.getElementById("asunto")?.focus();
       return;
     }
 
     if (mensaje.length < 2) {
-      e.preventDefault();
       showFeedback("warning", "Mensaje requerido", "Por favor, escribe el mensaje de tu consulta.");
       document.getElementById("mensaje")?.focus();
       return;
     }
 
     if (!privacidad) {
-      e.preventDefault();
       showFeedback("warning", "Aceptación requerida", "Debes aceptar la Política de Privacidad para poder enviar tu consulta.");
       document.getElementById("privacidad")?.focus();
       return;
     }
 
-    if (isSubmitting) {
-      e.preventDefault();
+    // Prevención absoluta de envíos dobles o concurrentes
+    if (isSubmitting) return;
+
+    // Verificar si ya se envió exactamente la misma consulta en los últimos 60 segundos
+    const submissionFingerprint = `${email.toLowerCase()}|${telDigits}|${asunto.toLowerCase()}|${mensaje.toLowerCase()}`;
+    const lastFingerprint = sessionStorage.getItem("millan_last_contact_fp") || "";
+    const lastSentTime = Number(sessionStorage.getItem("millan_last_contact_sent") || 0);
+    const now = Date.now();
+
+    if (submissionFingerprint === lastFingerprint && now - lastSentTime < 60000) {
+      showFeedback(
+        "success",
+        "¡Consulta ya enviada!",
+        "Ya hemos recibido tu consulta correctamente. Nuestro equipo de Millán Chiclana te responderá a la mayor brevedad."
+      );
       return;
     }
 
-    // Bloqueo inmediato para evitar doble clic
+    // Activar bloqueo visual de envío
     isSubmitting = true;
     lockButtonState(true);
-    sessionStorage.setItem("millan_last_form_sent", String(Date.now()));
+    await playMailSlideAnimation();
+
+    let delivered = false;
+
+    // Intento 1: Envío directo con el script corporativo del servidor (enviar-correo.php)
+    // Envía con remitente Web Millán Chiclana <millan@millanchiclana.com> y sin publicidad
+    try {
+      const formData = new FormData(form);
+      const res = await fetch("enviar-correo.php", {
+        method: "POST",
+        body: formData,
+        credentials: "same-origin",
+        headers: {
+          Accept: "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      });
+
+      if (res.ok) {
+        const data = await parseServerJsonResponse(res);
+        if (data && data.success) {
+          delivered = true;
+          sessionStorage.setItem("millan_last_contact_fp", submissionFingerprint);
+          sessionStorage.setItem("millan_last_contact_sent", String(Date.now()));
+
+          showFeedback(
+            "success",
+            data.title || "¡Consulta enviada con éxito!",
+            data.message || "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+          );
+          form.reset();
+        }
+      }
+    } catch (_) {
+      delivered = false;
+    }
+
+    // Intento 2 (Fallback Garantizado): Si el backend local no responde, se envía UN ÚNICO correo
+    if (!delivered) {
+      try {
+        const fallbackRes = await fetch("https://formsubmit.co/ajax/millan@millanchiclana.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify({
+            _subject: `[Web Millán Chiclana] ${asunto} - ${nombre}`,
+            _template: "table",
+            _replyto: email,
+            nombre,
+            telefono,
+            email,
+            asunto,
+            sede,
+            mensaje
+          })
+        });
+
+        const fbData = await fallbackRes.json().catch(() => null);
+        if (fallbackRes.ok || (fbData && (fbData.success === "true" || fbData.success === true))) {
+          delivered = true;
+          sessionStorage.setItem("millan_last_contact_fp", submissionFingerprint);
+          sessionStorage.setItem("millan_last_contact_sent", String(Date.now()));
+
+          showFeedback(
+            "success",
+            "¡Consulta enviada con éxito!",
+            "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+          );
+          form.reset();
+        }
+      } catch (_) {
+        delivered = false;
+      }
+    }
+
+    // Intento 3 (Último recurso si fetch fue bloqueado por el navegador)
+    if (!delivered) {
+      if (form) {
+        form.action = "https://formsubmit.co/millan@millanchiclana.com";
+        form.method = "POST";
+        form.submit();
+        return;
+      }
+      showFeedback(
+        "warning",
+        "Atención al enviar",
+        "No se pudo completar el envío en este momento. Por favor, llámanos directamente al 956 53 61 04 o escríbenos a millan@millanchiclana.com."
+      );
+    }
+
+    // Restaurar estado del botón tras unos segundos para permitir consultas adicionales
+    setTimeout(() => {
+      lockButtonState(false);
+      isSubmitting = false;
+    }, 4000);
   });
 }
 
