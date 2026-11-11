@@ -1717,7 +1717,7 @@ function initBrandQuoteModal(catalogs) {
       } catch (err) {
         // Mantenemos el mismo idempotency_key por si la petición sí llegó al servidor con 3G lento y el usuario pulsa reintentar
         showFeedback(
-          "Error de conexión al enviar el formulario. Si tienes poca cobertura, espera unos segundos antes de reintentar o llámanos al 956 53 61 04.",
+          "Error de conexión al enviar el formulario. Si dispone de poca cobertura, espere unos segundos antes de reintentar o llámenos al 956 53 61 04.",
           true
         );
         resetSubmitButton();
@@ -1844,7 +1844,7 @@ function initCatalogModalViewer(catalogs) {
             <div>
               <span class="text-xs font-bold uppercase tracking-wider text-[#111111]">Atención Directa</span>
               <h5 class="text-xl font-bold text-[#18181B] mt-1 mb-3">¿Te interesa alguna referencia de ${escapeHTML(activeCatalog.name)}?</h5>
-              <p class="text-sm text-[#52525B] mb-5">Llámanos indicando el nombre de la serie o envíanos tu consulta para recibir precio y plazo de entrega tanto para reforma particular como para obra profesional.</p>
+              <p class="text-sm text-[#52525B] mb-5">Llámenos indicando el nombre de la serie o envíenos su consulta para recibir precio y plazo de entrega tanto para reforma particular como para obra profesional.</p>
               <div class="space-y-3">
                 <a href="tel:+34956536104" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm btn-primary-green">
                   Llamar Ahora: 956 53 61 04
@@ -2512,7 +2512,7 @@ function initContactFormAntiDuplicates() {
     showFeedback(
       "success",
       "¡Consulta enviada con éxito!",
-      "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+      "Hemos recibido su consulta en Millán Chiclana. Nuestro equipo le responderá a la mayor brevedad."
     );
     const formSection = document.getElementById("formulario-contacto");
     if (formSection) {
@@ -2556,7 +2556,7 @@ function initContactFormAntiDuplicates() {
         e.stopPropagation();
         showFeedback(
           "success",
-          "Enviando tu consulta...",
+          "Enviando su consulta...",
           "Con cobertura lenta (3G/datos) puede tardar unos segundos. No es necesario pulsar el botón de nuevo."
         );
       }
@@ -2604,19 +2604,19 @@ function initContactFormAntiDuplicates() {
     }
 
     if (asunto.length < 2) {
-      showFeedback("warning", "Asunto requerido", "Por favor, introduce el asunto de tu consulta.");
+      showFeedback("warning", "Asunto requerido", "Por favor, introduzca el asunto de su consulta.");
       document.getElementById("asunto")?.focus();
       return;
     }
 
     if (mensaje.length < 2) {
-      showFeedback("warning", "Mensaje requerido", "Por favor, escribe el mensaje de tu consulta.");
+      showFeedback("warning", "Mensaje requerido", "Por favor, escriba el contenido de su consulta.");
       document.getElementById("mensaje")?.focus();
       return;
     }
 
     if (!privacidad) {
-      showFeedback("warning", "Aceptación requerida", "Debes aceptar la Política de Privacidad para poder enviar tu consulta.");
+      showFeedback("warning", "Aceptación requerida", "Debe aceptar la Política de Privacidad para poder enviar su consulta.");
       document.getElementById("privacidad")?.focus();
       return;
     }
@@ -2634,7 +2634,7 @@ function initContactFormAntiDuplicates() {
       showFeedback(
         "success",
         "¡Consulta ya enviada!",
-        "Ya hemos recibido tu consulta correctamente. Nuestro equipo de Millán Chiclana te responderá a la mayor brevedad."
+        "Ya hemos recibido su consulta correctamente. Nuestro equipo de Millán Chiclana le responderá a la mayor brevedad."
       );
       return;
     }
@@ -2670,7 +2670,7 @@ function initContactFormAntiDuplicates() {
           showFeedback(
             "success",
             data.title || "¡Consulta enviada con éxito!",
-            data.message || "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+            data.message || "Hemos recibido su consulta en Millán Chiclana. Nuestro equipo le responderá a la mayor brevedad."
           );
           form.reset();
         }
@@ -2710,7 +2710,7 @@ function initContactFormAntiDuplicates() {
           showFeedback(
             "success",
             "¡Consulta enviada con éxito!",
-            "Hemos recibido tu consulta en Millán Chiclana. Nuestro equipo te responderá a la mayor brevedad."
+            "Hemos recibido su consulta en Millán Chiclana. Nuestro equipo le responderá a la mayor brevedad."
           );
           form.reset();
         }
@@ -2730,7 +2730,7 @@ function initContactFormAntiDuplicates() {
       showFeedback(
         "warning",
         "Atención al enviar",
-        "No se pudo completar el envío en este momento. Por favor, llámanos directamente al 956 53 61 04 o escríbenos a millan@millanchiclana.com."
+        "No se pudo completar el envío en este momento. Por favor, llámenos directamente al 956 53 61 04 o escríbanos a millan@millanchiclana.com."
       );
     }
 
@@ -3012,7 +3012,7 @@ function initDesktopPhoneQrModal() {
               <span>Atención Telefónica Directa</span>
             </span>
             <h3 id="desktop-phone-qr-title" class="text-xl font-extrabold tracking-tight text-white">
-              Llámanos desde tu móvil
+              Llámenos directamente
             </h3>
           </div>
           <button
@@ -3051,9 +3051,15 @@ function initDesktopPhoneQrModal() {
               Azulejos, Baños, Grifería y Chimeneas · N23
             </p>
             <div class="flex items-center justify-center gap-3">
-              <span id="phone-qr-number-display" class="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
-                956 53 61 04
-              </span>
+              <a
+                id="phone-qr-number-link"
+                href="tel:+34956536104"
+                data-direct-tel="true"
+                class="text-3xl sm:text-4xl font-extrabold text-[#111111] hover:text-[#27272A] tracking-tight hover:underline transition-colors"
+                title="Pulsar para llamar directamente"
+              >
+                <span id="phone-qr-number-display">956 53 61 04</span>
+              </a>
               <button
                 type="button"
                 id="phone-qr-copy-btn"
@@ -3072,23 +3078,32 @@ function initDesktopPhoneQrModal() {
               <div id="phone-qr-svg-container" class="w-full h-full"></div>
             </div>
             <p class="text-xs sm:text-sm font-semibold text-[#18181B] mt-3.5 max-w-xs leading-snug">
-              Escanea este QR con la cámara de tu móvil para llamar del tirón sin marcar el número
+              Escanee este código QR con la cámara de su teléfono móvil para llamar directamente sin necesidad de marcar el número
             </p>
             <p id="phone-qr-schedule" class="text-[11px] text-[#52525B] mt-1">
               Horario: Lunes a Viernes 09:00–14:00 y 17:00–20:00 · Sábados 10:00–13:00
             </p>
           </div>
 
-          <!-- Botón secundario para llamar desde aplicación en el ordenador -->
-          <div class="pt-2 border-t border-[#E5E7EB] flex items-center justify-between gap-3">
+          <!-- Botón de llamada directa desde el dispositivo + WhatsApp directo -->
+          <div class="pt-2 border-t border-[#E5E7EB] space-y-2">
             <a
               id="phone-qr-direct-call-link"
               href="tel:+34956536104"
               data-direct-tel="true"
-              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#18181B] transition-colors"
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#111111] hover:bg-[#27272A] text-white transition-colors cursor-pointer shadow-sm"
             >
-              <svg class="w-4 h-4 text-[#3F3F46]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              <span>Llamar desde una aplicación en este ordenador</span>
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              <span>Llamar directamente desde este dispositivo</span>
+            </a>
+            <a
+              href="https://wa.me/34628115585?text=Hola%2C%20quisiera%20hacer%20una%20consulta%20a%20Mill%C3%A1n%20Chiclana"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#18181B] border border-[#E5E7EB] transition-colors cursor-pointer"
+            >
+              <svg class="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+              <span>O escribir por WhatsApp (+34 628 11 55 85)</span>
             </a>
           </div>
         </div>
@@ -3121,6 +3136,8 @@ function initDesktopPhoneQrModal() {
 
     if (subtitleEl) subtitleEl.textContent = info.sublabel;
     if (numberEl) numberEl.textContent = info.formatted;
+    const numberLinkEl = document.getElementById("phone-qr-number-link");
+    if (numberLinkEl) numberLinkEl.setAttribute("href", info.telUri);
     if (scheduleEl) scheduleEl.textContent = info.schedule;
     if (qrContainer) qrContainer.innerHTML = generateQRCodeSVG(info.telUri);
     if (directCallLink) directCallLink.setAttribute("href", info.telUri);
