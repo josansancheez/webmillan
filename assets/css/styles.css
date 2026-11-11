@@ -445,17 +445,24 @@ svg {
 }
 
 @keyframes millanWhatsappAttentionOnce {
-  0% {
-    transform: scale(1);
+  0%, 100% {
+    transform: translateY(0) scale(1) rotate(0deg);
     box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
   }
-  50% {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 0 0 12px rgba(74, 222, 128, 0);
+  20% {
+    transform: translateY(-3px) scale(1.06) rotate(-4deg);
+    box-shadow: 0 0 0 6px rgba(74, 222, 128, 0.35);
   }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+  40% {
+    transform: translateY(-3px) scale(1.06) rotate(4deg);
+    box-shadow: 0 0 0 12px rgba(74, 222, 128, 0.15);
+  }
+  60% {
+    transform: translateY(-2px) scale(1.03) rotate(-2deg);
+    box-shadow: 0 0 0 14px rgba(74, 222, 128, 0);
+  }
+  80% {
+    transform: translateY(-1px) scale(1.01) rotate(1deg);
   }
 }
 

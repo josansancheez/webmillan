@@ -223,8 +223,8 @@ function initPreloader() {
 }
 
 /* ==========================================================================
-   1B. ANIMACIONES DISCRETAS ÚNICAS AL ENTRAR EN LA WEB
-   (Vibración única del icono de teléfono en "Llamar Ahora" + pulso único en WhatsApp)
+   1B. ANIMACIONES PERIÓDICAS DE ATENCIÓN (LLAMAR AHORA + WHATSAPP)
+   (Vibración del teléfono en el header y pulso en WhatsApp a los 2s y cada 30s)
    ========================================================================== */
 function initEntryAttentionAnimations() {
   if (
@@ -247,33 +247,46 @@ function initEntryAttentionAnimations() {
     }
   });
 
-  // Ejecutar una única vez justo cuando se retira el preloader (~360ms tras cargar)
-  setTimeout(() => {
-    // 1. Vibración discreta única del icono de teléfono en los botones "Llamar Ahora"
+  const playAttentionAnimations = () => {
+    if (document.hidden) return;
+
+    // 1. Vibración del icono y pulso en los botones "Llamar Ahora" de la barra superior (Header)
     const callButtons = document.querySelectorAll(
       'header a[href^="tel:"], #hero-slider .hero-slide.active a[href^="tel:"]'
     );
     callButtons.forEach((btn) => {
       const icon = btn.querySelector("svg");
       if (icon) {
+        icon.classList.remove("phone-vibrate-once");
+        void icon.offsetWidth;
         icon.classList.add("phone-vibrate-once");
         setTimeout(() => icon.classList.remove("phone-vibrate-once"), 1150);
       }
       if (btn.classList.contains("btn-primary-green")) {
+        btn.classList.remove("cta-entry-pulse-once");
+        void btn.offsetWidth;
         btn.classList.add("cta-entry-pulse-once");
         setTimeout(() => btn.classList.remove("cta-entry-pulse-once"), 1250);
       }
     });
 
-    // 2. Pulso discreto único en el botón flotante de WhatsApp al entrar en la web
+    // 2. Pulso discreto en el botón flotante de WhatsApp
     const whatsappBtn = document.querySelector(".whatsapp-float");
     if (whatsappBtn) {
+      whatsappBtn.classList.remove("whatsapp-entry-pulse-once");
+      void whatsappBtn.offsetWidth;
       whatsappBtn.classList.add("whatsapp-entry-pulse-once");
       setTimeout(() => whatsappBtn.classList.remove("whatsapp-entry-pulse-once"), 1350);
     }
-  }, 360);
+  };
 
-  // Micro-interacción: si el usuario pasa el ratón por cualquier botón de teléfono más tarde, vibra 1 vez
+  // Se activan a los 2 segundos de entrar en la página, y se repiten periódicamente cada 30 segundos
+  setTimeout(() => {
+    playAttentionAnimations();
+    setInterval(playAttentionAnimations, 30000);
+  }, 2000);
+
+  // Micro-interacción: si el usuario pasa el ratón por cualquier botón de teléfono, vibra 1 vez
   document.querySelectorAll('a[href^="tel:"]').forEach((btn) => {
     btn.addEventListener("mouseenter", () => {
       const icon = btn.querySelector("svg");
