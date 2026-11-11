@@ -2484,6 +2484,15 @@ function initContactFormAntiDuplicates() {
     });
   }
 
+  const sedeSelectElem = document.getElementById("sede_interes");
+  if (sedeSelectElem) {
+    sedeSelectElem.addEventListener("change", () => {
+      if (sedeSelectElem.value) {
+        sedeSelectElem.classList.remove("border-red-500", "ring-2", "ring-red-500");
+      }
+    });
+  }
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -2492,8 +2501,9 @@ function initContactFormAntiDuplicates() {
     const telInput = document.getElementById("telefono");
     const telefono = (telInput?.value || "").trim();
     const email = (document.getElementById("email")?.value || "").trim();
+    const sedeSelect = document.getElementById("sede_interes");
+    const sede = (sedeSelect?.value || "").trim();
     const asunto = (document.getElementById("asunto")?.value || "").trim();
-    const sede = (document.getElementById("sede_interes")?.value || "Sede Exposición").trim();
     const mensaje = (document.getElementById("mensaje")?.value || "").trim();
     const privacidad = document.getElementById("privacidad")?.checked;
 
@@ -2521,6 +2531,19 @@ function initContactFormAntiDuplicates() {
     if (!emailRegex.test(email)) {
       showFeedback("warning", "Correo no válido", "Por favor, introduce un correo electrónico válido.");
       document.getElementById("email")?.focus();
+      return;
+    }
+
+    if (!sede) {
+      showFeedback(
+        "warning",
+        "Departamento requerido",
+        "Por favor, seleccione el departamento o sede de consulta."
+      );
+      if (sedeSelect) {
+        sedeSelect.focus();
+        sedeSelect.classList.add("border-red-500", "ring-2", "ring-red-500");
+      }
       return;
     }
 

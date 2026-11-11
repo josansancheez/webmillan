@@ -60,11 +60,16 @@ $nombre   = $cleanHeader(isset($_POST['nombre']) ? $_POST['nombre'] : '');
 $email    = $cleanHeader(isset($_POST['email']) ? $_POST['email'] : '');
 $telefono = $cleanHeader(isset($_POST['telefono']) ? $_POST['telefono'] : '');
 $asunto   = $cleanHeader(isset($_POST['asunto']) ? $_POST['asunto'] : 'Consulta Web');
-$sede     = $cleanHeader(isset($_POST['sede_interes']) ? $_POST['sede_interes'] : 'Sede Exposición');
+$sede     = $cleanHeader(isset($_POST['sede_interes']) ? $_POST['sede_interes'] : '');
 $mensaje  = trim(strip_tags(isset($_POST['mensaje']) ? (string)$_POST['mensaje'] : ''));
 
 if ($nombre === '' || strlen($nombre) < 2) {
     echo json_encode(array('success' => false, 'message' => 'Por favor, introduce tu nombre completo.'));
+    exit;
+}
+
+if ($sede === '' || strlen($sede) < 2) {
+    echo json_encode(array('success' => false, 'message' => 'Por favor, seleccione un departamento o sede de consulta.'));
     exit;
 }
 
