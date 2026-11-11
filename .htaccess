@@ -34,6 +34,10 @@ ErrorDocument 404 /index.html
 # Activar ETag basado en fecha de modificación y tamaño para detectar cambios al instante
 FileETag MTime Size
 
+<IfModule mod_mime.c>
+  AddType application/xml .xml
+</IfModule>
+
 # ============================================================================
 # SEO TÉCNICO: Redirección canónica HTTPS + sin www y URLs Limpias (sin .html)
 # ============================================================================
@@ -43,6 +47,11 @@ FileETag MTime Size
 
   # Excluir explícitamente scripts PHP de cualquier reescritura
   RewriteRule \.php$ - [L]
+
+  # Sitemaps y mapas del sitio para Google Search Console, Bing y rastreadores
+  RewriteRule ^sitemap/?$ sitemap.xml [L]
+  RewriteRule ^sitemap_index\.xml$ sitemap.xml [L]
+  RewriteRule ^mapa-web\.xml$ sitemap.xml [L]
 
   # 1. Redirigir www.millanchiclana.com -> millanchiclana.com (301 Permanente)
   RewriteCond %{HTTP_HOST} ^www\.millanchiclana\.com$ [NC]

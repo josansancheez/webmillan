@@ -24,5 +24,6 @@ Allow: /
 Disallow: /enviar-correo.php
 Disallow: /scripts/
 
-# Mapa del sitio oficial para Google Search Console, Bing y motores de IA
+# Mapa del sitio oficial para Google Search Console, Bing y motores de búsqueda
 Sitemap: https://millanchiclana.com/sitemap.xml
+Sitemap: https://millanchiclana.com/mapa-web.xml

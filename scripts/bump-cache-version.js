@@ -70,6 +70,14 @@ for (const file of htmlFiles) {
     );
   }
 
+  // 1c. Asegurar enlace directo hacia el sitemap XML para Google Search Console y rastreadores
+  if (!html.includes('rel="sitemap"')) {
+    html = html.replace(
+      /(<link\s+rel="canonical"[^>]*>\r?\n)/i,
+      '$1  <link rel="sitemap" type="application/xml" title="Sitemap XML" href="https://millanchiclana.com/sitemap.xml" />\n'
+    );
+  }
+
   // 2. Actualizar ?v=... en assets/css/styles.css, assets/js/data.js, assets/js/main.js y favicons
   html = html.replace(
     /href="assets\/css\/styles\.css(?:\?v=[^"]*)?"/g,
