@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-17T07:25:11.153Z",
+  "updatedAt": "2026-11-17T20:40:46.328Z",
   "sedes": {
     "exposicion": {
       "id": "Sede Exposición",
       "placeId": "ChIJNXgh8Vw0DA0R0cXykAhE4BI",
       "fid": "0xd0c345cf1217835:0x12e0440890f2c5d1",
       "rating": "4.2",
-      "totalReviews": 72,
+      "totalReviews": 73,
       "googleMapsDirectionsUrl": "https://maps.app.goo.gl/hja5eodfEP7cb46U8",
       "googleReviewUrl": "https://search.google.com/local/reviews?placeid=ChIJNXgh8Vw0DA0R0cXykAhE4BI",
       "writeReviewUrl": "https://search.google.com/local/writereview?placeid=ChIJNXgh8Vw0DA0R0cXykAhE4BI"
@@ -106,6 +106,20 @@
       "role": "Local Guide · 240 reseñas · Google Maps",
       "text": "La verdad me parecen muy profesionales y se les ve buenas personas y atienden muy bien yo llevo tres años comprando material de obra alli",
       "hasText": true
+    },
+    {
+      "id": "Ci9DQUlRQUNvZENodHljRjlvT2tsbGVtWXlSVVZ5Y1dKTGVUaHRhbTQwTkRkTFgwRRAB",
+      "author": "Antuan",
+      "initials": "AN",
+      "avatar": "https://lh3.googleusercontent.com/a-/ALV-UjXuK-DDIp6EkXYH2jI-piPYijz_qVnRNcq71PgaJAPbMl906RmC=s120-c-rp-mo-ba12-br100",
+      "authorUrl": "https://www.google.com/maps/contrib/116689209259403334389/reviews?hl=es",
+      "sede": "Sede Exposición",
+      "rating": 4,
+      "date": "Hace 7 horas",
+      "timestampMs": 1794920801170,
+      "role": "Local Guide · 11 reseñas · Google Maps",
+      "text": "Valoración verificada de 4 estrellas en Google Maps (Sede Exposición).",
+      "hasText": false
     },
     {
       "id": "Ci9DQUlRQUNvZENodHljRjlvT2xjeU5sSmxNVXhoT1ZKd01WRjJSMHMwZFVwT2NHYxAB",
