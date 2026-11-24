@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T09:18:40.239Z",
+  "updatedAt": "2026-11-24T22:10:48.328Z",
   "sedes": {
     "exposicion": {
       "id": "Sede Exposición",
@@ -115,7 +115,7 @@
       "authorUrl": "https://www.google.com/maps/contrib/116689209259403334389/reviews?hl=es",
       "sede": "Sede Exposición",
       "rating": 4,
-      "date": "hace 6 días",
+      "date": "Hace una semana",
       "timestampMs": 1794920801170,
       "role": "Local Guide · 12 reseñas · Google Maps",
       "text": "Valoración verificada de 4 estrellas en Google Maps (Sede Exposición).",
